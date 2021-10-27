@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">iTutoApp</string>
+    <string name="iTuto">iTuto</string>
+    <string name="emailHint">Email</string>
+    <string name="passwordHint">Password</string>
+    <string name="btnTextSignIn">Sign In</string>
+    <string name="txtTextDont">Don\'t have an account?</string>
+    <string name="txtTextRegister">Register</string>
 </resources>

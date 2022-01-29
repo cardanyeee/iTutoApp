@@ -6,4 +6,6 @@
     <string name="btnTextSignIn">Sign In</string>
     <string name="txtTextDont">Don\'t have an account?</string>
     <string name="txtTextRegister">Register</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
 </resources>

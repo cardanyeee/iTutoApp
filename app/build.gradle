@@ -13,6 +13,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        targetSdkVersion 30
+        minSdkVersion 30
     }
 
     buildTypes {
@@ -40,8 +42,9 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
 
     implementation 'com.squareup.picasso:picasso:2.71828'
-
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'com.muddzdev:styleabletoast:2.3.0'
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation 'com.android.volley:volley:1.2.1'
 }

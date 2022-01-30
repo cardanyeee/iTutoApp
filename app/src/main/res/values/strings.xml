@@ -3,9 +3,19 @@
     <string name="iTuto">iTuto</string>
     <string name="emailHint">Email</string>
     <string name="passwordHint">Password</string>
-    <string name="btnTextSignIn">Sign In</string>
+    <string name="confirmHint">Confirm Password</string>
+
+    <string name="btnTextSignIn">Sign in</string>
+    <string name="btnTextSignUp">Sign up</string>
+    <string name="txtTextSignIn">Sign in</string>
+    <string name="txtTextAlready">Already have an account?</string>
     <string name="txtTextDont">Don\'t have an account?</string>
     <string name="txtTextRegister">Register</string>
+
+    <string name="navigation_draw_open">Open Navigation Draw</string>
+    <string name="navigation_draw_close">Close Navigation Draw</string>
+
     <string name="skip">Skip</string>
     <string name="next">Next</string>
+    <string name="empty" />
 </resources>

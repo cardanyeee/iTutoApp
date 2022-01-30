@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
                 boolean isLoggedIn = userPref.getBoolean("isLoggedIn",false);
 
                 if (isLoggedIn){
-//                    startActivity(new Intent(MainActivity.this,HomeActivity.class));
-//                    finish();
+                    startActivity(new Intent(MainActivity.this,HomeActivity.class));
+                    finish();
                 } else {
                     isFirstTime();
                 }

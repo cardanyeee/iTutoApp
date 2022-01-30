@@ -12,7 +12,8 @@
 
     <color name="colorPrimaryLight">#E0ECDE</color>
     <color name="colorPrimary">#68B39F</color>
+    <color name="colorPrimary2">#84D19F</color>
     <color name="colorPrimaryDark">#2D6974</color>
-    <color name="colorBackground">#FFFFFFFF</color>
+    <color name="colorBackground">#F6F7FC</color>
 
 </resources>

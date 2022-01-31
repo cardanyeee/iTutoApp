@@ -12,10 +12,14 @@
     <string name="txtTextDont">Don\'t have an account?</string>
     <string name="txtTextRegister">Register</string>
 
+    <string name="search">Search for Subject, Subject Code or your Tutor\'s Name...</string>
+
     <string name="navigation_draw_open">Open Navigation Draw</string>
     <string name="navigation_draw_close">Close Navigation Draw</string>
 
     <string name="skip">Skip</string>
     <string name="next">Next</string>
     <string name="empty" />
+
+    <string name="looking_for">Looking for a tutor?</string>
 </resources>

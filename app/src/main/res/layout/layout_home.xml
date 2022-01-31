@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/looking_for"
+        android:textSize="20sp"
+        android:fontFamily="@font/roboto_bold"
+        android:textFontWeight="900"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/input_background"
+        android:drawableStart="@drawable/ic_baseline_search_24"
+        android:drawablePadding="5dp"
+        android:elevation="5dp"
+        android:fontFamily="@font/roboto_regular"
+        android:hint="@string/search"
+        android:inputType="text"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerHome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="60dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        android:id="@+id/txtLayoutEmailSignIn"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginBottom="6dp">-->
+
+    <!--        <com.google.android.material.textfield.TextInputEditText-->
+    <!--            android:id="@+id/txtEmailSignIn"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@android:color/transparent"-->
+    <!--            android:hint="@string/emailHint"-->
+    <!--            android:inputType="textEmailAddress"-->
+    <!--            android:textSize="15sp" />-->
+
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        android:id="@+id/txtLayoutPasswordSignIn"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginBottom="30dp"-->
+    <!--        app:passwordToggleEnabled="true">-->
+
+    <!--        <com.google.android.material.textfield.TextInputEditText-->
+    <!--            android:id="@+id/txtPasswordSignIn"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@android:color/transparent"-->
+    <!--            android:hint="@string/passwordHint"-->
+    <!--            android:inputType="textPassword"-->
+    <!--            android:textSize="15sp" />-->
+
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btnSignIn"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="42dp"-->
+    <!--        android:layout_marginBottom="70dp"-->
+    <!--        android:background="@drawable/btn_round"-->
+    <!--        android:elevation="4dp"-->
+    <!--        android:text="@string/btnTextSignIn"-->
+    <!--        android:textAllCaps="false"-->
+    <!--        android:textSize="17sp" />-->
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:gravity="center_horizontal"-->
+    <!--        android:orientation="horizontal">-->
+
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginEnd="6dp"-->
+    <!--            android:text="@string/txtTextDont"/>-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/txtSignUp"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="@string/txtTextRegister"-->
+    <!--            android:textColor="@color/colorPrimary"/>-->
+
+    <!--    </LinearLayout>-->
+
+</LinearLayout>

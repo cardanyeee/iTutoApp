@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:theme="@style/Theme.AppCompat"
     tools:context=".HomeActivity"
-    tools:openDrawer="start"
+    tools:openDrawer="end"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -30,8 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/empty"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textColor="@color/black"/>
 
         </androidx.appcompat.widget.Toolbar>
 

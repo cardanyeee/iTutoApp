@@ -33,4 +33,12 @@
         <item name="stLength">LONG</item>
         <item name="stRadius">40dp</item>
     </style>
+
+    <style name="AppTheme.BottomAppbar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary2</item>
+    </style>
+
 </resources>

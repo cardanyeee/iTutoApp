@@ -3,6 +3,7 @@ package com.ituto.android.Fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 //import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
 import com.ituto.android.HomeActivity;
@@ -44,8 +53,12 @@ public class SignInFragment extends Fragment {
     private TextView txtSignUp;
     private Button btnSignIn;
     private ProgressDialog dialog;
+    private GoogleSignInClient googleSignInClient;
 
-    public SignInFragment() {}
+    private static int RC_SIGN_IN = 100;
+
+    public SignInFragment() {
+    }
 
     @Nullable
     @Override
@@ -56,6 +69,25 @@ public class SignInFragment extends Fragment {
     }
 
     private void init() {
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(getActivity().getApplicationContext(), gso);
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity().getApplicationContext());
+
+        SignInButton signInButton = view.findViewById(R.id.btnSignInWithGoogle);
+        signInButton.setSize(SignInButton.SIZE_STANDARD);
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInWithGoogle();
+            }
+        });
+
         layoutPassword = view.findViewById(R.id.txtLayoutPasswordSignIn);
         layoutEmail = view.findViewById(R.id.txtLayoutEmailSignIn);
         txtPassword = view.findViewById(R.id.txtPasswordSignIn);
@@ -65,7 +97,7 @@ public class SignInFragment extends Fragment {
         dialog = new ProgressDialog(getContext());
         dialog.setCancelable(false);
 
-        txtSignUp.setOnClickListener(v->{
+        txtSignUp.setOnClickListener(v -> {
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                     R.anim.slide_in,  // enter
                     R.anim.fade_out,  // exit
@@ -74,7 +106,7 @@ public class SignInFragment extends Fragment {
             ).replace(R.id.frameAuthContainer, new SignUpFragment()).commit();
         });
 
-        btnSignIn.setOnClickListener(v->{
+        btnSignIn.setOnClickListener(v -> {
             if (validate()) {
                 login();
             }
@@ -107,7 +139,7 @@ public class SignInFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (txtPassword.getText().toString().length()>7) {
+                if (txtPassword.getText().toString().length() > 7) {
                     layoutPassword.setErrorEnabled(false);
                 }
             }
@@ -126,7 +158,7 @@ public class SignInFragment extends Fragment {
             return false;
         }
 
-        if (txtPassword.getText().toString().length()<8) {
+        if (txtPassword.getText().toString().length() < 8) {
             layoutPassword.setErrorEnabled(true);
             layoutPassword.setError("Required at least 8 characters");
             return false;
@@ -141,7 +173,6 @@ public class SignInFragment extends Fragment {
 
             try {
                 JSONObject object = new JSONObject(response);
-//                System.out.println(object);
                 if (object.getBoolean("success")) {
                     JSONObject user = object.getJSONObject("user");
                     SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user", getContext().MODE_PRIVATE);
@@ -151,7 +182,7 @@ public class SignInFragment extends Fragment {
                     editor.putString("lastname", user.getString("lastname"));
                     editor.putBoolean("isLoggedIn", true);
                     editor.apply();
-                    startActivity(new Intent(((AuthActivity)getContext()), HomeActivity.class));
+                    startActivity(new Intent(((AuthActivity) getContext()), HomeActivity.class));
                     ((AuthActivity) getContext()).finish();
 
                     StyleableToast.makeText(getContext(), "Login Successful", R.style.CustomToast).show();
@@ -165,7 +196,7 @@ public class SignInFragment extends Fragment {
             StyleableToast.makeText(getContext(), "Login Unsuccessful", R.style.CustomToast).show();
             error.printStackTrace();
             dialog.dismiss();
-        }){
+        }) {
             @Nullable
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -178,6 +209,46 @@ public class SignInFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+    }
+
+    private void signInWithGoogle() {
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity().getApplicationContext());
+            if (acct != null) {
+                String personName = acct.getDisplayName();
+                String personGivenName = acct.getGivenName();
+                String personFamilyName = acct.getFamilyName();
+                String personEmail = acct.getEmail();
+                String personId = acct.getId();
+                Uri personPhoto = acct.getPhotoUrl();
+
+                Toast.makeText(getActivity().getApplicationContext(), personEmail, Toast.LENGTH_SHORT).show();
+            }
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w("TAG", e.toString());
+
+        }
     }
 
 }

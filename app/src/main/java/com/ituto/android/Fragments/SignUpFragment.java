@@ -17,18 +17,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-//import com.android.volley.AuthFailureError;
-//import com.android.volley.Request;
-//import com.android.volley.RequestQueue;
-//import com.android.volley.toolbox.StringRequest;
-//import com.android.volley.toolbox.Volley;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 //import com.example.movieapp.AuthActivity;
 //import com.example.movieapp.Constant;
 //import com.example.movieapp.HomeActivity;
+import com.ituto.android.AuthActivity;
+import com.ituto.android.Constant;
 import com.ituto.android.R;
 //import com.example.movieapp.UserInfoActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.ituto.android.UserInfoActivity;
 //import com.muddzdev.styleabletoast.StyleableToast;
 
 import org.json.JSONException;
@@ -76,11 +79,11 @@ public class SignUpFragment extends Fragment {
             ).replace(R.id.frameAuthContainer, new SignInFragment()).commit();
         });
 
-//        btnSignUp.setOnClickListener(v->{
-//            if (validate()) {
-//                register();
-//            }
-//        });
+        btnSignUp.setOnClickListener(v->{
+            if (validate()) {
+                register();
+            }
+        });
 
         txtEmail.addTextChangedListener(new TextWatcher() {
             @Override
@@ -163,48 +166,48 @@ public class SignUpFragment extends Fragment {
         return true;
     }
 
-//    private void register() {
-//        dialog.setMessage("Registering");
-//        dialog.show();
-//        StringRequest request = new StringRequest(Request.Method.POST, Constant.REGISTER, response -> {
-//
-//            try {
-//                JSONObject object = new JSONObject(response);
-//                if (object.getBoolean("success")) {
-//                    JSONObject user = object.getJSONObject("user");
-//                    SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user", getContext().MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = userPref.edit();
-//                    editor.putString("access_token", object.getString("access_token"));
-//                    editor.putString("name", user.getString("name"));
-//                    editor.putBoolean("isLoggedIn", true);
-//                    editor.apply();
-//                    startActivity(new Intent(((AuthActivity)getContext()), UserInfoActivity.class));
-//                    ((AuthActivity) getContext()).finish();
+    private void register() {
+        dialog.setMessage("Registering");
+        dialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.REGISTER, response -> {
+
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONObject user = object.getJSONObject("user");
+                    SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user", getContext().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = userPref.edit();
+                    editor.putString("access_token", object.getString("access_token"));
+                    editor.putString("name", user.getString("name"));
+                    editor.putBoolean("isLoggedIn", true);
+                    editor.apply();
+                    startActivity(new Intent(((AuthActivity)getContext()), UserInfoActivity.class));
+                    ((AuthActivity) getContext()).finish();
 //                    StyleableToast.makeText(getContext(), "Register Successful", R.style.CustomToast).show();
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
 //                StyleableToast.makeText(getContext(), "Register Unsuccessful", R.style.CustomToast).show();
-//            }
-//            dialog.dismiss();
-//
-//        }, error -> {
+            }
+            dialog.dismiss();
+
+        }, error -> {
 //            StyleableToast.makeText(getContext(), "Register Unsuccessful", R.style.CustomToast).show();
-//            error.printStackTrace();
-//            dialog.dismiss();
-//        }){
-//            @Nullable
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                HashMap<String, String> map = new HashMap<>();
-//                map.put("email", txtEmail.getText().toString().trim());
-//                map.put("password", txtPassword.getText().toString());
-//                map.put("password_confirmation", txtConfirm.getText().toString());
-//                return map;
-//            }
-//        };
-//
-//        RequestQueue queue = Volley.newRequestQueue(getContext());
-//        queue.add(request);
-//    }
+            error.printStackTrace();
+            dialog.dismiss();
+        }){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("email", txtEmail.getText().toString().trim());
+                map.put("password", txtPassword.getText().toString());
+                map.put("password_confirmation", txtConfirm.getText().toString());
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
 }

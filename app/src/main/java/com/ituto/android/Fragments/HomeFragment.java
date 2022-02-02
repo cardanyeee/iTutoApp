@@ -72,20 +72,8 @@ public class HomeFragment extends Fragment implements HomeCoursesAdapter.OnItemL
 
     private void init() {
         sharedPreferences = getContext().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        recyclerView = view.findViewById(R.id.recyclerHome);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        refreshLayout = view.findViewById(R.id.swipeHome);
         toolbar = view.findViewById(R.id.toolbar);
         ((HomeActivity)getContext()).setSupportActionBar(toolbar);
-
-        getMovies();
-
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getMovies();
-            }
-        });
 
     }
 
@@ -95,29 +83,6 @@ public class HomeFragment extends Fragment implements HomeCoursesAdapter.OnItemL
         if(requestCode==GALLERY_ADD_POST && resultCode== Activity.RESULT_OK){
 
         }
-    }
-
-    private void getMovies() {
-        arrayList = new ArrayList<>();
-        refreshLayout.setRefreshing(true);
-
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.COURSES, response -> {
-
-
-        }, error -> {
-            error.printStackTrace();
-            refreshLayout.setRefreshing(false);
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                String token = sharedPreferences.getString("access_token", "");
-                HashMap<String, String> map = new HashMap<>();
-                map.put("Authorization", "Bearer" + token);
-                return map;
-            }
-        };
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        queue.add(request);
     }
 
     @Override

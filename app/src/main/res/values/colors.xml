@@ -16,4 +16,6 @@
     <color name="colorPrimaryDark">#2D6974</color>
     <color name="colorBackground">#F6F7FC</color>
 
+    <color name="colorHint">#CCCCCC</color>
+
 </resources>

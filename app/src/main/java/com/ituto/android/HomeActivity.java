@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -21,8 +22,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.ituto.android.Fragments.AccountFragment;
 import com.ituto.android.Fragments.HomeFragment;
+import com.ituto.android.Fragments.MessagesFragment;
+import com.ituto.android.Fragments.TasksFragment;
+import com.ituto.android.Fragments.TutorsFragment;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -31,15 +37,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-    private SharedPreferences userPref;
-    private DrawerLayout drawerLayout;
-    private TextView navUserName, navUserEmail;
-    private ImageView navUserPhoto;
-    private NavigationView navigationView;
-    private View headerView;
-    private Dialog dialog;
+    private FragmentManager fragmentManager;
+    private BottomNavigationView bottomNavigation;
+    private static final int GALLERY_ADD_POST = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,91 +51,85 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
+//        drawerLayout = findViewById(R.id.layoutHome);
 
-        drawerLayout = findViewById(R.id.layoutHome);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_draw_open, R.string.navigation_draw_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_draw_open, R.string.navigation_draw_close);
+//        drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_movies);
         }
         init();
     }
 
     private void init() {
-        userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        headerView = navigationView.getHeaderView(0 );
-
-        navUserPhoto = headerView.findViewById(R.id.navUserPhoto);
-        navUserName = headerView.findViewById(R.id.navUserName);
-        navUserEmail = headerView.findViewById(R.id.navUserEmail);
-
-        getUser();
+        bottomNavigation = findViewById(R.id.bottomNavigationView);
+        bottomNavigation.setOnNavigationItemSelectedListener(this);
+//        getUser();
     }
 
-    private void getUser() {
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.USER_PROFILE, response -> {
-
-            try {
-                JSONObject object = new JSONObject(response);
-                if (object.getBoolean("success")) {
-                    JSONObject user = object.getJSONObject("user");
-
-                    navUserName.setText(user.getString("name"));
-                    navUserEmail.setText(user.getString("email"));
-//                    Picasso.get().load(Constant.URL+"storage/profiles/" + user.getString("photo")).fit().centerCrop().into(navUserPhoto);
-
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-        }, error -> {
-            error.printStackTrace();
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                String token = userPref.getString("access_token", "");
-                HashMap<String, String> map = new HashMap<>();
-                map.put("Authorization", "Bearer" + token);
-                return map;
-            }
-        };
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.add(request);
-    }
+//    private void getUser() {
+//        StringRequest request = new StringRequest(Request.Method.GET, Constant.USER_PROFILE, response -> {
+//
+//            try {
+//                JSONObject object = new JSONObject(response);
+//                if (object.getBoolean("success")) {
+//                    JSONObject user = object.getJSONObject("user");
+//
+//                    navUserName.setText(user.getString("name"));
+//                    navUserEmail.setText(user.getString("email"));
+////                    Picasso.get().load(Constant.URL+"storage/profiles/" + user.getString("photo")).fit().centerCrop().into(navUserPhoto);
+//
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//
+//        }, error -> {
+//            error.printStackTrace();
+//        }){
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                String token = userPref.getString("access_token", "");
+//                HashMap<String, String> map = new HashMap<>();
+//                map.put("Authorization", "Bearer" + token);
+//                return map;
+//            }
+//        };
+//        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+//        queue.add(request);
+//    }
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            drawerLayout.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.nav_movies:
+            case R.id.item_home:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
                 break;
-            case R.id.nav_actors:
+            case R.id.item_tutors:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TutorsFragment()).commit();
                 break;
-            case R.id.nav_producers:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProducerFragment()).commit();
+            case R.id.item_tasks:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TasksFragment()).commit();
                 break;
-            case R.id.nav_profile:
+            case R.id.item_messages:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MessagesFragment()).commit();
                 break;
-            case R.id.nav_logout:
-
+            case R.id.item_account:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AccountFragment()).commit();
+                break;
 //                dialog = new Dialog(HomeActivity.this);
 //                dialog.setContentView(R.layout.custom_alert_dialog);
 //
@@ -161,9 +157,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         }
-
-
-        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 

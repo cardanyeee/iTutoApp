@@ -22,4 +22,9 @@
     <string name="empty" />
 
     <string name="looking_for">Looking for a tutor?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="findATutor">Find A Tutor</string>
+    <string name="becomeATutor">Become A Tutor</string>
+    <string name="take_a_look_at_these_categories">Take a look at these categories...</string>
 </resources>

@@ -27,4 +27,14 @@
     <string name="findATutor">Find A Tutor</string>
     <string name="becomeATutor">Become A Tutor</string>
     <string name="take_a_look_at_these_categories">Take a look at these categories...</string>
+    <string name="send">Send</string>
+    <string name="start_a_new_message">Start a new message</string>
+    <string name="_5_04pm">5:04pm</string>
+    <string name="hi_joe_looks_great">Hi, Joe, looks great! :)</string>
+    <string name="laura_owens">Laura Owens</string>
+    <string name="_3">3</string>
+
+    <string name="sample_message_me">Hi, joe how are you, do you like to join our party in next week because you don\'t like party?</string>
+    <string name="sample_message_you">Hi, joe how are you, do you like to join our party in next week because you don\'t like party?</string>
+
 </resources>

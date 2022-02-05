@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:padding="10dp"
+    android:layout_marginEnd="40dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/user2"
+            android:layout_marginEnd="10dp"/>
+        <TextView
+            android:id="@+id/tv_chat_text"
+            android:maxWidth="@dimen/maxwidth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/sample_message_you"
+            android:textSize="@dimen/h3"
+            android:background="@drawable/bg_chat_you"/>
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:text="@string/_5_04pm"
+            android:textSize="@dimen/h4"
+            app:drawableLeftCompat="@drawable/ic_clock" />
+    </LinearLayout>
+</RelativeLayout>

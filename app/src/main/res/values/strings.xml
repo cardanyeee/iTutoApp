@@ -5,12 +5,12 @@
     <string name="passwordHint">Password</string>
     <string name="confirmHint">Confirm Password</string>
 
-    <string name="btnTextSignIn">Sign in</string>
-    <string name="btnTextSignUp">Sign up</string>
-    <string name="txtTextSignIn">Sign in</string>
+    <string name="btnTextSignIn">Log in</string>
+    <string name="btnTextSignUp">Register</string>
+    <string name="txtTextSignIn">Log in</string>
     <string name="txtTextAlready">Already have an account?</string>
     <string name="txtTextDont">Don\'t have an account?</string>
-    <string name="txtTextRegister">Register</string>
+    <string name="txtTextRegister">Create an account</string>
 
     <string name="search">Search for Subject, Subject Code or your Tutor\'s Name...</string>
 
@@ -36,5 +36,10 @@
 
     <string name="sample_message_me">Hi, joe how are you, do you like to join our party in next week because you don\'t like party?</string>
     <string name="sample_message_you">Hi, joe how are you, do you like to join our party in next week because you don\'t like party?</string>
+    <string name="app_description">Discover students who are interested in sharing their attained skills and knowledge.</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="birthday">Birthday</string>
 
 </resources>

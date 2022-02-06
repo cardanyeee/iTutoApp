@@ -41,4 +41,34 @@
         <item name="colorAccent">@color/colorPrimary2</item>
     </style>
 
+    <style name="Button.Primary" parent="ThemeOverlay.AppCompat">
+        <item name="colorPrimary">@color/colorPrimary</item>
+    </style>
+
+    <style name="Button.Secondary" parent="ThemeOverlay.AppCompat">
+        <item name="colorPrimary">@color/colorSecondary</item>
+    </style>
+
+    <style name="Button.Transparent" parent="ThemeOverlay.AppCompat">
+        <item name="colorPrimary">@color/colorTransparent</item>
+    </style>
+
+    <style name="DatePicker" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>                   <!--header background-->
+        <item name="android:windowBackground">@color/colorBackground</item>     <!--calendar background-->
+        <item name="android:colorControlActivated">@color/colorPrimary</item> <!--selected day-->
+        <item name="android:textColorPrimary">@color/black</item> <!--days of the month-->
+        <item name="android:textColorSecondary">@color/colorPrimary</item>    <!--days of the week-->
+        <item name="android:buttonBarPositiveButtonStyle">@style/AppTheme.Alert.Button.Positive</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/AppTheme.Alert.Button.Negative</item>
+    </style>
+
+    <style name="AppTheme.Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AppTheme.Alert.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>

@@ -51,14 +51,11 @@ public class SignInFragment extends Fragment {
     private TextInputLayout layoutEmail, layoutPassword;
     private TextInputEditText txtEmail, txtPassword;
     private TextView txtSignUp;
-    private Button btnSignIn;
+    private Button btnSignIn, signInButton;
     private ProgressDialog dialog;
     private GoogleSignInClient googleSignInClient;
 
     private static int RC_SIGN_IN = 100;
-
-    public SignInFragment() {
-    }
 
     @Nullable
     @Override
@@ -78,8 +75,9 @@ public class SignInFragment extends Fragment {
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity().getApplicationContext());
 
-        SignInButton signInButton = view.findViewById(R.id.btnSignInWithGoogle);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
+        signInButton = view.findViewById(R.id.btnSignInWithGoogle);
+//        SignInButton signInButton = view.findViewById(R.id.btnSignInWithGoogle);
+//        signInButton.setSize(SignInButton.SIZE_STANDARD);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +101,7 @@ public class SignInFragment extends Fragment {
                     R.anim.fade_out,  // exit
                     R.anim.fade_in,   // popEnter
                     R.anim.slide_out  // popExit
-            ).replace(R.id.frameAuthContainer, new SignUpFragment()).commit();
+            ).replace(R.id.frameAuthContainer, new MainAuthFragment()).addToBackStack(null).commit();
         });
 
         btnSignIn.setOnClickListener(v -> {

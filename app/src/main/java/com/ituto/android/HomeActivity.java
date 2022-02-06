@@ -51,11 +51,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-//        drawerLayout = findViewById(R.id.layoutHome);
-
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_draw_open, R.string.navigation_draw_close);
-//        drawerLayout.addDrawerListener(toggle);
-//        toggle.syncState();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();

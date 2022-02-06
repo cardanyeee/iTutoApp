@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
+    android:clipToPadding="false"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:paddingLeft="50dp"
@@ -12,29 +13,89 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="70dp"
         android:fontFamily="@font/roboto_regular"
-        android:textColor="@color/colorPrimary"
-        android:gravity="center_horizontal"
         android:text="@string/iTuto"
+        android:textColor="@color/colorPrimary"
         android:textFontWeight="900"
         android:textSize="32sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="@string/app_description"
+        android:textColor="@color/colorHint"
+        android:textFontWeight="700"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtLayoutFirstNameSignUp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:theme="@style/Button.Primary"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtFirstNameSignUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_input"
+                android:hint="@string/firstname"
+                android:inputType="textEmailAddress"
+                android:textSize="13sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtLayoutLastNameSignUp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:theme="@style/Button.Primary"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtLastNameSignUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_input"
+                android:hint="@string/lastname"
+                android:inputType="textEmailAddress"
+                android:textSize="13sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtLayoutEmailSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp">
+        android:layout_marginBottom="6dp"
+        android:theme="@style/Button.Primary"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtEmailSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android:background="@drawable/custom_input"
             android:hint="@string/emailHint"
             android:inputType="textEmailAddress"
-            android:textSize="15sp"/>
+            android:textSize="13sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,16 +104,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
+        android:theme="@style/Button.Primary"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtPasswordSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android:background="@drawable/custom_input"
             android:hint="@string/passwordHint"
             android:inputType="textPassword"
-            android:textSize="15sp"/>
+            android:textSize="13sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,17 +124,41 @@
         android:id="@+id/txtLayoutConfirmSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="6dp"
+        android:theme="@style/Button.Primary"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtConfirmSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android:background="@drawable/custom_input"
             android:hint="@string/confirmHint"
             android:inputType="textPassword"
-            android:textSize="15sp"/>
+            android:textSize="13sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtLayoutBirthdateSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:theme="@style/Button.Primary"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtBirthdateSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_input"
+            android:focusable="false"
+            android:hint="@string/birthday"
+            android:inputType="none"
+            android:textSize="15sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,11 +167,12 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginBottom="70dp"
-        android:background="@drawable/btn_round"
+        android:background="@drawable/btn_solid"
+        android:elevation="4dp"
         android:text="@string/btnTextSignUp"
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"
-        android:textSize="17sp"/>
+        android:theme="@style/Button.Primary" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -95,14 +184,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="6dp"
-            android:text="@string/txtTextAlready"/>
+            android:text="@string/txtTextAlready" />
 
         <TextView
             android:id="@+id/txtSignIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/txtTextSignIn"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary" />
 
     </LinearLayout>
 

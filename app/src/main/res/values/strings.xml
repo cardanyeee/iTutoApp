@@ -41,5 +41,6 @@
     <string name="firstname">Firstname</string>
     <string name="lastname">Lastname</string>
     <string name="birthday">Birthday</string>
+    <string name="gender">Gender</string>
 
 </resources>

@@ -5,9 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,31 +17,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.ituto.android.Adapters.HomeCoursesAdapter;
-import com.ituto.android.Constant;
 import com.ituto.android.HomeActivity;
 import com.ituto.android.Models.Course;
 import com.ituto.android.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class HomeFragment extends Fragment implements HomeCoursesAdapter.OnItemListener {
     private static final String TAG = "MovieFragment";
@@ -65,14 +47,14 @@ public class HomeFragment extends Fragment implements HomeCoursesAdapter.OnItemL
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.layout_home, container, false);
+        view = inflater.inflate(R.layout.fragment_tutee_home, container, false);
         init();
         return view;
     }
 
     private void init() {
         sharedPreferences = getContext().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        toolbar = view.findViewById(R.id.toolbar);
+//        toolbar = view.findViewById(R.id.toolbar);
         ((HomeActivity)getContext()).setSupportActionBar(toolbar);
 
     }

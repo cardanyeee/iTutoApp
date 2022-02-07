@@ -10,9 +10,10 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,17 +47,21 @@ import java.util.Map;
 public class SignUpFragment extends Fragment {
     private View view;
     private TextInputLayout layoutFirstName, layoutLastName, layoutEmail, layoutPassword, layoutConfirm, layoutBirthdate;
-    private TextInputEditText txtFirstName, txtLastName, txtEmail, txtPassword, txtConfirm, txtBithdate;
+    private TextInputEditText txtFirstName, txtLastName, txtEmail, txtPassword, txtConfirm, txtBirthdate;
+    private AutoCompleteTextView txtGender;
     private TextView txtSignIn;
     private Button btnSignUp;
     private ProgressDialog dialog;
     private DatePickerDialog.OnDateSetListener dateSetListener;
+    private static final String[] GENDERS = new String[] {
+            "Male", "Female", "Prefer not to say"
+    };
     private int isTutor;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.layout_sign_up, container, false);
+        view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         init();
         return view;
     }
@@ -77,14 +82,15 @@ public class SignUpFragment extends Fragment {
         txtPassword = view.findViewById(R.id.txtPasswordSignUp);
         txtConfirm = view.findViewById(R.id.txtConfirmSignUp);
         txtEmail = view.findViewById(R.id.txtEmailSignUp);
-        txtBithdate = view.findViewById(R.id.txtBirthdateSignUp);
+        txtBirthdate = view.findViewById(R.id.txtBirthdateSignUp);
+        txtGender = view.findViewById(R.id.txtGenreSignUp);
 
         txtSignIn = view.findViewById(R.id.txtSignIn);
         btnSignUp = view.findViewById(R.id.btnSignUp);
         dialog = new ProgressDialog(getContext());
         dialog.setCancelable(false);
 
-        txtBithdate.setOnClickListener(v -> {
+        txtBirthdate.setOnClickListener(v -> {
             Calendar cal = Calendar.getInstance();
             int year = cal.get(Calendar.YEAR);
             int month = cal.get(Calendar.MONTH);
@@ -101,8 +107,16 @@ public class SignUpFragment extends Fragment {
         dateSetListener = (view, year, month, dayOfMonth) -> {
             month = month + 1;
             String date = year + "-" + month + "-" + dayOfMonth;
-            txtBithdate.setText(date);
+            txtBirthdate.setText(date);
         };
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                GENDERS
+        );
+
+        txtGender.setAdapter(arrayAdapter);
 
         txtSignIn.setOnClickListener(v -> {
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
@@ -211,22 +225,23 @@ public class SignUpFragment extends Fragment {
                     JSONObject user = object.getJSONObject("user");
                     SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user", getContext().MODE_PRIVATE);
                     SharedPreferences.Editor editor = userPref.edit();
-                    editor.putString("access_token", object.getString("access_token"));
-                    editor.putString("name", user.getString("name"));
+                    editor.putString("token", object.getString("token"));
+                    editor.putString("firstname", user.getString("firstname"));
+                    editor.putString("lastname", user.getString("lastname"));
                     editor.putBoolean("isLoggedIn", true);
                     editor.apply();
                     startActivity(new Intent(((AuthActivity) getContext()), UserInfoActivity.class));
                     ((AuthActivity) getContext()).finish();
-//                    StyleableToast.makeText(getContext(), "Register Successful", R.style.CustomToast).show();
+                    StyleableToast.makeText(getContext(), "Register Successful", R.style.CustomToast).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-//                StyleableToast.makeText(getContext(), "Register Unsuccessful", R.style.CustomToast).show();
+                StyleableToast.makeText(getContext(), "Register Unsuccessful", R.style.CustomToast).show();
             }
             dialog.dismiss();
 
         }, error -> {
-//            StyleableToast.makeText(getContext(), "Register Unsuccessful", R.style.CustomToast).show();
+            StyleableToast.makeText(getContext(), "Register Unsuccessful", R.style.CustomToast).show();
             error.printStackTrace();
             dialog.dismiss();
         }) {
@@ -234,6 +249,10 @@ public class SignUpFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
+                map.put("firstname", txtFirstName.getText().toString().trim());
+                map.put("lastname", txtLastName.getText().toString().trim());
+                map.put("birthdate", txtBirthdate.getText().toString().trim());
+                map.put("gender", txtGender.getText().toString().trim());
                 map.put("email", txtEmail.getText().toString().trim());
                 map.put("password", txtPassword.getText().toString());
                 map.put("password_confirmation", txtConfirm.getText().toString());

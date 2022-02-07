@@ -54,13 +54,18 @@
     </style>
 
     <style name="DatePicker" parent="ThemeOverlay.AppCompat.Dialog">
-        <item name="colorAccent">@color/colorPrimary</item>                   <!--header background-->
-        <item name="android:windowBackground">@color/colorBackground</item>     <!--calendar background-->
+        <item name="colorAccent">@color/colorPrimary
+        </item>                   <!--header background-->
+        <item name="android:windowBackground">@color/colorBackground
+        </item>     <!--calendar background-->
         <item name="android:colorControlActivated">@color/colorPrimary</item> <!--selected day-->
         <item name="android:textColorPrimary">@color/black</item> <!--days of the month-->
-        <item name="android:textColorSecondary">@color/colorPrimary</item>    <!--days of the week-->
-        <item name="android:buttonBarPositiveButtonStyle">@style/AppTheme.Alert.Button.Positive</item>
-        <item name="android:buttonBarNegativeButtonStyle">@style/AppTheme.Alert.Button.Negative</item>
+        <item name="android:textColorSecondary">@color/colorPrimary
+        </item>    <!--days of the week-->
+        <item name="android:buttonBarPositiveButtonStyle">@style/AppTheme.Alert.Button.Positive
+        </item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/AppTheme.Alert.Button.Negative
+        </item>
     </style>
 
     <style name="AppTheme.Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
@@ -69,6 +74,10 @@
 
     <style name="AppTheme.Alert.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Circular">
+        <item name="cornerSize">50%</item>
     </style>
 
 </resources>

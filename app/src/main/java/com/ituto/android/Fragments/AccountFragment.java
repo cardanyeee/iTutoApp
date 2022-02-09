@@ -1,49 +1,169 @@
 package com.ituto.android.Fragments;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.annotation.NonNullApi;
+import com.google.android.material.imageview.ShapeableImageView;
+import com.ituto.android.AuthActivity;
+import com.ituto.android.Constant;
 import com.ituto.android.R;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AccountFragment extends Fragment {
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
+    private View view;
+    private TextView txtEmail, txtUserName;
+    private Button btnLogOut;
+    private SharedPreferences userPref;
+    private Dialog dialog;
+    private ShapeableImageView imgUserInfo;
 
     public AccountFragment() {
 
     }
 
-    public static AccountFragment newInstance(String param1, String param2) {
-        AccountFragment fragment = new AccountFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_account, container, false);
+        init();
+        return view;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    private void init() {
+        userPref = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        btnLogOut = view.findViewById(R.id.btnLogOut);
+        txtEmail = view.findViewById(R.id.txtEmail);
+        txtUserName = view.findViewById(R.id.txtUserName);
+        imgUserInfo = view.findViewById(R.id.imgUserInfo);
 
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        btnLogOut.setOnClickListener(v -> {
+            dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.layout_logout_dialog);
+
+            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+            Button btnYes = dialog.findViewById(R.id.btnYes);
+            Button btnNo = dialog.findViewById(R.id.btnNo);
+
+            dialog.show();
+
+            btnYes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    logout();
+                }
+            });
+
+            btnNo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.cancel();
+                }
+            });
+        });
+
+        getUser();
     }
+
+    private void logout() {
+        dialog.dismiss();
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.LOGOUT, response -> {
+
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    SharedPreferences.Editor editor = userPref.edit();
+                    editor.clear();
+                    editor.apply();
+                    startActivity(new Intent((getActivity().getApplicationContext()), AuthActivity.class));
+                    getActivity().finish();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }, error -> {
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = userPref.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer" + token);
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
+    private void getUser() {
+
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.USER_PROFILE, response -> {
+
+            try {
+                JSONObject object = new JSONObject(response);
+                if(object.getBoolean("success")){
+                    JSONObject user = object.getJSONObject("user");
+                    JSONObject avatar = user.getJSONObject("avatar");
+
+                    txtUserName.setText(user.getString("firstname") + " " + user.getString("lastname"));
+                    txtEmail.setText(user.getString("email"));
+                    Picasso.get().load(avatar.getString("url")).fit().centerCrop().into(imgUserInfo);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }, error -> {
+            error.printStackTrace();
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = userPref.getString("token", "");
+                HashMap<String,String> map = new HashMap<>();
+                map.put("Authorization", "Bearer "+token);
+                return map;
+            }
+        };
+
+        Log.d("TAG", String.valueOf(request.getBodyContentType()));
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
 }

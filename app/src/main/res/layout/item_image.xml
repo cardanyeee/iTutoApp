@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
+                    android:id="@+id/txtUserName"
                     android:layout_marginTop="15dp"
                     android:text="Mariya Doe"
                     android:textSize="20sp"
@@ -97,6 +98,7 @@
 
     </RelativeLayout>
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgUserInfo"
         android:src="@drawable/user2"
         app:shapeAppearanceOverlay="@style/Circular"
         android:elevation="15dp"

@@ -175,6 +175,7 @@ public class SignInFragment extends Fragment {
                     SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user", getContext().MODE_PRIVATE);
                     SharedPreferences.Editor editor = userPref.edit();
                     editor.putString("token", object.getString("token"));
+                    editor.putString("_id", user.getString("_id"));
                     editor.putString("firstname", user.getString("firstname"));
                     editor.putString("lastname", user.getString("lastname"));
                     editor.putBoolean("isLoggedIn", true);
@@ -206,6 +207,7 @@ public class SignInFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+        Log.d("TAG", request.toString());
     }
 
     private void signInWithGoogle() {

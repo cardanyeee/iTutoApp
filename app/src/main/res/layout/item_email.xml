@@ -37,6 +37,7 @@
 
         </LinearLayout>
         <TextView
+            android:id="@+id/txtEmail"
             android:text="malakinfoapp@gmail.com"
             android:textStyle="bold"
             android:textColor="@color/black"

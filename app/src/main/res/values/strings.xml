@@ -42,5 +42,10 @@
     <string name="lastname">Lastname</string>
     <string name="birthday">Birthday</string>
     <string name="gender">Gender</string>
+    <string name="logout">Logout</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="are_you_sure_you_want_leave">Are you sure you want leave?</string>
 
 </resources>

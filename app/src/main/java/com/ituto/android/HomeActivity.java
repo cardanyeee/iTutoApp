@@ -154,36 +154,4 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         }
         return true;
     }
-
-//    private void logout() {
-//        dialog.dismiss();
-//        StringRequest request = new StringRequest( Request.Method.POST, Constant.LOGOUT, response -> {
-//
-//            try {
-//                JSONObject object = new JSONObject(response);
-//                if (object.getBoolean("success")) {
-//                    SharedPreferences.Editor editor = userPref.edit();
-//                    editor.clear();
-//                    editor.apply();
-//                    startActivity( new Intent((getApplicationContext()), AuthActivity.class));
-//                    this.finish();
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }, error -> {
-//            error.printStackTrace();
-//        }){
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                String token = userPref.getString("access_token", "");
-//                HashMap<String, String> map = new HashMap<>();
-//                map.put("Authorization", "Bearer" + token);
-//                return map;
-//            }
-//        };
-//        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-//        queue.add(request);
-//    }
 }

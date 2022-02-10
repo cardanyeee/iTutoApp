@@ -13,45 +13,35 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.annotation.NonNullApi;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
 import com.ituto.android.R;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 public class AccountFragment extends Fragment {
     private View view;
     private TextView txtEmail, txtUserName;
     private Button btnLogOut;
-    private SharedPreferences userPref;
+    private SharedPreferences sharedPreferences;
     private Dialog dialog;
     private ShapeableImageView imgUserInfo;
 
-    public AccountFragment() {
-
-    }
 
     @Nullable
     @Override
@@ -62,7 +52,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void init() {
-        userPref = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         btnLogOut = view.findViewById(R.id.btnLogOut);
         txtEmail = view.findViewById(R.id.txtEmail);
         txtUserName = view.findViewById(R.id.txtUserName);
@@ -105,7 +95,7 @@ public class AccountFragment extends Fragment {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
-                    SharedPreferences.Editor editor = userPref.edit();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.clear();
                     editor.apply();
                     startActivity(new Intent((getActivity().getApplicationContext()), AuthActivity.class));
@@ -120,7 +110,7 @@ public class AccountFragment extends Fragment {
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                String token = userPref.getString("token", "");
+                String token = sharedPreferences.getString("token", "");
                 HashMap<String, String> map = new HashMap<>();
                 map.put("Authorization", "Bearer" + token);
                 return map;
@@ -154,7 +144,7 @@ public class AccountFragment extends Fragment {
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                String token = userPref.getString("token", "");
+                String token = sharedPreferences.getString("token", "");
                 HashMap<String,String> map = new HashMap<>();
                 map.put("Authorization", "Bearer "+token);
                 return map;

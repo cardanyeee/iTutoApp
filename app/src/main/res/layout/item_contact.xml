@@ -20,11 +20,12 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
 
-        <ImageView
-            android:id="@+id/iv_user_photo"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgUserContact"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/user2" />
+
         <TextView
             android:layout_width="28dp"
             android:layout_height="28dp"
@@ -49,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical">
             <TextView
-                android:id="@+id/tv_user_name"
+                android:id="@+id/txtUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/laura_owens"/>
@@ -58,15 +59,15 @@
                 android:id="@+id/online_indicator"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:layout_alignTop="@id/tv_user_name"
+                android:layout_alignTop="@id/txtUserName"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_toEndOf="@id/tv_user_name"
+                android:layout_toEndOf="@id/txtUserName"
                 android:background="@drawable/bg_online" />
 
             <TextView
-                android:id="@+id/tv_last_chat"
-                android:layout_below="@id/tv_user_name"
+                android:id="@+id/txtLastMessage"
+                android:layout_below="@id/txtUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/hi_joe_looks_great"

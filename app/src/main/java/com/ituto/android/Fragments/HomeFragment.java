@@ -20,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.ituto.android.Adapters.HomeCoursesAdapter;
 import com.ituto.android.HomeActivity;
 import com.ituto.android.Models.Course;
 import com.ituto.android.R;
@@ -28,14 +27,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements HomeCoursesAdapter.OnItemListener {
+public class HomeFragment extends Fragment {
     private static final String TAG = "MovieFragment";
     private View view;
     public static RecyclerView recyclerView, movieCasts;
     public static ArrayList<Course> arrayList;
 
     public static SwipeRefreshLayout refreshLayout;
-    private HomeCoursesAdapter homeCoursesAdapter;
     private Toolbar toolbar;
     private SharedPreferences sharedPreferences;
     private FloatingActionButton btnAddMovie;
@@ -65,11 +63,6 @@ public class HomeFragment extends Fragment implements HomeCoursesAdapter.OnItemL
         if(requestCode==GALLERY_ADD_POST && resultCode== Activity.RESULT_OK){
 
         }
-    }
-
-    @Override
-    public void onItemClick(int position) {
-
     }
 
 

@@ -16,7 +16,7 @@
         android:padding="5dp">
 
         <Button
-            android:id="@+id/bt_send"
+            android:id="@+id/btnSend"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -30,11 +30,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/bt_send"
+            android:layout_toLeftOf="@id/btnSend"
             android:background="@drawable/bg_white_rounded">
 
             <ImageButton
-                android:id="@+id/bt_attachment"
+                android:id="@+id/btnAttachment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -44,10 +44,10 @@
                 app:srcCompat="@drawable/ic_attachment" />
 
             <EditText
-                android:id="@+id/et_message"
+                android:id="@+id/txtEnterMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/bt_attachment"
+                android:layout_toStartOf="@id/btnAttachment"
                 android:background="@android:color/transparent"
                 android:hint="@string/start_a_new_message"
                 android:inputType="textCapSentences"
@@ -58,7 +58,7 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerConversation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rl_bottom"

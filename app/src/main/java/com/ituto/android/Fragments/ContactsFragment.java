@@ -21,6 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ituto.android.Adapters.ContactsAdapter;
 import com.ituto.android.Constant;
+import com.ituto.android.Models.Conversation;
 import com.ituto.android.Models.Message;
 import com.ituto.android.Models.User;
 import com.ituto.android.R;
@@ -39,7 +40,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
     public static SwipeRefreshLayout swipeContacts;
     public static RecyclerView recyclerContacts;
     public static ArrayList<Message> messageArrayList;
-    private User user;
+    private User signedUser, contactUser;
 
     private SharedPreferences sharedPreferences;
     private ContactsAdapter contactsAdapter;
@@ -58,6 +59,8 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
         swipeContacts = view.findViewById(R.id.swipeContacts);
 
         getContacts();
+
+        getSignedUser();
 
         swipeContacts.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -78,13 +81,14 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
 
                     JSONArray resultArray = new JSONArray(object.getString("results"));
 
-                    for ( int i = 0; i < resultArray.length(); i++) {
+                    for (int i = 0; i < resultArray.length(); i++) {
 
                         JSONObject conversationObject = resultArray.getJSONObject(i);
                         JSONObject messageObject = conversationObject.getJSONObject("latestMessage");
+                        JSONArray userArray = conversationObject.getJSONArray("users");
 
                         JSONObject userObject = messageObject.getJSONObject("sender");
-                        JSONObject avatar = userObject.getJSONObject("avatar");
+
 
                         Message message = new Message();
                         message.setMessageID(messageObject.getString("_id"));
@@ -92,10 +96,27 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
                         message.setConversationID(messageObject.getString("conversationID"));
 
                         User user = new User();
-                        user.setUserID(userObject.getString("_id"));
-                        user.setFirstname(userObject.getString("firstname"));
-                        user.setLastname(userObject.getString("lastname"));
-                        user.setAvatar(avatar.getString("url"));
+                        for ( int a = 0; a < userArray.length(); a++) {
+                            JSONObject userObjectInConversation = userArray.getJSONObject(a);
+                            if (signedUser.getUserID().equals(userObjectInConversation.getString("_id"))) {
+
+                            } else {
+                                JSONObject avatar = userObjectInConversation.getJSONObject("avatar");
+
+                                user.setUserID(userObjectInConversation.getString("_id"));
+                                user.setFirstname(userObjectInConversation.getString("firstname"));
+                                user.setLastname(userObjectInConversation.getString("lastname"));
+                                user.setAvatar(avatar.getString("url"));
+                            }
+                        }
+
+                        Conversation conversation = new Conversation();
+                        ArrayList<String> userIDArrayList = new ArrayList<String>();
+                        for ( int a = 0; a < userArray.length(); a++) {
+                            String userID = userArray.getString(a);
+                            userIDArrayList.add(userID);
+                        }
+                        conversation.setUserIDArrayList(userIDArrayList);
 
                         message.setUser(user);
 
@@ -114,6 +135,33 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
         }, error -> {
             error.printStackTrace();
             swipeContacts.setRefreshing(false);
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
+    private void getSignedUser() {
+        signedUser = new User();
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.USER_PROFILE, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONObject userObject = object.getJSONObject("user");
+                    signedUser.setUserID(userObject.getString("_id"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            error.printStackTrace();
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {

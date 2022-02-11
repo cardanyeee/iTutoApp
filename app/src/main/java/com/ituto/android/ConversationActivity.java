@@ -6,26 +6,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.ituto.android.Adapters.ContactsAdapter;
 import com.ituto.android.Adapters.MessagesAdapter;
 import com.ituto.android.Models.Conversation;
 import com.ituto.android.Models.Message;
 import com.ituto.android.Models.User;
-import com.muddzdev.styleabletoast.StyleableToast;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,9 +33,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
 public class ConversationActivity extends AppCompatActivity {
 
@@ -48,6 +45,8 @@ public class ConversationActivity extends AppCompatActivity {
     private EditText txtEnterMessage;
     private Button btnSend;
     private String conversationID;
+    private CircleImageView imgYouHeader;
+    private TextView txtConversationName;
 
     private ArrayList<Message> messageArrayList;
     private MessagesAdapter messagesAdapter;
@@ -75,12 +74,16 @@ public class ConversationActivity extends AppCompatActivity {
 
     private void init() {
         sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        imgYouHeader = findViewById(R.id.imgConversationAvatar);
+        txtConversationName = findViewById(R.id.txtConversationName);
         txtEnterMessage = findViewById(R.id.txtEnterMessage);
         btnSend = findViewById(R.id.btnSend);
         recyclerConversation = findViewById(R.id.recyclerConversation);
         recyclerConversation.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         conversationID = getIntent().getStringExtra("conversationID");
+        Picasso.get().load(getIntent().getStringExtra("avatar")).fit().centerCrop().into(imgYouHeader);
+        txtConversationName.setText(getIntent().getStringExtra("name"));
 
         btnSend.setOnClickListener(v -> {
             sendMessage();
@@ -97,9 +100,11 @@ public class ConversationActivity extends AppCompatActivity {
                     Message newMessage = new Message();
                     User sender = new User();
                     Conversation conversation = new Conversation();
+                    JSONObject avatar = senderObject.getJSONObject("avatar");
 
                     sender.setUserID(senderObject.getString("_id"));
                     sender.setFirstname(senderObject.getString("firstname"));
+                    sender.setAvatar(avatar.getString("url"));
 
                     JSONArray userArray = conversationObject.getJSONArray("users");
                     conversation.setConversationID(conversationObject.getString("_id"));
@@ -157,7 +162,6 @@ public class ConversationActivity extends AppCompatActivity {
                         user.setUserID(userObject.getString("_id"));
                         user.setFirstname(userObject.getString("firstname"));
                         user.setAvatar(avatar.getString("url"));
-
                         message.setUser(user);
 
                         messageArrayList.add(message);
@@ -184,6 +188,9 @@ public class ConversationActivity extends AppCompatActivity {
         };
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
+
+//        User user = messageArrayList.get(1).getUser();
+//        Picasso.get().load(user.getAvatar()).fit().centerCrop().into(imgYouHeader);
     }
 
     private void sendMessage() {

@@ -118,5 +118,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private void configureViewHolder2(HolderYou vh1, int position) {
         vh1.getChatText().setText(messageArrayList.get(position).getContent());
+        User user = messageArrayList.get(position).getUser();
+        Picasso.get().load(user.getAvatar()).fit().centerCrop().into(vh1.getImgYou());
     }
 }

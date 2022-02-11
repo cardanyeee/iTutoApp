@@ -94,6 +94,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             Log.d("TAGTAGTAGTAGTAGTAGTAGTAGTAGTAGTAG", message.getConversationID());
             Intent i = new Intent(((HomeActivity)context), ConversationActivity.class);
             i.putExtra("conversationID", message.getConversationID());
+            i.putExtra("name", message.getUser().getFirstname() + " " + message.getUser().getLastname());
+            i.putExtra("avatar", message.getUser().getAvatar());
             context.startActivity(i);
         }
     }
@@ -101,4 +103,5 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     public interface OnItemListener {
         void onItemClick(int position);
     }
+
 }

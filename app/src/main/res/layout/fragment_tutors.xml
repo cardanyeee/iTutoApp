@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true">
 
     <EditText
-        android:id="@+id/searchContacts"
+        android:id="@+id/searchTutor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -22,13 +22,13 @@
         android:layout_marginHorizontal="20dp" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeContacts"
+        android:id="@+id/swipeTutor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="80dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerContacts"
+            android:id="@+id/recyclerTutor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"

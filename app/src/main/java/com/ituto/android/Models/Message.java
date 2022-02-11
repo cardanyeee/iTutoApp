@@ -3,7 +3,7 @@ package com.ituto.android.Models;
 public class Message {
 
     private String messageID, senderID, conversationID, content;
-
+    private Conversation conversation;
     private User user;
 
     public String getSenderID() {
@@ -44,5 +44,13 @@ public class Message {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Conversation getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
     }
 }

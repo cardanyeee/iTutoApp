@@ -12,7 +12,7 @@
     <string name="txtTextDont">Don\'t have an account?</string>
     <string name="txtTextRegister">Create an account</string>
 
-    <string name="search">Search for Subject, Subject Code or your Tutor\'s Name...</string>
+    <string name="searchMain">Search for Subject, Subject Code or your Tutor\'s Name...</string>
 
     <string name="navigation_draw_open">Open Navigation Draw</string>
     <string name="navigation_draw_close">Close Navigation Draw</string>
@@ -47,5 +47,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="are_you_sure_you_want_leave">Are you sure you want leave?</string>
+    <string name="search">Search</string>
 
 </resources>

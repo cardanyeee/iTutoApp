@@ -89,6 +89,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
                         Message message = new Message();
                         message.setMessageID(messageObject.getString("_id"));
                         message.setContent(messageObject.getString("content"));
+                        message.setConversationID(messageObject.getString("conversationID"));
 
                         User user = new User();
                         user.setUserID(userObject.getString("_id"));

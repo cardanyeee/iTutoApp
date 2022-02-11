@@ -1,7 +1,9 @@
 package com.ituto.android.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.ituto.android.ConversationActivity;
+import com.ituto.android.HomeActivity;
 import com.ituto.android.Models.Conversation;
 import com.ituto.android.Models.Message;
 import com.ituto.android.Models.User;
@@ -35,6 +39,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     public ContactsAdapter(Context context, ArrayList<Message> messageArrayList, OnItemListener onItemListener) {
         this.context = context;
         this.messageArrayList = messageArrayList;
+        this.onItemListener = onItemListener;
         sharedPreferences = context.getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
     }
 
@@ -83,7 +88,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
         @Override
         public void onClick(View v) {
-            onItemListener.onItemClick(getAdapterPosition());
+            onItemListener.onItemClick((getBindingAdapterPosition()));
+            message = messageArrayList.get(getBindingAdapterPosition());
+            user = message.getUser();
+            Log.d("TAGTAGTAGTAGTAGTAGTAGTAGTAGTAGTAG", message.getConversationID());
+            Intent i = new Intent(((HomeActivity)context), ConversationActivity.class);
+            i.putExtra("conversationID", message.getConversationID());
+            context.startActivity(i);
         }
     }
 

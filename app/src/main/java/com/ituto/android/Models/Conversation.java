@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class Conversation {
 
-    private String conversationID, latestMessageID;
+    private String conversationID, conversationName, latestMessageID;
     private ArrayList<User> userArrayList;
+    private ArrayList<String> userIDArrayList;
 
     public String getConversationID() {
         return conversationID;
@@ -13,6 +14,14 @@ public class Conversation {
 
     public void setConversationID(String conversationID) {
         this.conversationID = conversationID;
+    }
+
+    public String getConversationName() {
+        return conversationName;
+    }
+
+    public void setConversationName(String conversationName) {
+        this.conversationName = conversationName;
     }
 
     public String getLatestMessageID() {
@@ -29,6 +38,14 @@ public class Conversation {
 
     public void setUserArrayList(ArrayList<User> userArrayList) {
         this.userArrayList = userArrayList;
+    }
+
+    public ArrayList<String> getUserIDArrayList() {
+        return userIDArrayList;
+    }
+
+    public void setUserIDArrayList(ArrayList<String> userIDArrayList) {
+        this.userIDArrayList = userIDArrayList;
     }
 
 }

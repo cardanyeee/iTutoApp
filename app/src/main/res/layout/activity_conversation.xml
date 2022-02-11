@@ -5,6 +5,61 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <LinearLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorBackground"
+        android:orientation="vertical"
+        android:elevation="4dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="  "
+            android:fitsSystemWindows="true">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/user2"
+                android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:text="Juan Dela"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txtConversationID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerConversation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rl_bottom"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:overScrollMode="never"
+        android:paddingTop="60dp"
+        android:background="@color/colorBackground"/>
+
     <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
@@ -23,7 +78,9 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:stateListAnimator="@null"
-            android:text="Send"
+            android:drawableLeft="@drawable/ic_baseline_send_24"
+            android:drawableTint="@color/colorPrimary"
+            android:background="@color/colorTransparent"
             android:textSize="@dimen/h3" />
 
         <RelativeLayout
@@ -56,13 +113,4 @@
                 android:textSize="@dimen/h3" />
         </RelativeLayout>
     </RelativeLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerConversation"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/rl_bottom"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:overScrollMode="never" />
 </RelativeLayout>

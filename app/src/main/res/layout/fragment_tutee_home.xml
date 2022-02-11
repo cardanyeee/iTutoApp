@@ -37,7 +37,7 @@
                 android:drawablePadding="5dp"
                 android:elevation="5dp"
                 android:fontFamily="@font/roboto_regular"
-                android:hint="@string/search"
+                android:hint="@string/searchMain"
                 android:inputType="text"
                 android:padding="10dp" />
 

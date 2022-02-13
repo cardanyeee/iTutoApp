@@ -5,7 +5,7 @@
     <string name="passwordHint">Password</string>
     <string name="confirmHint">Confirm Password</string>
 
-    <string name="btnTextSignIn">Log in</string>
+    <string name="btnTextSignIn">Login</string>
     <string name="btnTextSignUp">Register</string>
     <string name="txtTextSignIn">Log in</string>
     <string name="txtTextAlready">Already have an account?</string>

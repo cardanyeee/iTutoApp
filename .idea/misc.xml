@@ -17,16 +17,25 @@
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/btn_solid.xml" value="0.37592592592592594" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/btn_transparent_with_border.xml" value="0.3828125" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/checkbox.xml" value="0.3072916666666667" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable/checkbox_checked.xml" value="0.33" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable/checkbox_custom.xml" value="0.23645833333333333" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable/checkbox_normal.xml" value="0.3828125" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable/checkbox_text.xml" value="0.3203125" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable/custom_checkbox.xml" value="0.3203125" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/custom_input.xml" value="0.21614583333333334" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_attachment.xml" value="0.32135416666666666" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.23645833333333333" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_baseline_arrow_drop_down_24.xml" value="0.21822916666666667" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_baseline_message_24.xml" value="0.3046875" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.3203125" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_baseline_send_24.xml" value="0.3828125" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_clock.xml" value="0.32135416666666666" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_radio.xml" value="0.3072916666666667" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_radio_checked.xml" value="0.3072916666666667" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/input_shadow.xml" value="0.3769230769230769" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable/radiobutton_checked.xml" value="0.23645833333333333" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable/radiobutton_custom.xml" value="0.23645833333333333" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable/radiobutton_normal.xml" value="0.23645833333333333" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/undraw_collaborating.xml" value="0.3769230769230769" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/undraw_social_interaction.xml" value="0.3769230769230769" />
         <entry key="..\:/iTutoApp/app/src/main/res/font/roboto.xml" value="0.39076923076923076" />
@@ -36,6 +45,7 @@
         <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_on_board.xml" value="0.36666666666666664" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_tutor_sign_up.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_user_infor.xml" value="0.23958333333333334" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_account.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_contacts.xml" value="0.24895833333333334" />

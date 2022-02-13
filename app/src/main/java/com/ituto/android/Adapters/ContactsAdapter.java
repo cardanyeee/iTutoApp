@@ -91,7 +91,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             onItemListener.onItemClick((getBindingAdapterPosition()));
             message = messageArrayList.get(getBindingAdapterPosition());
             user = message.getUser();
-            Log.d("TAGTAGTAGTAGTAGTAGTAGTAGTAGTAGTAG", message.getConversationID());
             Intent i = new Intent(((HomeActivity)context), ConversationActivity.class);
             i.putExtra("conversationID", message.getConversationID());
             i.putExtra("name", message.getUser().getFirstname() + " " + message.getUser().getLastname());

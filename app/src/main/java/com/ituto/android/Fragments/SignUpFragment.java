@@ -29,10 +29,12 @@ import com.android.volley.toolbox.Volley;
 //import com.example.movieapp.HomeActivity;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
+import com.ituto.android.HomeActivity;
 import com.ituto.android.R;
 //import com.example.movieapp.UserInfoActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.ituto.android.TutorSignUpActivity;
 import com.ituto.android.UserInfoActivity;
 import com.muddzdev.styleabletoast.StyleableToast;
 //import com.muddzdev.styleabletoast.StyleableToast;
@@ -56,7 +58,7 @@ public class SignUpFragment extends Fragment {
     private static final String[] GENDERS = new String[] {
             "Male", "Female", "Prefer not to say"
     };
-    private int isTutor;
+    private Boolean isTutor;
 
     @Nullable
     @Override
@@ -67,7 +69,7 @@ public class SignUpFragment extends Fragment {
     }
 
     private void init() {
-        isTutor = getArguments().getInt("isTutor");
+        isTutor = getArguments().getBoolean("isTutor");
         StyleableToast.makeText(getContext(), String.valueOf(isTutor), R.style.CustomToast).show();
 
         layoutFirstName = view.findViewById(R.id.txtLayoutFirstNameSignUp);
@@ -89,6 +91,12 @@ public class SignUpFragment extends Fragment {
         btnSignUp = view.findViewById(R.id.btnSignUp);
         dialog = new ProgressDialog(getContext());
         dialog.setCancelable(false);
+
+        if (isTutor) {
+            btnSignUp.setText("Continue");
+        } else {
+            btnSignUp.setText("Register");
+        }
 
         txtBirthdate.setOnClickListener(v -> {
             Calendar cal = Calendar.getInstance();
@@ -230,8 +238,7 @@ public class SignUpFragment extends Fragment {
                     editor.putString("lastname", user.getString("lastname"));
                     editor.putBoolean("isLoggedIn", true);
                     editor.apply();
-                    startActivity(new Intent(((AuthActivity) getContext()), UserInfoActivity.class));
-                    ((AuthActivity) getContext()).finish();
+                    redirectAuthentication();
                     StyleableToast.makeText(getContext(), "Register Successful", R.style.CustomToast).show();
                 }
             } catch (JSONException e) {
@@ -263,4 +270,14 @@ public class SignUpFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
     }
+
+    private void redirectAuthentication() {
+        if (isTutor) {
+            startActivity(new Intent(((AuthActivity) getContext()), TutorSignUpActivity.class));
+        } else {
+            startActivity(new Intent(((AuthActivity) getContext()), HomeActivity.class));
+        }
+        ((AuthActivity) getContext()).finish();
+    }
+
 }

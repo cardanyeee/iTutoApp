@@ -12,8 +12,9 @@ public class Constant {
 
     public static final String COURSES = HOME + "/course";
 
-    public static final String CONVERSATIONS = HOME + "/conversations";
+    public static final String CREATE_TUTOR_ACCOUNT = HOME + "/tutor/signup";
 
+    public static final String CONVERSATIONS = HOME + "/conversations";
     public static final String MESSAGES = HOME + "/messages";
     public static final String SEND_MESSAGE = HOME + "/message/send";
 

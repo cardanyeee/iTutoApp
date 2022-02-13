@@ -19,6 +19,9 @@
             android:name=".UserInfoActivity"
             android:exported="false" />
         <activity
+            android:name=".TutorSignUpActivity"
+            android:exported="false" />
+        <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity

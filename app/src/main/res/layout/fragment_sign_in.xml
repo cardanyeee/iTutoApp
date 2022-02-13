@@ -23,12 +23,42 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/roboto_regular"
         android:text="@string/app_description"
         android:textColor="@color/colorHint"
         android:textFontWeight="700"
         android:textSize="12sp" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/radiobutton_custom"
+            android:button="@color/colorTransparent"
+            android:gravity="center"
+            android:text="Tutor"
+            android:textColor="@drawable/checkbox_text"
+            android:layout_marginRight="10dp"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/radiobutton_custom"
+            android:button="@color/colorTransparent"
+            android:gravity="center"
+            android:text="Tutee"
+            android:textColor="@drawable/checkbox_text" />
+
+    </RadioGroup>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtLayoutEmailSignIn"
@@ -78,8 +108,8 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/btn_solid"
         android:elevation="4dp"
+        android:fontFamily="@font/roboto"
         android:text="@string/btnTextSignIn"
-        android:textAllCaps="false"
         android:theme="@style/Button.Primary" />
 
     <RelativeLayout

@@ -28,7 +28,6 @@ public class MainAuthFragment extends Fragment {
     private TextView txtSignIn;
     private Button btnFindTutor, btnBecomeTutor;
     private ProgressDialog dialog;
-    private int isTutor = 0;
 
     public MainAuthFragment() {}
 
@@ -57,7 +56,7 @@ public class MainAuthFragment extends Fragment {
         btnFindTutor.setOnClickListener(v -> {
             Bundle args = new Bundle();
             SignUpFragment signUpFragment = new SignUpFragment();
-            args.putInt("isTutor", isTutor);
+            args.putBoolean("isTutor", false);
             signUpFragment.setArguments(args);
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                     R.anim.slide_in,  // enter
@@ -68,10 +67,9 @@ public class MainAuthFragment extends Fragment {
         });
 
         btnBecomeTutor.setOnClickListener(v -> {
-            isTutor = 1;
             Bundle args = new Bundle();
             SignUpFragment signUpFragment = new SignUpFragment();
-            args.putInt("isTutor", isTutor);
+            args.putBoolean("isTutor", true);
             signUpFragment.setArguments(args);
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                     R.anim.slide_in,  // enter

@@ -9,6 +9,7 @@
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/bg_item_list.xml" value="0.3072916666666667" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/bg_online.xml" value="0.32135416666666666" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/bg_round.xml" value="0.3828125" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable/bg_tutor.xml" value="0.3177083333333333" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/bg_unread.xml" value="0.32135416666666666" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/bg_white_rounded.xml" value="0.32135416666666666" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/btn_left.xml" value="0.3828125" />
@@ -42,6 +43,7 @@
         <entry key="..\:/iTutoApp/app/src/main/res/layout-v28/layout_sign_in.xml" value="0.2421875" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_auth.xml" value="0.36666666666666664" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_conversation.xml" value="0.312987012987013" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_filter.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_on_board.xml" value="0.36666666666666664" />
@@ -76,7 +78,7 @@
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_sign_in.xml" value="0.36666666666666664" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_sign_up.xml" value="0.36666666666666664" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_tasks.xml" value="0.2421875" />
-        <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_tutor.xml" value="0.271875" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_tutor.xml" value="0.5074037512339585" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_tutors.xml" value="0.2421875" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/view_pager.xml" value="0.36666666666666664" />
         <entry key="..\:/iTutoApp/app/src/main/res/menu/menu_main.xml" value="0.2421875" />

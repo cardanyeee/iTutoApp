@@ -5,21 +5,38 @@
     android:background="@color/colorBackground"
     android:fitsSystemWindows="true">
 
-    <EditText
-        android:id="@+id/searchTutor"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/input_background"
-        android:drawableStart="@drawable/ic_baseline_search_24"
-        android:drawablePadding="5dp"
-        android:elevation="5dp"
-        android:fontFamily="@font/roboto_regular"
-        android:hint="@string/search"
-        android:inputType="text"
-        android:padding="10dp"
-        android:layout_marginHorizontal="20dp" />
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/searchTutor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_background"
+            android:drawableStart="@drawable/ic_baseline_search_24"
+            android:drawablePadding="5dp"
+            android:elevation="5dp"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="@string/search"
+            android:inputType="text"
+            android:paddingHorizontal="10dp"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
+            android:src="@drawable/ic_baseline_tune_24" />
+
+    </LinearLayout>
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeTutor"

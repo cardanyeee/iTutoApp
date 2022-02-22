@@ -59,16 +59,6 @@ public class ConversationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
 
-        try {
-            socket = IO.socket("http://192.168.1.2:8080");
-
-            socket.connect();
-
-            socket.emit("connection", conversationID);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
         init();
     }
 
@@ -84,6 +74,18 @@ public class ConversationActivity extends AppCompatActivity {
         conversationID = getIntent().getStringExtra("conversationID");
         Picasso.get().load(getIntent().getStringExtra("avatar")).fit().centerCrop().into(imgYouHeader);
         txtConversationName.setText(getIntent().getStringExtra("name"));
+
+        try {
+            socket = IO.socket("http://192.168.1.2:8080");
+
+            socket.connect();
+
+            socket.emit("connection", conversationID);
+            socket.emit("join", conversationID);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
 
         btnSend.setOnClickListener(v -> {
             sendMessage();

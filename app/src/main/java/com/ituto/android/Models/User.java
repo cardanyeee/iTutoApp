@@ -3,6 +3,7 @@ package com.ituto.android.Models;
 public class User {
 
     private String userID, firstname, lastname, birthdate, gender, course, email, avatar;
+    private boolean isTutor;
 
     public String getUserID() {
         return userID;

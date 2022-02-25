@@ -29,6 +29,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.timepicker.MaterialTimePicker;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -92,7 +93,6 @@ public class TutorSignUpActivity extends AppCompatActivity {
         convertArrayToString();
 
         StringRequest request = new StringRequest(Request.Method.POST, Constant.CREATE_TUTOR_ACCOUNT, response -> {
-
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
@@ -123,7 +123,19 @@ public class TutorSignUpActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> map = new HashMap<>();
-                map.put("availability", availability + txtMinTime.getText() + txtMinTime2.getText() + " " + txtMaxTime.getText() + txtMaxTime2.getText());
+                JSONArray availabilityArray = new JSONArray();
+                for ( int a = 0; a < days.size(); a++) {
+                    JSONObject availabilityObject = new JSONObject();
+                    try {
+                        availabilityObject.put("day", days.get(a));
+                        availabilityObject.put("startTime", txtMinTime.getText().toString() + txtMinTime2.getText().toString());
+                        availabilityObject.put("endTime", txtMaxTime.getText().toString() + txtMaxTime2.getText().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    availabilityArray.put(availabilityObject);
+                }
+                map.put("availability", availabilityArray.toString());
                 return map;
             }
 
@@ -150,14 +162,12 @@ public class TutorSignUpActivity extends AppCompatActivity {
             case R.id.txtMinTime2:
                 time = (TextView) findViewById(R.id.txtMinTime);
                 period = (TextView) findViewById(R.id.txtMinTime2);
-                Log.d("MINMINMINMINMIN", "MIN");
                 break;
 
             case R.id.txtMaxTime:
             case R.id.txtMaxTime2:
                 time = (TextView) findViewById(R.id.txtMaxTime);
                 period = (TextView) findViewById(R.id.txtMaxTime2);
-                Log.d("MAXMAXMAXMAXMAX", "MAX");
                 break;
         }
     }

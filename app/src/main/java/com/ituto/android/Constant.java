@@ -7,15 +7,19 @@ public class Constant {
     public static final String LOGIN = HOME + "/auth/login";
     public static final String LOGOUT = HOME + "/auth/logout";
     public static final String REGISTER = HOME + "/auth/register";
-    public static final String USER_PROFILE = HOME + "/android/profile/me";
+    public static final String USER_PROFILE = HOME + "/profile/me";
     public static final String SAVE_USER_INFO = HOME + "/save_user_info ";
 
-    public static final String COURSES = HOME + "/course";
+    public static final String COURSES = HOME + "/courses";
+
+    public static final String SUBJECT_COURSES = HOME + "/course-subjects";
 
     public static final String CREATE_TUTOR_ACCOUNT = HOME + "/tutor/signup";
 
-    public static final String CONVERSATIONS = HOME + "/conversations";
     public static final String MESSAGES = HOME + "/messages";
     public static final String SEND_MESSAGE = HOME + "/message/send";
+    public static final String CONVERSATIONS = HOME + "/conversations";
+
+    public static final String TUTORS = HOME + "/tutors";
 
 }

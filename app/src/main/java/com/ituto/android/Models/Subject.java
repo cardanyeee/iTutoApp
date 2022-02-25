@@ -4,9 +4,17 @@ import java.util.ArrayList;
 
 public class Subject {
 
-    private String code, name, semester;
+    private String id, code, name, semester;
     private boolean active;
     private ArrayList<Course> courseArrayList;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getCode() {
         return code;

@@ -2,17 +2,20 @@ package com.ituto.android.Fragments;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +33,7 @@ import com.android.volley.toolbox.Volley;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
 import com.ituto.android.HomeActivity;
+import com.ituto.android.Models.Course;
 import com.ituto.android.R;
 //import com.example.movieapp.UserInfoActivity;
 import com.google.android.material.textfield.TextInputEditText;
@@ -39,23 +43,28 @@ import com.ituto.android.UserInfoActivity;
 import com.muddzdev.styleabletoast.StyleableToast;
 //import com.muddzdev.styleabletoast.StyleableToast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SignUpFragment extends Fragment {
     private View view;
-    private TextInputLayout layoutFirstName, layoutLastName, layoutEmail, layoutPassword, layoutConfirm, layoutBirthdate;
+    private SharedPreferences sharedPreferences;
+    private TextInputLayout layoutFirstName, layoutLastName, layoutEmail, layoutPassword, layoutConfirm, layoutBirthdate, layoutGender, layoutCourse;
     private TextInputEditText txtFirstName, txtLastName, txtEmail, txtPassword, txtConfirm, txtBirthdate;
     private AutoCompleteTextView txtGender;
+    private AutoCompleteTextView txtCourse;
     private TextView txtSignIn;
     private Button btnSignUp;
     private ProgressDialog dialog;
     private DatePickerDialog.OnDateSetListener dateSetListener;
-    private static final String[] GENDERS = new String[] {
+    private ArrayList<Course> courseArrayList;
+    private static final String[] GENDERS = new String[]{
             "Male", "Female", "Prefer not to say"
     };
     private Boolean isTutor;
@@ -69,6 +78,7 @@ public class SignUpFragment extends Fragment {
     }
 
     private void init() {
+        sharedPreferences = getContext().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         isTutor = getArguments().getBoolean("isTutor");
         StyleableToast.makeText(getContext(), String.valueOf(isTutor), R.style.CustomToast).show();
 
@@ -78,6 +88,8 @@ public class SignUpFragment extends Fragment {
         layoutEmail = view.findViewById(R.id.txtLayoutEmailSignUp);
         layoutConfirm = view.findViewById(R.id.txtLayoutConfirmSignUp);
         layoutBirthdate = view.findViewById(R.id.txtLayoutBirthdateSignUp);
+        layoutGender = view.findViewById(R.id.txtLayoutGenderSignUp);
+        layoutCourse = view.findViewById(R.id.txtLayoutCourseSignUp);
 
         txtFirstName = view.findViewById(R.id.txtFirstNameSignUp);
         txtLastName = view.findViewById(R.id.txtLastNameSignUp);
@@ -85,12 +97,15 @@ public class SignUpFragment extends Fragment {
         txtConfirm = view.findViewById(R.id.txtConfirmSignUp);
         txtEmail = view.findViewById(R.id.txtEmailSignUp);
         txtBirthdate = view.findViewById(R.id.txtBirthdateSignUp);
-        txtGender = view.findViewById(R.id.txtGenreSignUp);
+        txtGender = view.findViewById(R.id.txtGenderSignUp);
+        txtCourse = view.findViewById(R.id.txtCourseSignUp);
 
         txtSignIn = view.findViewById(R.id.txtSignIn);
         btnSignUp = view.findViewById(R.id.btnSignUp);
         dialog = new ProgressDialog(getContext());
         dialog.setCancelable(false);
+
+        getCourses();
 
         if (isTutor) {
             btnSignUp.setText("Continue");
@@ -120,7 +135,8 @@ public class SignUpFragment extends Fragment {
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 getContext(),
-                android.R.layout.simple_dropdown_item_1line,
+                R.layout.item_dropdown,
+                R.id.txtDropdownItem,
                 GENDERS
         );
 
@@ -138,6 +154,68 @@ public class SignUpFragment extends Fragment {
         btnSignUp.setOnClickListener(v -> {
             if (validate()) {
                 register();
+            }
+        });
+
+//        txtCourse.addTextChangedListener(new TextWatcher() {
+//            boolean shouldAddSpace = false;
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (count - before > 1) {
+//                    shouldAddSpace = true;
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                String text = s.toString();
+//                if (shouldAddSpace && text.length() > 0 && !text.endsWith(" ")) {
+//                    s.append(' ');
+//                    txtCourse.showDropDown();
+//                }
+//            }
+//        });
+
+        txtFirstName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (txtFirstName.getText().toString().isEmpty()) {
+                    layoutFirstName.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        txtLastName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (txtLastName.getText().toString().isEmpty()) {
+                    layoutLastName.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -200,6 +278,18 @@ public class SignUpFragment extends Fragment {
     }
 
     private boolean validate() {
+
+        if (txtFirstName.getText().toString().isEmpty()) {
+            layoutFirstName.setErrorEnabled(true);
+            layoutFirstName.setError("Enter a valid firstname");
+            return false;
+        }
+
+        if (txtLastName.getText().toString().isEmpty()) {
+            layoutLastName.setErrorEnabled(true);
+            layoutLastName.setError("Enter a valid lastname");
+            return false;
+        }
 
         if (txtEmail.getText().toString().isEmpty()) {
             layoutEmail.setErrorEnabled(true);
@@ -267,6 +357,67 @@ public class SignUpFragment extends Fragment {
             }
         };
 
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
+    private void getCourses() {
+        ArrayList<String> arrayList = new ArrayList<>();
+        courseArrayList = new ArrayList<>();
+
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.COURSES, response -> {
+
+            try {
+                JSONObject object = new JSONObject(response);
+
+                if (object.getBoolean("success")) {
+
+                    JSONArray coursesArray = new JSONArray(object.getString("courses"));
+//
+//                    if (coursesArray.length() < 4) {
+//                        txtCourse.setDropDownHeight(android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+//                    }
+
+                    for (int i = 0; i < coursesArray.length(); i++) {
+                        JSONObject courseObject = coursesArray.getJSONObject(i);
+
+                        if (courseObject.getBoolean("active")) {
+                            Course course = new Course();
+
+                            course.setId(courseObject.getString("_id"));
+                            course.setCode(courseObject.getString("code"));
+                            course.setName(courseObject.getString("name"));
+
+                            arrayList.add(courseObject.getString("name"));
+                            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                                    getContext(),
+                                    R.layout.item_dropdown,
+                                    R.id.txtDropdownItem,
+                                    arrayList
+                            );
+
+                            courseArrayList.add(course);
+                            txtCourse.setAdapter(arrayAdapter);
+                        }
+
+                    }
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }, error -> {
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+        };
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
     }

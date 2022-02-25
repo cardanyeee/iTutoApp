@@ -48,5 +48,8 @@
     <string name="no">No</string>
     <string name="are_you_sure_you_want_leave">Are you sure you want leave?</string>
     <string name="search">Search</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="course">Course</string>
+    <string name="subject">Subject</string>
 
 </resources>

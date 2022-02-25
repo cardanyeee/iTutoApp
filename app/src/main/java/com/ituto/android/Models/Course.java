@@ -2,8 +2,16 @@ package com.ituto.android.Models;
 
 public class Course {
 
-    private String code, name, degree;
+    private String code, name, degree, id;
     private boolean active;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getCode() {
         return code;

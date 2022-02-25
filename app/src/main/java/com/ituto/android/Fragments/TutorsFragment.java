@@ -1,49 +1,130 @@
 package com.ituto.android.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.ituto.android.Adapters.ContactsAdapter;
+import com.ituto.android.Adapters.TutorsAdapter;
+import com.ituto.android.Constant;
+import com.ituto.android.Models.Conversation;
+import com.ituto.android.Models.Message;
+import com.ituto.android.Models.Tutor;
+import com.ituto.android.Models.User;
 import com.ituto.android.R;
+import com.muddzdev.styleabletoast.StyleableToast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TutorsFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private View view;
+    private EditText searchTutor;
+    private String TUTORS = Constant.TUTORS;
 
-    private String mParam1;
-    private String mParam2;
+    public static SwipeRefreshLayout swipeTutor;
+    public static RecyclerView recyclerTutor;
+    private ArrayList<Tutor> tutorArrayList;
 
-    public TutorsFragment() {
-
-    }
-
-    public static TutorsFragment newInstance(String param1, String param2) {
-        TutorsFragment fragment = new TutorsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private SharedPreferences sharedPreferences;
+    private TutorsAdapter tutorsAdapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_tutors, container, false);
+        init();
+        return view;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    private void init() {
+        sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        searchTutor = view.findViewById(R.id.searchTutor);
+        recyclerTutor = view.findViewById(R.id.recyclerTutor);
+        recyclerTutor.setLayoutManager(new LinearLayoutManager(getContext()));
+        swipeTutor = view.findViewById(R.id.swipeTutor);
 
-        return inflater.inflate(R.layout.fragment_tutors, container, false);
+        getTutors();
+
+        swipeTutor.setOnRefreshListener(() -> getTutors());
+
+        searchTutor.setOnEditorActionListener((v, actionId, event) -> {
+            TUTORS = "";
+            TUTORS = Constant.TUTORS + "?keyword=" + searchTutor.getText().toString();
+            StyleableToast.makeText(getContext(), TUTORS, R.style.CustomToast).show();
+            getTutors();
+            return true;
+        });
+    }
+
+    private void getTutors() {
+        tutorArrayList = new ArrayList<>();
+        swipeTutor.setRefreshing(true);
+        StringRequest request = new StringRequest(Request.Method.GET, TUTORS, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+
+                    JSONArray resultArray = new JSONArray(object.getString("tutors"));
+
+                    for (int i = 0; i < resultArray.length(); i++) {
+                        JSONObject tutorObject = resultArray.getJSONObject(i);
+                        JSONObject avatar = tutorObject.getJSONObject("avatar");
+
+                        Tutor tutor = new Tutor();
+                        tutor.setFirstname(tutorObject.getString("firstname"));
+                        tutor.setLastname(tutorObject.getString("lastname"));
+                        tutor.setAvatar(avatar.getString("url"));
+
+                        tutorArrayList.add(tutor);
+                    }
+
+                    tutorsAdapter = new TutorsAdapter(getContext(), tutorArrayList);
+                    recyclerTutor.setAdapter(tutorsAdapter);
+                }
+
+                swipeTutor.setRefreshing(false);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                swipeTutor.setRefreshing(false);
+            }
+            swipeTutor.setRefreshing(false);
+        }, error -> {
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
     }
 }

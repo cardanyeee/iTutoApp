@@ -2,7 +2,7 @@ package com.ituto.android.Models;
 
 import java.util.ArrayList;
 
-public class Tutor {
+public class Tutor extends User {
 
     private String userID, availability;
     private ArrayList<String> subjects;

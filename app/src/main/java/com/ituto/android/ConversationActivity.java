@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +83,7 @@ public class ConversationActivity extends AppCompatActivity {
     private CircleImageView imgYouHeader;
     private TextView txtConversationName;
     private ImageButton btnCamera, btnImage, btnAttachment;
+    private ProgressBar progressBar;
 
     private ArrayList<Message> messageArrayList;
     private MessagesAdapter messagesAdapter;
@@ -109,6 +111,7 @@ public class ConversationActivity extends AppCompatActivity {
         btnSend = findViewById(R.id.btnSend);
         recyclerConversation = findViewById(R.id.recyclerConversation);
         recyclerConversation.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        progressBar = findViewById(R.id.progressbar);
 
         conversationID = getIntent().getStringExtra("conversationID");
         Picasso.get().load(getIntent().getStringExtra("avatar")).fit().centerCrop().into(imgYouHeader);
@@ -126,25 +129,34 @@ public class ConversationActivity extends AppCompatActivity {
         }
 
         btnAttachment.setOnClickListener(v -> {
-
+            method = 0;
+            if (Build.VERSION.SDK_INT >= 23) {
+                if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    filePicker(0);
+                } else {
+                    requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+                }
+            } else {
+                filePicker(0);
+            }
         });
 
         btnSend.setOnClickListener(v -> {
             sendMessage();
-            if (gallery_file_path == null) {
-                Toast.makeText(ConversationActivity.this, "Gallery File Empty", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (gallery_file_path == null) {
+//                Toast.makeText(ConversationActivity.this, "Gallery File Empty", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
             if (all_file_path == null) {
                 Toast.makeText(ConversationActivity.this, "ALl File File Empty", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (camera_file_path == null) {
-                Toast.makeText(ConversationActivity.this, "CAmera File Empty", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (camera_file_path == null) {
+//                Toast.makeText(ConversationActivity.this, "CAmera File Empty", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
             UploadTask uploadTask = new UploadTask();
-            uploadTask.execute(new String[]{gallery_file_path, camera_file_path, all_file_path});
+            uploadTask.execute(all_file_path, all_file_path, all_file_path);
         });
 
         socket.on("received", args -> {
@@ -382,10 +394,10 @@ public class ConversationActivity extends AppCompatActivity {
                 String selectedPath = FilePath.getFilePath(ConversationActivity.this, uri);
                 Log.d("File Path ", " " + selectedPath);
                 if (selectedPath != null) {
-                    gallery_file_name.setText("" + new File(selectedPath).getName());
+//                    gallery_file_name.setText("" + new File(selectedPath).getName());
                 }
                 Bitmap bitmap = BitmapFactory.decodeFile(selectedPath);
-                gallery_preview.setImageBitmap(bitmap);
+//                gallery_preview.setImageBitmap(bitmap);
                 gallery_file_path = selectedPath;
             }
             if (requestCode == CAMERA_REQUEST) {
@@ -415,10 +427,10 @@ public class ConversationActivity extends AppCompatActivity {
                 }
                 Log.d("File Path ", " " + destination.getPath());
                 if (destination != null) {
-                    camera_file_name.setText("" + destination.getName());
+//                    camera_file_name.setText("" + destination.getName());
                 }
-                camera_preview.setImageBitmap(thumb);
-                camer_file_path = destination.getPath();
+//                camera_preview.setImageBitmap(thumb);
+//                camer_file_path = destination.getPath();
 
             }
 
@@ -431,9 +443,10 @@ public class ConversationActivity extends AppCompatActivity {
                 String paths = FilePath.getFilePath(ConversationActivity.this, uri);
                 Log.d("File Path : ", "" + paths);
                 if (paths != null) {
-                    all_file_name.setText("" + new File(paths).getName());
+                    txtEnterMessage.setText("" + new File(paths).getName());
                 }
                 all_file_path = paths;
+
             }
         }
     }
@@ -442,6 +455,7 @@ public class ConversationActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
+            Log.d("RESRESRESRESRESRES", "RESRESRESRESRESRES");
             super.onPreExecute();
             progressBar.setVisibility(View.VISIBLE);
         }
@@ -449,10 +463,9 @@ public class ConversationActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(s!=null){
+            if (s != null) {
                 Toast.makeText(ConversationActivity.this, "File Uploaded", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 Toast.makeText(ConversationActivity.this, "File Upload Failed", Toast.LENGTH_SHORT).show();
             }
             progressBar.setVisibility(View.GONE);
@@ -460,12 +473,13 @@ public class ConversationActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-
+            Log.d("RESRESRESRESRESRES", strings.toString());
             File file1 = new File(strings[0]);
             File file2 = new File(strings[1]);
             File file3 = new File(strings[2]);
 
             try {
+
                 RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                         .addFormDataPart("files1", file1.getName(), RequestBody.create(MediaType.parse("*/*"), file1))
                         .addFormDataPart("files2", file2.getName(), RequestBody.create(MediaType.parse("*/*"), file2))
@@ -474,15 +488,15 @@ public class ConversationActivity extends AppCompatActivity {
                         .addFormDataPart("submit", "submit")
                         .build();
                 okhttp3.Request request = new okhttp3.Request.Builder()
-                        .url("http://192.168.0.2/project/upload2.php")
+                        .url(Constant.SEND_FILES)
                         .post(requestBody)
                         .build();
-
 
 
                 OkHttpClient okHttpClient = new OkHttpClient();
                 //now progressbar not showing properly let's fixed it
                 Response response = okHttpClient.newCall(request).execute();
+
                 if (response != null && response.isSuccessful()) {
                     return response.body().string();
                 } else {

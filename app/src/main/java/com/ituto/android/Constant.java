@@ -19,6 +19,7 @@ public class Constant {
     public static final String MESSAGES = HOME + "/messages";
     public static final String SEND_MESSAGE = HOME + "/message/send";
     public static final String CONVERSATIONS = HOME + "/conversations";
+    public static final String SEND_FILES = HOME + "/file/send";
 
     public static final String TUTORS = HOME + "/tutors";
 

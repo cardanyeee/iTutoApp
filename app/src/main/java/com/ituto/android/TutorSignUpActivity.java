@@ -96,9 +96,7 @@ public class TutorSignUpActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.apply();
-                    startActivity(new Intent(TutorSignUpActivity.this, HomeActivity.class));
+                    startActivity(new Intent(TutorSignUpActivity.this, TutorSubjectsActivity.class));
                     finish();
                 }
             } catch (JSONException e) {

@@ -64,10 +64,12 @@ public class SignUpFragment extends Fragment {
     private ProgressDialog dialog;
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private ArrayList<Course> courseArrayList;
+    private ArrayList<String> stringCourseArrayList;
     private static final String[] GENDERS = new String[]{
             "Male", "Female", "Prefer not to say"
     };
     private Boolean isTutor;
+    private String courseID;
 
     @Nullable
     @Override
@@ -157,29 +159,10 @@ public class SignUpFragment extends Fragment {
             }
         });
 
-//        txtCourse.addTextChangedListener(new TextWatcher() {
-//            boolean shouldAddSpace = false;
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (count - before > 1) {
-//                    shouldAddSpace = true;
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                String text = s.toString();
-//                if (shouldAddSpace && text.length() > 0 && !text.endsWith(" ")) {
-//                    s.append(' ');
-//                    txtCourse.showDropDown();
-//                }
-//            }
-//        });
+        txtCourse.setOnItemClickListener((parent, view, position, id) -> {
+            String selected = (String) parent.getItemAtPosition(position);
+            courseID = courseArrayList.get(stringCourseArrayList.indexOf(selected)).getId();
+        });
 
         txtFirstName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -350,6 +333,7 @@ public class SignUpFragment extends Fragment {
                 map.put("lastname", txtLastName.getText().toString().trim());
                 map.put("birthdate", txtBirthdate.getText().toString().trim());
                 map.put("gender", txtGender.getText().toString().trim());
+                map.put("course", courseID);
                 map.put("email", txtEmail.getText().toString().trim());
                 map.put("password", txtPassword.getText().toString());
                 map.put("password_confirmation", txtConfirm.getText().toString());
@@ -362,7 +346,7 @@ public class SignUpFragment extends Fragment {
     }
 
     private void getCourses() {
-        ArrayList<String> arrayList = new ArrayList<>();
+        stringCourseArrayList = new ArrayList<>();
         courseArrayList = new ArrayList<>();
 
         StringRequest request = new StringRequest(Request.Method.GET, Constant.COURSES, response -> {
@@ -388,12 +372,12 @@ public class SignUpFragment extends Fragment {
                             course.setCode(courseObject.getString("code"));
                             course.setName(courseObject.getString("name"));
 
-                            arrayList.add(courseObject.getString("name"));
+                            stringCourseArrayList.add(courseObject.getString("name"));
                             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                                     getContext(),
                                     R.layout.item_dropdown,
                                     R.id.txtDropdownItem,
-                                    arrayList
+                                    stringCourseArrayList
                             );
 
                             courseArrayList.add(course);

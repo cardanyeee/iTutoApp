@@ -23,15 +23,19 @@
 
     <style name="CustomToast">
         <item name="stTextBold">true</item>
-        <item name="stTextColor">@color/colorPrimary</item>
+        <item name="stTextColor">@color/colorBackground</item>
         <item name="stFont">@font/roboto_regular</item>
         <item name="stTextSize">12sp</item>
-        <item name="stColorBackground">@color/colorBackground</item>
+        <item name="stColorBackground">@color/colorPrimary</item>
         <item name="stSolidBackground">true</item>
         <item name="stStrokeWidth">0dp</item>
         <item name="stStrokeColor">#fff</item>
         <item name="stLength">LONG</item>
         <item name="stRadius">40dp</item>
+    </style>
+
+    <style name="SubjectChip" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="closeIconTint">@color/colorError</item>
     </style>
 
     <style name="AppTheme.BottomAppbar" parent="Theme.MaterialComponents.Light.NoActionBar">

@@ -22,5 +22,6 @@ public class Constant {
     public static final String SEND_FILES = HOME + "/file/send";
 
     public static final String TUTORS = HOME + "/tutors";
+    public static final String ADD_TUTOR_SUBJECTS = HOME + "/tutor/subject/add";
 
 }

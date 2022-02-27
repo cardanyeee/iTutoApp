@@ -3,6 +3,8 @@ package com.ituto.android;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -41,7 +44,7 @@ public class TutorSubjectsActivity extends AppCompatActivity {
     private TextInputLayout layoutCourse, layoutSubject;
     private AutoCompleteTextView txtCourse, txtSubject;
     private ImageButton btnAddSubject;
-    private ChipGroup chpGrpSubjects;
+    private LinearLayout chpGrpSubjects;
     private Button btnSignUpTutor;
 
     private ArrayList<Course> courseArrayList;
@@ -65,11 +68,13 @@ public class TutorSubjectsActivity extends AppCompatActivity {
     }
 
     private void init() {
+        sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         txtCourse = findViewById(R.id.txtCourseSignUp);
         txtSubject = findViewById(R.id.txtSubjectSignUp);
         btnAddSubject = findViewById(R.id.btnAddSubject);
         chpGrpSubjects = findViewById(R.id.chpGrpSubjects);
         btnSignUpTutor = findViewById(R.id.btnSignUpTutor);
+        tutorSubjectsArrayList = new ArrayList<>();
 
         getCourses();
 
@@ -78,6 +83,7 @@ public class TutorSubjectsActivity extends AppCompatActivity {
             courseID = courseArrayList.get(stringCourseArrayList.indexOf(selected)).getId();
             SUBJECT_COURSES = Constant.SUBJECT_COURSES + "/" + courseID;
             getSubjects();
+            txtSubject.setEnabled(true);
         });
 
         txtSubject.setOnItemClickListener((parent, view, position, id) -> {
@@ -87,16 +93,41 @@ public class TutorSubjectsActivity extends AppCompatActivity {
         });
 
         btnAddSubject.setOnClickListener(v -> {
-            Chip chip = new Chip(TutorSubjectsActivity.this);
-            ChipDrawable drawable = ChipDrawable.createFromAttributes(TutorSubjectsActivity.this, null, 0, R.style.Widget_MaterialComponents_Chip_Entry);
-            chip.setChipDrawable(drawable);
+            if (courseID == null || txtCourse.getText().toString().trim() == null) {
+                StyleableToast.makeText(getApplicationContext(), "Please select a course first.", R.style.CustomToast).show();
+            } else if (subjectID == null || txtSubject.getText().toString().trim() == null) {
+                StyleableToast.makeText(getApplicationContext(), "Please select a subject first.", R.style.CustomToast).show();
+            } else {
+                if (!tutorSubjectsArrayList.contains(subjectID)) {
+                    Chip chip = new Chip(TutorSubjectsActivity.this);
+                    ChipDrawable drawable = ChipDrawable.createFromAttributes(TutorSubjectsActivity.this, null, 0, R.style.SubjectChip);
+                    chip.setChipDrawable(drawable);
 
-            chip.setCheckable(false);
-            chip.setClickable(false);
-            chip.setText(txtSubject.getText().toString());
-            chip.setOnCloseIconClickListener(chipView -> chpGrpSubjects.removeView(chip));
+                    chip.setCheckable(false);
+                    chip.setClickable(false);
+                    chip.setText(txtSubject.getText().toString());
+                    chip.setOnCloseIconClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            chpGrpSubjects.removeView(chip);
+                            tutorSubjectsArrayList.remove(subjectID);
+                        }
+                    });
+//            chip.setChipCornerRadius(3);
 
-            chpGrpSubjects.addView(chip);
+                    tutorSubjectsArrayList.add(subjectID);
+
+                    chpGrpSubjects.addView(chip);
+                } else {
+                    StyleableToast.makeText(getApplicationContext(), "Please select another subject.", R.style.CustomToast).show();
+                }
+
+            }
+
+        });
+
+        btnSignUpTutor.setOnClickListener(v -> {
+            addTutorSubjects();
         });
 
     }
@@ -198,6 +229,47 @@ public class TutorSubjectsActivity extends AppCompatActivity {
         }) {
 
         };
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
+    }
+
+    private void addTutorSubjects() {
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.ADD_TUTOR_SUBJECTS, response -> {
+
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    startActivity(new Intent(TutorSubjectsActivity.this, HomeActivity.class));
+                    finish();
+                    StyleableToast.makeText(getApplicationContext(), "Successful", R.style.CustomToast).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                StyleableToast.makeText(getApplicationContext(), "Unsuccessful", R.style.CustomToast).show();
+            }
+
+        }, error -> {
+            StyleableToast.makeText(getApplicationContext(), "Unsuccessful", R.style.CustomToast).show();
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                JSONArray jsArray = new JSONArray(tutorSubjectsArrayList);
+                map.put("subjectID", jsArray.toString());
+                return map;
+            }
+        };
+
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
     }

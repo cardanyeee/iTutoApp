@@ -14,6 +14,7 @@
     <color name="colorPrimary2">#84D19F</color>
     <color name="colorPrimaryDark">#2D6974</color>
     <color name="colorBackground">#F6F7FC</color>
+    <color name="colorError">#d46c4f</color>
 
     <color name="colorPrimary">#477B72</color>
     <color name="colorSecondary">#F7BA34</color>

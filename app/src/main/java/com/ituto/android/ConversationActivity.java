@@ -42,6 +42,7 @@ import com.ituto.android.Models.Conversation;
 import com.ituto.android.Models.Message;
 import com.ituto.android.Models.User;
 import com.ituto.android.Utils.FilePath;
+import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -49,9 +50,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,6 +63,8 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -156,7 +161,29 @@ public class ConversationActivity extends AppCompatActivity {
 //                return;
 //            }
             UploadTask uploadTask = new UploadTask();
-            uploadTask.execute(all_file_path, all_file_path, all_file_path);
+            uploadTask.execute(new String[]{all_file_path, all_file_path, all_file_path});
+//            Ion.with(this)
+//                    .load(Constant.SEND_FILES)
+//                    .setMultipartFile("file", "application/pdf", new File(all_file_path))
+//                    .asJsonObject()
+//                    .withResponse()
+//                    .setCallback((e, result) -> {
+//
+//                        if(e != null) {
+//                            Toast.makeText(this, "Error is: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                        }else {
+//                            switch (result.getHeaders().code()) {
+//                                case 500:
+//                                    Toast.makeText(this, "Image Uploading Failed. Unknown Server Error!", Toast.LENGTH_SHORT).show();
+//                                    break;
+//                                case 200:
+//                                    Toast.makeText(this, "Image Successfully Uploaded!", Toast.LENGTH_SHORT).show();
+//                                    all_file_path = null;
+//                                    break;
+//                            }
+//                        }
+//
+//                    });
         });
 
         socket.on("received", args -> {
@@ -455,7 +482,6 @@ public class ConversationActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            Log.d("RESRESRESRESRESRES", "RESRESRESRESRESRES");
             super.onPreExecute();
             progressBar.setVisibility(View.VISIBLE);
         }
@@ -473,30 +499,26 @@ public class ConversationActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            Log.d("RESRESRESRESRESRES", strings.toString());
+
             File file1 = new File(strings[0]);
             File file2 = new File(strings[1]);
             File file3 = new File(strings[2]);
 
             try {
-
                 RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                         .addFormDataPart("files1", file1.getName(), RequestBody.create(MediaType.parse("*/*"), file1))
                         .addFormDataPart("files2", file2.getName(), RequestBody.create(MediaType.parse("*/*"), file2))
                         .addFormDataPart("files3", file3.getName(), RequestBody.create(MediaType.parse("*/*"), file3))
-                        .addFormDataPart("some_key", "some_value")
-                        .addFormDataPart("submit", "submit")
                         .build();
+
                 okhttp3.Request request = new okhttp3.Request.Builder()
                         .url(Constant.SEND_FILES)
                         .post(requestBody)
                         .build();
 
-
                 OkHttpClient okHttpClient = new OkHttpClient();
-                //now progressbar not showing properly let's fixed it
-                Response response = okHttpClient.newCall(request).execute();
 
+                Response response = okHttpClient.newCall(request).execute();
                 if (response != null && response.isSuccessful()) {
                     return response.body().string();
                 } else {
@@ -508,6 +530,42 @@ public class ConversationActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    public static Boolean uploadFile(String serverURL, File file) {
+        try {
+            RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                    .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("*/*"), file))
+                    .addFormDataPart("some-field", "some-value")
+                    .build();
+
+            okhttp3.Request request = new okhttp3.Request.Builder()
+                    .url(serverURL)
+                    .post(requestBody)
+                    .build();
+
+            OkHttpClient okHttpClient = new OkHttpClient();
+            okHttpClient.newCall(request).enqueue(new Callback() {
+
+                @Override
+                public void onFailure(final Call call, final IOException e) {
+                    // Handle the error
+                }
+
+                @Override
+                public void onResponse(final Call call, final Response response) throws IOException {
+                    if (!response.isSuccessful()) {
+                        // Handle the error
+                    }
+                    // Upload successful
+                }
+            });
+
+            return true;
+        } catch (Exception ex) {
+            // Handle the error
+        }
+        return false;
     }
 
 }

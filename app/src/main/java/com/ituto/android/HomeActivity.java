@@ -14,7 +14,7 @@ import com.ituto.android.Fragments.HomeFragment;
 import com.ituto.android.Fragments.TasksFragment;
 import com.ituto.android.Fragments.TutorsFragment;
 
-public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private FragmentManager fragmentManager;
     private BottomNavigationView bottomNavigation;
@@ -31,11 +31,14 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        } else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TutorsFragment()).commit();
         }
         init();
     }
 
     private void init() {
+
         bottomNavigation = findViewById(R.id.bottomNavigationView);
         bottomNavigation.setOnNavigationItemSelectedListener(this);
 //        getUser();
@@ -76,11 +79,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onBackPressed() {
-//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//            drawerLayout.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -88,19 +92,44 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         switch (item.getItemId()) {
             case R.id.item_home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.fade_in,   // popEnter
+                        R.anim.slide_out  // popExit
+                ).replace(R.id.fragment_container, new HomeFragment()).addToBackStack(null).commit();
                 break;
             case R.id.item_tutors:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TutorsFragment()).commit();
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.fade_in,   // popEnter
+                        R.anim.slide_out  // popExit
+                ).replace(R.id.fragment_container, new TutorsFragment()).addToBackStack(null).commit();
                 break;
             case R.id.item_tasks:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TasksFragment()).commit();
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.fade_in,   // popEnter
+                        R.anim.slide_out  // popExit
+                ).replace(R.id.fragment_container, new TasksFragment()).addToBackStack(null).commit();
                 break;
             case R.id.item_messages:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ContactsFragment()).commit();
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.fade_in,   // popEnter
+                        R.anim.slide_out  // popExit
+                ).replace(R.id.fragment_container, new ContactsFragment()).addToBackStack(null).commit();
                 break;
             case R.id.item_account:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AccountFragment()).commit();
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.fade_in,   // popEnter
+                        R.anim.slide_out  // popExit
+                ).replace(R.id.fragment_container, new AccountFragment()).addToBackStack(null).commit();
                 break;
 //                dialog = new Dialog(HomeActivity.this);
 //                dialog.setContentView(R.layout.custom_alert_dialog);

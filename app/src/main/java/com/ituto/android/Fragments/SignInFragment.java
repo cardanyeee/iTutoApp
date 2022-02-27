@@ -50,7 +50,7 @@ public class SignInFragment extends Fragment {
     private TextInputLayout layoutEmail, layoutPassword;
     private TextInputEditText txtEmail, txtPassword;
     private TextView txtSignUp;
-    private Button btnSignIn, signInButton;
+    private Button btnSignIn, btnSignInWithGoogle;
     private ProgressDialog dialog;
     private GoogleSignInClient googleSignInClient;
 
@@ -74,11 +74,9 @@ public class SignInFragment extends Fragment {
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity().getApplicationContext());
 
-        signInButton = view.findViewById(R.id.btnSignInWithGoogle);
-//        SignInButton signInButton = view.findViewById(R.id.btnSignInWithGoogle);
-//        signInButton.setSize(SignInButton.SIZE_STANDARD);
+        btnSignInWithGoogle = view.findViewById(R.id.btnSignInWithGoogle);
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
+        btnSignInWithGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signInWithGoogle();

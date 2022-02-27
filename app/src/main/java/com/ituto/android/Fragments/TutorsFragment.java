@@ -10,25 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.ituto.android.Adapters.ContactsAdapter;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.ituto.android.Adapters.TutorsAdapter;
 import com.ituto.android.Constant;
-import com.ituto.android.Models.Conversation;
-import com.ituto.android.Models.Message;
 import com.ituto.android.Models.Tutor;
-import com.ituto.android.Models.User;
 import com.ituto.android.R;
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -43,9 +39,10 @@ import java.util.Map;
 public class TutorsFragment extends Fragment {
 
     private View view;
-    private EditText searchTutor;
     private String TUTORS = Constant.TUTORS;
 
+    private EditText searchTutor;
+    private ImageView btnFilters;
     public static SwipeRefreshLayout swipeTutor;
     public static RecyclerView recyclerTutor;
     private ArrayList<Tutor> tutorArrayList;
@@ -61,11 +58,18 @@ public class TutorsFragment extends Fragment {
     }
 
     private void init() {
+        BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
+        bottomAppBar.setVisibility(View.VISIBLE);
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         searchTutor = view.findViewById(R.id.searchTutor);
+        btnFilters = view.findViewById(R.id.btnFilters);
         recyclerTutor = view.findViewById(R.id.recyclerTutor);
         recyclerTutor.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeTutor = view.findViewById(R.id.swipeTutor);
+
+        if (!(getArguments() == null)) {
+            Log.d("DSADSADSADS", String.valueOf(getArguments().getBoolean("filter")));
+        }
 
         getTutors();
 
@@ -77,6 +81,20 @@ public class TutorsFragment extends Fragment {
             StyleableToast.makeText(getContext(), TUTORS, R.style.CustomToast).show();
             getTutors();
             return true;
+        });
+
+        btnFilters.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            FilterFragment filterFragment = new FilterFragment();
+            bundle.putBoolean("filter", true);
+            // R.id.container - the id of a view that will hold your fragment; usually a FrameLayout
+            filterFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            ).replace(R.id.fragment_container, filterFragment).addToBackStack(null).commit();
         });
     }
 

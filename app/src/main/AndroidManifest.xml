@@ -20,6 +20,9 @@
         android:theme="@style/Theme.ITutoApp.Light"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AssessmentActivity"
+            android:exported="false" />
+        <activity
             android:name=".TutorSubjectsActivity"
             android:exported="false" />
         <activity

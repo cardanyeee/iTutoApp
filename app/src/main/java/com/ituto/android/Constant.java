@@ -11,17 +11,20 @@ public class Constant {
     public static final String SAVE_USER_INFO = HOME + "/save_user_info ";
 
     public static final String COURSES = HOME + "/courses";
-
     public static final String SUBJECT_COURSES = HOME + "/course-subjects";
-
-    public static final String CREATE_TUTOR_ACCOUNT = HOME + "/tutor/signup";
 
     public static final String MESSAGES = HOME + "/messages";
     public static final String SEND_MESSAGE = HOME + "/message/send";
     public static final String CONVERSATIONS = HOME + "/conversations";
     public static final String SEND_FILES = HOME + "/file/send";
 
+    public static final String CREATE_ASSESSMENT  = HOME + "/assessment/create";
+    public static final String TUTOR_ASSESSMENTS = HOME + "/assessment/tutor";
+    public static final String ALL_ASSESSMENTS = HOME + "/assessments";
+    public static final String GET_ASSESSMENT = HOME + "/assessment";
+
     public static final String TUTORS = HOME + "/tutors";
     public static final String ADD_TUTOR_SUBJECTS = HOME + "/tutor/subject/add";
+    public static final String CREATE_TUTOR_ACCOUNT = HOME + "/tutor/signup";
 
 }

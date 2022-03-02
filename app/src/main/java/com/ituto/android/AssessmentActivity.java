@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -12,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ituto.android.Adapters.MessagesAdapter;
+import com.ituto.android.Models.Assessment;
 import com.ituto.android.Models.Message;
 import com.ituto.android.Models.Question;
 import com.ituto.android.Models.User;
@@ -28,6 +31,11 @@ public class AssessmentActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private ArrayList<Question> questionArrayList;
+    private TextView txtQuestion, txtOptionOne, txtOptionTwo, txtOptionThree, txtOptionFour;
+    private Button btnSignIn;
+    private int currentPosition;
+    private int selectedOptionPosition;
+    private Assessment assessment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +49,7 @@ public class AssessmentActivity extends AppCompatActivity {
     }
 
     private void getAssessment() {
+        assessment = new Assessment();
         questionArrayList = new ArrayList<>();
         StringRequest request = new StringRequest(Request.Method.GET, Constant.GET_ASSESSMENT, response -> {
             try {
@@ -48,12 +57,10 @@ public class AssessmentActivity extends AppCompatActivity {
 
                 if (object.getBoolean("success")) {
 
-                    JSONArray resultArray = new JSONArray(object.getString("messages"));
+                    JSONObject assessmentObject = object.getJSONObject("assessment");
+                    JSONArray questionArray = new JSONArray(object.getString("questions"));
 
-                    for (int i = 0; i < resultArray.length(); i++) {
 
-
-                    }
 
                 }
             } catch (JSONException e) {

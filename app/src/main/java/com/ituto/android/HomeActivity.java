@@ -14,11 +14,18 @@ import com.ituto.android.Fragments.HomeFragment;
 import com.ituto.android.Fragments.TasksFragment;
 import com.ituto.android.Fragments.TutorsFragment;
 
+import java.net.URISyntaxException;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private FragmentManager fragmentManager;
     private BottomNavigationView bottomNavigation;
     private static final int GALLERY_ADD_POST = 2;
+
+    public Socket socket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

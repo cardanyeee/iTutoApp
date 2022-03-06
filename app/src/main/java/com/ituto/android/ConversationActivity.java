@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,8 +44,11 @@ import com.ituto.android.Models.Message;
 import com.ituto.android.Models.User;
 import com.ituto.android.Utils.FilePath;
 import com.koushikdutta.ion.Ion;
+import com.muddzdev.styleabletoast.StyleableToast;
 import com.squareup.picasso.Picasso;
 
+import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,6 +67,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -87,12 +92,11 @@ public class ConversationActivity extends AppCompatActivity {
     private String conversationID;
     private CircleImageView imgYouHeader;
     private TextView txtConversationName;
-    private ImageButton btnCamera, btnImage, btnAttachment;
+    private ImageButton btnCamera, btnImage, btnAttachment, btnCall;
     private ProgressBar progressBar;
 
     private ArrayList<Message> messageArrayList;
     private MessagesAdapter messagesAdapter;
-    private User signedUser;
 
     private Socket socket;
 
@@ -117,18 +121,25 @@ public class ConversationActivity extends AppCompatActivity {
         recyclerConversation = findViewById(R.id.recyclerConversation);
         recyclerConversation.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         progressBar = findViewById(R.id.progressbar);
+        btnCall = findViewById(R.id.btnCall);
 
         conversationID = getIntent().getStringExtra("conversationID");
         Picasso.get().load(getIntent().getStringExtra("avatar")).fit().centerCrop().into(imgYouHeader);
         txtConversationName.setText(getIntent().getStringExtra("name"));
+
+        Log.d("TAGTAGTAGTAG", getIntent().getSerializableExtra("users").toString());
+
+        getSignedUser();
+
+        getMessages();
 
         try {
             socket = IO.socket("http://192.168.1.2:8080");
 
             socket.connect();
 
-            socket.emit("connection", conversationID);
-            socket.emit("join", conversationID);
+            socket.emit("connection", sharedPreferences.getString("_id", ""));
+            socket.emit("join", sharedPreferences.getString("_id", ""));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -186,6 +197,32 @@ public class ConversationActivity extends AppCompatActivity {
 //                    });
         });
 
+        btnCall.setOnClickListener(v -> {
+            JSONObject callObject = new JSONObject();
+
+            try {
+                JSONArray usersArray = new JSONArray(getIntent().getStringExtra("users"));
+                callObject.put("caller", sharedPreferences.getString("_id", ""));
+                callObject.put("users", usersArray);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            socket.emit("call", callObject);
+//            JitsiMeetConferenceOptions options
+//                    = new JitsiMeetConferenceOptions.Builder()
+//                    .setRoom(conversationID)
+//                    .setFeatureFlag("chat.enabled", false)
+//                    .build();
+//
+//            JitsiMeetActivity.launch(getApplicationContext(), options);
+        });
+
+        socket.on("ring", args -> runOnUiThread(() -> {
+            StyleableToast.makeText(getApplicationContext(), "Someone is calling you....", R.style.CustomToast).show();
+        }));
+
         socket.on("received", args -> {
             Log.d("TAGTAGTAGTAGTAGTAG", args.toString());
             runOnUiThread(() -> {
@@ -229,10 +266,6 @@ public class ConversationActivity extends AppCompatActivity {
             });
         });
 
-        getMessages();
-
-        getSignedUser();
-
     }
 
     private void getMessages() {
@@ -263,8 +296,7 @@ public class ConversationActivity extends AppCompatActivity {
 
                         messageArrayList.add(message);
                     }
-
-                    messagesAdapter = new MessagesAdapter(getApplicationContext(), messageArrayList, signedUser.getUserID());
+                    messagesAdapter = new MessagesAdapter(getApplicationContext(), messageArrayList, sharedPreferences.getString("_id", ""));
                     recyclerConversation.setAdapter(messagesAdapter);
                     recyclerConversation.smoothScrollToPosition(messagesAdapter.getItemCount());
                 }
@@ -296,6 +328,40 @@ public class ConversationActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
                     socket.emit("new message", response);
+
+                    JSONObject messageObject = object.getJSONObject("message");
+                    JSONObject senderObject = messageObject.getJSONObject("sender");
+                    JSONObject conversationObject = messageObject.getJSONObject("conversationID");
+
+                    Message newMessage = new Message();
+                    User sender = new User();
+                    Conversation conversation = new Conversation();
+                    JSONObject avatar = senderObject.getJSONObject("avatar");
+
+                    sender.setUserID(senderObject.getString("_id"));
+                    sender.setFirstname(senderObject.getString("firstname"));
+                    sender.setAvatar(avatar.getString("url"));
+
+                    JSONArray userArray = conversationObject.getJSONArray("users");
+                    conversation.setConversationID(conversationObject.getString("_id"));
+                    conversation.setConversationName(conversationObject.getString("conversationName"));
+                    ArrayList<String> userIDArrayList = new ArrayList<String>();
+                    for (int a = 0; a < userArray.length(); a++) {
+                        String userID = userArray.getString(a);
+                        userIDArrayList.add(userID);
+                    }
+                    conversation.setUserIDArrayList(userIDArrayList);
+
+                    newMessage.setUser(sender);
+                    newMessage.setContent(messageObject.getString("content"));
+                    newMessage.setConversation(conversation);
+
+                    messageArrayList.add(newMessage);
+
+                    recyclerConversation.getAdapter().notifyDataSetChanged();
+
+                    recyclerConversation.smoothScrollToPosition(recyclerConversation.getAdapter().getItemCount());
+
                     txtEnterMessage.setText("");
                 }
             } catch (JSONException e) {
@@ -329,13 +395,11 @@ public class ConversationActivity extends AppCompatActivity {
     }
 
     private void getSignedUser() {
-        signedUser = new User();
         StringRequest request = new StringRequest(Request.Method.GET, Constant.USER_PROFILE, response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
                     JSONObject userObject = object.getJSONObject("user");
-                    signedUser.setUserID(userObject.getString("_id"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -95,6 +95,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             i.putExtra("conversationID", message.getConversationID());
             i.putExtra("name", message.getUser().getFirstname() + " " + message.getUser().getLastname());
             i.putExtra("avatar", message.getUser().getAvatar());
+            i.putExtra("users", message.getConversation().getUserIDArrayList().toString());
             context.startActivity(i);
         }
     }

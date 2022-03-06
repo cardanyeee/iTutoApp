@@ -22,6 +22,7 @@ import com.ituto.android.Constant;
 import com.ituto.android.Models.Course;
 import com.ituto.android.Models.Subject;
 import com.ituto.android.R;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,6 +73,13 @@ public class FilterFragment extends Fragment {
             getSubjects();
         });
 
+
+        txtSubject.setOnItemClickListener((parent, view, position, id) -> {
+            String selected = (String) parent.getItemAtPosition(position);
+            subjectID = subjectArrayList.get(stringSubjectArrayList.indexOf(selected)).getId();
+            StyleableToast.makeText(getContext(), String.valueOf(subjectID), R.style.CustomToast).show();
+        });
+
         getCourses();
 
         btnApplyFilters.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +88,7 @@ public class FilterFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 TutorsFragment tutorsFragment = new TutorsFragment();
                 bundle.putBoolean("filter", true);
+                bundle.putString("subjects", subjectID);
                 // R.id.container - the id of a view that will hold your fragment; usually a FrameLayout
                 tutorsFragment.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(

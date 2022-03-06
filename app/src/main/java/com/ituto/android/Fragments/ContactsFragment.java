@@ -58,9 +58,9 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
         recyclerContacts.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeContacts = view.findViewById(R.id.swipeContacts);
 
-        getContacts();
-
         getSignedUser();
+
+        getContacts();
 
         swipeContacts.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -84,16 +84,22 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
                     for (int i = 0; i < resultArray.length(); i++) {
 
                         JSONObject conversationObject = resultArray.getJSONObject(i);
-                        JSONObject messageObject = conversationObject.getJSONObject("latestMessage");
+                        JSONObject messageObject = new JSONObject();
                         JSONArray userArray = conversationObject.getJSONArray("users");
-
-                        JSONObject userObject = messageObject.getJSONObject("sender");
 
 
                         Message message = new Message();
-                        message.setMessageID(messageObject.getString("_id"));
-                        message.setContent(messageObject.getString("content"));
-                        message.setConversationID(messageObject.getString("conversationID"));
+
+                        if (conversationObject.has("latestMessage")) {
+                            messageObject = conversationObject.getJSONObject("latestMessage");
+                            message.setMessageID(messageObject.getString("_id"));
+                            message.setContent(messageObject.getString("content"));
+                            message.setConversationID(messageObject.getString("conversationID"));
+                        } else {
+                            message.setMessageID("none");
+                            message.setContent("Start a conversation...");
+                            message.setConversationID(conversationObject.getString("_id"));
+                        }
 
                         User user = new User();
                         for ( int a = 0; a < userArray.length(); a++) {
@@ -113,12 +119,14 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
                         Conversation conversation = new Conversation();
                         ArrayList<String> userIDArrayList = new ArrayList<String>();
                         for ( int a = 0; a < userArray.length(); a++) {
-                            String userID = userArray.getString(a);
+                            JSONObject userObject = userArray.getJSONObject(a);
+                            String userID = userObject.getString("_id");
                             userIDArrayList.add(userID);
                         }
                         conversation.setUserIDArrayList(userIDArrayList);
 
                         message.setUser(user);
+                        message.setConversation(conversation);
 
                         messageArrayList.add(message);
                     }

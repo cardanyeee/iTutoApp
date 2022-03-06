@@ -39,7 +39,11 @@ import java.util.Map;
 public class TutorsFragment extends Fragment {
 
     private View view;
-    private String TUTORS = Constant.TUTORS;
+    private String TUTORS;
+    private String KEYWORD_LINK = "?keyword=";
+    private String SUBJECTS_LINK = "&subjects=";
+    private String KEYWORD = "";
+    private String SUBJECTS = "";
 
     private EditText searchTutor;
     private ImageView btnFilters;
@@ -67,17 +71,12 @@ public class TutorsFragment extends Fragment {
         recyclerTutor.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeTutor = view.findViewById(R.id.swipeTutor);
 
-        if (!(getArguments() == null)) {
-            Log.d("DSADSADSADS", String.valueOf(getArguments().getBoolean("filter")));
-        }
-
         getTutors();
 
         swipeTutor.setOnRefreshListener(() -> getTutors());
 
         searchTutor.setOnEditorActionListener((v, actionId, event) -> {
-            TUTORS = "";
-            TUTORS = Constant.TUTORS + "?keyword=" + searchTutor.getText().toString();
+            KEYWORD = searchTutor.getText().toString();
             StyleableToast.makeText(getContext(), TUTORS, R.style.CustomToast).show();
             getTutors();
             return true;
@@ -99,8 +98,17 @@ public class TutorsFragment extends Fragment {
     }
 
     private void getTutors() {
+        TUTORS = "";
         tutorArrayList = new ArrayList<>();
         swipeTutor.setRefreshing(true);
+
+        if (!(getArguments() == null)) {
+            if (getArguments().getBoolean("filter")) {
+                SUBJECTS = getArguments().getString("subjects");
+            }
+        }
+
+        TUTORS = Constant.TUTORS + KEYWORD_LINK + KEYWORD + SUBJECTS_LINK + SUBJECTS;
         StringRequest request = new StringRequest(Request.Method.GET, TUTORS, response -> {
             try {
                 JSONObject object = new JSONObject(response);
@@ -110,11 +118,13 @@ public class TutorsFragment extends Fragment {
 
                     for (int i = 0; i < resultArray.length(); i++) {
                         JSONObject tutorObject = resultArray.getJSONObject(i);
-                        JSONObject avatar = tutorObject.getJSONObject("avatar");
+                        JSONObject userObject = tutorObject.getJSONObject("userID");
+                        JSONObject avatar = userObject.getJSONObject("avatar");
 
                         Tutor tutor = new Tutor();
-                        tutor.setFirstname(tutorObject.getString("firstname"));
-                        tutor.setLastname(tutorObject.getString("lastname"));
+                        tutor.setUserID(userObject.getString("_id"));
+                        tutor.setFirstname(userObject.getString("firstname"));
+                        tutor.setLastname(userObject.getString("lastname"));
                         tutor.setAvatar(avatar.getString("url"));
 
                         tutorArrayList.add(tutor);

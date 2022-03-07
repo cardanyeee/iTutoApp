@@ -82,7 +82,6 @@ public class SignUpFragment extends Fragment {
     private void init() {
         sharedPreferences = getContext().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         isTutor = getArguments().getBoolean("isTutor");
-        StyleableToast.makeText(getContext(), String.valueOf(isTutor), R.style.CustomToast).show();
 
         layoutFirstName = view.findViewById(R.id.txtLayoutFirstNameSignUp);
         layoutLastName = view.findViewById(R.id.txtLayoutLastNameSignUp);

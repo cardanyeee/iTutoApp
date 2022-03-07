@@ -38,23 +38,27 @@
         android:orientation="horizontal">
 
         <RadioButton
+            android:id="@+id/rdbTutor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/radiobutton_custom"
             android:button="@color/colorTransparent"
             android:gravity="center"
+            android:onClick="onRadioButtonClicked"
             android:text="Tutor"
-            android:textColor="@drawable/checkbox_text"
-            android:layout_marginRight="10dp"/>
+            android:textColor="@drawable/checkbox_text" />
 
         <RadioButton
+            android:id="@+id/rdbTutee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/radiobutton_custom"
             android:button="@color/colorTransparent"
             android:gravity="center"
+            android:onClick="onRadioButtonClicked"
             android:text="Tutee"
             android:textColor="@drawable/checkbox_text" />
 

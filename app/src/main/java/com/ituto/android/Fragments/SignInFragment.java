@@ -1,5 +1,7 @@
 package com.ituto.android.Fragments;
 
+import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 //import android.widget.Toast;
@@ -21,8 +24,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -42,6 +48,7 @@ import com.muddzdev.styleabletoast.StyleableToast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +60,7 @@ public class SignInFragment extends Fragment {
     private Button btnSignIn, btnSignInWithGoogle;
     private ProgressDialog dialog;
     private GoogleSignInClient googleSignInClient;
+    public static String loggedInAs;
 
     private static int RC_SIGN_IN = 100;
 
@@ -147,6 +155,12 @@ public class SignInFragment extends Fragment {
     }
 
     private boolean validate() {
+
+        if (loggedInAs == null) {
+            StyleableToast.makeText(getContext(), "Please select what kind account you would like to login", R.style.CustomToast).show();
+            return false;
+        }
+
         if (txtEmail.getText().toString().isEmpty()) {
             layoutEmail.setErrorEnabled(true);
             layoutEmail.setError("Enter a valid e-mail");
@@ -158,6 +172,7 @@ public class SignInFragment extends Fragment {
             layoutPassword.setError("Required at least 8 characters");
             return false;
         }
+
         return true;
     }
 
@@ -176,6 +191,8 @@ public class SignInFragment extends Fragment {
                     editor.putString("_id", user.getString("_id"));
                     editor.putString("firstname", user.getString("firstname"));
                     editor.putString("lastname", user.getString("lastname"));
+                    editor.putString("isTutor", user.getString("isTutor"));
+                    editor.putString("loggedInAs", loggedInAs);
                     editor.putBoolean("isLoggedIn", true);
                     editor.apply();
                     startActivity(new Intent(((AuthActivity) getContext()), HomeActivity.class));
@@ -189,7 +206,6 @@ public class SignInFragment extends Fragment {
             }
             dialog.dismiss();
         }, error -> {
-            StyleableToast.makeText(getContext(), "Login Unsuccessful", R.style.CustomToast).show();
             error.printStackTrace();
             dialog.dismiss();
         }) {
@@ -199,8 +215,25 @@ public class SignInFragment extends Fragment {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("email", txtEmail.getText().toString().trim());
                 map.put("password", txtPassword.getText().toString());
+                map.put("loggedInAs", loggedInAs);
                 return map;
             }
+
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError) {
+                runOnUiThread(() -> {
+                    try {
+                        String body;
+                        body = new String(volleyError.networkResponse.data,"UTF-8");
+                        JSONObject error = new JSONObject(body);
+                        StyleableToast.makeText(getContext(), error.getString("message"), R.style.CustomToast).show();
+                    } catch (UnsupportedEncodingException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                });
+                return super.parseNetworkError(volleyError);
+            }
+
         };
 
         RequestQueue queue = Volley.newRequestQueue(getContext());

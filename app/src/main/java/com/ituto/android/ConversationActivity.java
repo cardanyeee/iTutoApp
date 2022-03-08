@@ -127,7 +127,7 @@ public class ConversationActivity extends AppCompatActivity {
         Picasso.get().load(getIntent().getStringExtra("avatar")).fit().centerCrop().into(imgYouHeader);
         txtConversationName.setText(getIntent().getStringExtra("name"));
 
-        Log.d("TAGTAGTAGTAG", getIntent().getSerializableExtra("users").toString());
+//        Log.d("TAGTAGTAGTAG", getIntent().getSerializableExtra("users").toString());
 
         getSignedUser();
 
@@ -224,7 +224,7 @@ public class ConversationActivity extends AppCompatActivity {
         }));
 
         socket.on("received", args -> {
-            Log.d("TAGTAGTAGTAGTAGTAG", args.toString());
+//            Log.d("TAGTAGTAGTAGTAGTAG", args.toString());
             runOnUiThread(() -> {
                 JSONObject messageObject = (JSONObject) args[0];
                 try {

@@ -30,6 +30,7 @@ import com.android.volley.toolbox.Volley;
 //import com.example.movieapp.AuthActivity;
 //import com.example.movieapp.Constant;
 //import com.example.movieapp.HomeActivity;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
 import com.ituto.android.HomeActivity;
@@ -49,7 +50,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SignUpFragment extends Fragment {
@@ -115,17 +118,23 @@ public class SignUpFragment extends Fragment {
         }
 
         txtBirthdate.setOnClickListener(v -> {
-            Calendar cal = Calendar.getInstance();
-            int year = cal.get(Calendar.YEAR);
-            int month = cal.get(Calendar.MONTH);
-            int day = cal.get(Calendar.DAY_OF_MONTH);
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            DatePickerDialog dialog = new DatePickerDialog(
-                    getContext(),
-                    R.style.DatePicker,
-                    dateSetListener,
-                    year, month, day);
-            dialog.show();
+            com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePickerDialog = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(
+                    (view, year1, monthOfYear, dayOfMonth) -> {
+                        monthOfYear = monthOfYear + 1;
+                        String date = year1 + "-" + monthOfYear + "-" + dayOfMonth;
+                        txtBirthdate.setText(date);
+                    },
+                    year,
+                    month,
+                    day);
+            datePickerDialog.setAccentColor("#477B72");
+            datePickerDialog.setMaxDate(Calendar.getInstance());
+            datePickerDialog.show(getParentFragmentManager(), "");
         });
 
         dateSetListener = (view, year, month, dayOfMonth) -> {
@@ -356,10 +365,6 @@ public class SignUpFragment extends Fragment {
                 if (object.getBoolean("success")) {
 
                     JSONArray coursesArray = new JSONArray(object.getString("courses"));
-//
-//                    if (coursesArray.length() < 4) {
-//                        txtCourse.setDropDownHeight(android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-//                    }
 
                     for (int i = 0; i < coursesArray.length(); i++) {
                         JSONObject courseObject = coursesArray.getJSONObject(i);

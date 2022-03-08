@@ -85,6 +85,7 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
                     i.putExtra("conversationID", conversationObject.getString("_id"));
                     i.putExtra("name", tutorArrayList.get(position).getFirstname() + " " + tutorArrayList.get(position).getLastname());
                     i.putExtra("avatar", tutorArrayList.get(position).getAvatar());
+                    i.putExtra("users", conversationObject.getJSONArray("users").toString());
                     context.startActivity(i);
                 }
             } catch (JSONException e) {

@@ -86,7 +86,6 @@ public class TutorsFragment extends Fragment {
             Bundle bundle = new Bundle();
             FilterFragment filterFragment = new FilterFragment();
             bundle.putBoolean("filter", true);
-            // R.id.container - the id of a view that will hold your fragment; usually a FrameLayout
             filterFragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                     R.anim.slide_in,  // enter

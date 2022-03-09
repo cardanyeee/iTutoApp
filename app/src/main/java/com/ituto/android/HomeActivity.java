@@ -11,12 +11,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ituto.android.Fragments.AccountFragment;
 import com.ituto.android.Fragments.ContactsFragment;
 import com.ituto.android.Fragments.HomeFragment;
-import com.ituto.android.Fragments.TasksFragment;
+import com.ituto.android.Fragments.SessionsFragment;
 import com.ituto.android.Fragments.TutorsFragment;
 
-import java.net.URISyntaxException;
-
-import io.socket.client.IO;
 import io.socket.client.Socket;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -120,7 +117,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.fragment_container, new TasksFragment()).addToBackStack(null).commit();
+                ).replace(R.id.fragment_container, new SessionsFragment()).addToBackStack(null).commit();
                 break;
             case R.id.item_messages:
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(

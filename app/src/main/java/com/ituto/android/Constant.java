@@ -19,6 +19,11 @@ public class Constant {
     public static final String CONVERSATION = HOME + "/conversation";
     public static final String SEND_FILES = HOME + "/file/send";
 
+    public static final String TUTOR_SESSIONS = HOME + "/sessions/tutor";
+    public static final String TUTEE_SESSIONS = HOME + "/sessions/tutee";
+    public static final String SESSIONS = HOME + "/sessions";
+    public static final String SESSION = HOME + "/session";
+
     public static final String CREATE_ASSESSMENT  = HOME + "/assessment/create";
     public static final String TUTOR_ASSESSMENTS = HOME + "/assessment/tutor";
     public static final String ALL_ASSESSMENTS = HOME + "/assessments";

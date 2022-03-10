@@ -2,6 +2,7 @@ package com.ituto.android;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.ituto.android.Fragments.ContactsFragment;
 import com.ituto.android.Fragments.HomeFragment;
 import com.ituto.android.Fragments.SessionsFragment;
 import com.ituto.android.Fragments.TutorsFragment;
+import com.ituto.android.Models.Session;
 
 import io.socket.client.Socket;
 
@@ -23,6 +25,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     private static final int GALLERY_ADD_POST = 2;
 
     public Socket socket;
+    private Boolean fromBack = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,22 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         bottomNavigation = findViewById(R.id.bottomNavigationView);
         bottomNavigation.setOnNavigationItemSelectedListener(this);
+
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            fromBack = true;
+            if (current instanceof HomeFragment)
+                bottomNavigation.setSelectedItemId(R.id.item_home);
+            else if (current instanceof TutorsFragment)
+                bottomNavigation.setSelectedItemId(R.id.item_tutors);
+            else if (current instanceof SessionsFragment)
+                bottomNavigation.setSelectedItemId(R.id.item_tasks);
+            else if (current instanceof ContactsFragment)
+                bottomNavigation.setSelectedItemId(R.id.item_messages);
+            else if (current instanceof AccountFragment)
+                bottomNavigation.setSelectedItemId(R.id.item_account);
+        });
+
 //        getUser();
     }
 
@@ -84,15 +103,35 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
+
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
         } else {
             super.onBackPressed();
         }
+//        Fragment currentFragment = fm.findFragmentById(R.id.fragment_container);
+//
+//        if (currentFragment instanceof HomeFragment && id != R.id.item_home)
+//            bottomNavigation.setSelectedItemId(R.id.item_home);
+//        else if (currentFragment instanceof TutorsFragment && id != R.id.item_tutors)
+//            bottomNavigation.setSelectedItemId(R.id.item_tutors);
+//        else if (currentFragment instanceof SessionsFragment && id != R.id.item_tasks)
+//            bottomNavigation.setSelectedItemId(R.id.item_tasks);
+//        else if (currentFragment instanceof ContactsFragment && id != R.id.item_messages)
+//            bottomNavigation.setSelectedItemId(R.id.item_messages);
+//        else if (currentFragment instanceof AccountFragment && id != R.id.item_account)
+//            bottomNavigation.setSelectedItemId(R.id.item_account);
+
+
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == bottomNavigation.getSelectedItemId() || fromBack) {
+            fromBack = false;
+            return true;
+        }
 
         switch (item.getItemId()) {
             case R.id.item_home:

@@ -33,14 +33,16 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 @SuppressWarnings("ALL")
 public class AccountFragment extends Fragment {
     private View view;
-    private TextView txtEmail, txtUserName;
+    private TextView txtFirstName, txtLastName, txtEmail, txtUsername;
     private Button btnLogOut;
     private SharedPreferences sharedPreferences;
     private Dialog dialog;
-    private ShapeableImageView imgUserInfo;
+    private CircleImageView imgUserInfo;
 
 
     @Nullable
@@ -54,8 +56,10 @@ public class AccountFragment extends Fragment {
     private void init() {
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         btnLogOut = view.findViewById(R.id.btnLogOut);
+        txtFirstName = view.findViewById(R.id.txtFirstName);
+        txtLastName = view.findViewById(R.id.txtLastName);
         txtEmail = view.findViewById(R.id.txtEmail);
-        txtUserName = view.findViewById(R.id.txtUserName);
+        txtUsername = view.findViewById(R.id.txtUsername);
         imgUserInfo = view.findViewById(R.id.imgUserInfo);
 
         btnLogOut.setOnClickListener(v -> {
@@ -130,9 +134,11 @@ public class AccountFragment extends Fragment {
                     JSONObject user = object.getJSONObject("user");
                     JSONObject avatar = user.getJSONObject("avatar");
 
-                    txtUserName.setText(user.getString("firstname") + " " + user.getString("lastname"));
+                    txtFirstName.setText(user.getString("firstname"));
+                    txtLastName.setText(user.getString("lastname"));
+                    txtUsername.setText(user.getString("username"));
                     txtEmail.setText(user.getString("email"));
-                    Picasso.get().load(avatar.getString("url")).fit().centerCrop().into(imgUserInfo);
+                    Picasso.get().load(avatar.getString("url")).fit().into(imgUserInfo);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

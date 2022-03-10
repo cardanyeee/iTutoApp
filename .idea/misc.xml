@@ -61,9 +61,9 @@
         <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_on_board.xml" value="0.36666666666666664" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_question.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_tutor_sign_up.xml" value="0.33" />
-        <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_tutor_subjects.xml" value="0.5" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_tutor_subjects.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/activity_user_infor.xml" value="0.23958333333333334" />
-        <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_account.xml" value="0.33" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_account.xml" value="0.3388888888888889" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_contacts.xml" value="0.24895833333333334" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_conversation.xml" value="0.20520833333333333" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_conversations.xml" value="0.20520833333333333" />
@@ -74,6 +74,7 @@
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_up.xml" value="0.5" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_tutee_home.xml" value="0.29322916666666665" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_tutee_tasks.xml" value="0.29322916666666665" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_tutor_profile.xml" value="0.24427083333333333" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_tutors.xml" value="0.2702020202020202" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/item_add.xml" value="0.36666666666666664" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/item_contact.xml" value="0.67" />

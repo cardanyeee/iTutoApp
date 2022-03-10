@@ -95,10 +95,17 @@ public class SessionsFragment extends Fragment {
                         session.setSubject(subject);
 
                         if (loggedInAs.equals("TUTOR")) {
+                            JSONObject tuteeObject = sessionObject.getJSONObject("tutee");
+                            JSONObject avatarObject = tuteeObject.getJSONObject("avatar");
 
-                        }
+                            tutor.setUserID(sessionObject.getString("tutor"));
 
-                        if (loggedInAs.equals("TUTEE")) {
+                            user.setUserID(tuteeObject.getString("_id"));
+                            user.setFirstname(tuteeObject.getString("firstname"));
+                            user.setLastname(tuteeObject.getString("lastname"));
+                            user.setAvatar(avatarObject.getString("url"));
+
+                        } else if (loggedInAs.equals("TUTEE")) {
                             JSONObject tutorObject = sessionObject.getJSONObject("tutor");
                             JSONObject avatarObject = tutorObject.getJSONObject("avatar");
 
@@ -109,14 +116,14 @@ public class SessionsFragment extends Fragment {
                             tutor.setLastname(tutorObject.getString("lastname"));
                             tutor.setAvatar(avatarObject.getString("url"));
 
-                            session.setTutor(tutor);
-                            session.setTutee(user);
-
-                            sessionArrayList.add(session);
-                            sessionsAdapter = new SessionsAdapter(getContext(), sessionArrayList);
-                            recyclerSession.setAdapter(sessionsAdapter);
                         }
+
+                        session.setTutor(tutor);
+                        session.setTutee(user);
+                        sessionArrayList.add(session);
                     }
+                    sessionsAdapter = new SessionsAdapter(getContext(), sessionArrayList);
+                    recyclerSession.setAdapter(sessionsAdapter);
                 }
                 swipeSession.setRefreshing(false);
 

@@ -46,7 +46,7 @@
     </style>
 
     <style name="Button.Primary" parent="ThemeOverlay.AppCompat">
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorSecondary</item>
     </style>
 
     <style name="Button.Secondary" parent="ThemeOverlay.AppCompat">

@@ -13,11 +13,19 @@
     <color name="colorPrimaryLight">#E0ECDE</color>
     <color name="colorPrimary2">#84D19F</color>
     <color name="colorPrimaryDark">#2D6974</color>
-    <color name="colorBackground">#F6F7FC</color>
-    <color name="colorError">#d46c4f</color>
 
-    <color name="colorPrimary">#477B72</color>
-    <color name="colorSecondary">#F7BA34</color>
+
+    <color name="colorBackground">#F3F7FD</color>
+    <color name="colorError">#d46c4f</color>
+    <color name="colorPrimary">#0A8B5C</color>
+    <color name="colorSecondary">#2F4858</color>
+
+<!--    <color name="colorBackground">#F6F7FC</color>-->
+<!--    <color name="colorError">#d46c4f</color>-->
+<!--    <color name="colorPrimary">#477B72</color>-->
+<!--    <color name="colorSecondary">#F7BA34</color>-->
+
+
     <color name="colorTransparent">@android:color/transparent</color>
 
     <color name="colorHint">#CCCCCC</color>

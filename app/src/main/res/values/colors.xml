@@ -10,13 +10,14 @@
 
     <color name="colorWhite">#FFFFFFFF</color>
 
-    <color name="colorPrimaryLight">#E0ECDE</color>
+<!--    <color name="colorPrimaryLight">#E0ECDE</color>-->
     <color name="colorPrimary2">#84D19F</color>
     <color name="colorPrimaryDark">#2D6974</color>
 
 
     <color name="colorBackground">#F3F7FD</color>
     <color name="colorError">#d46c4f</color>
+    <color name="colorPrimaryLight">#4FBD95</color>
     <color name="colorPrimary">#0A8B5C</color>
     <color name="colorSecondary">#2F4858</color>
 

@@ -74,10 +74,9 @@ public class SessionsFragment extends Fragment {
     private void getSessions() {
         sessionArrayList = new ArrayList<>();
 
-        StringRequest request = new StringRequest(Request.Method.GET, loggedInAs == "TUTOR" ? Constant.TUTOR_SESSIONS : Constant.TUTEE_SESSIONS, response -> {
+        StringRequest request = new StringRequest(Request.Method.GET, loggedInAs.equals("TUTOR") ? Constant.TUTOR_SESSIONS : Constant.TUTEE_SESSIONS, response -> {
             try {
                 JSONObject object = new JSONObject(response);
-
                 if (object.getBoolean("success")) {
                     JSONArray resultArray = new JSONArray(object.getString("sessions"));
                     for (int i = 0; i < resultArray.length(); i++) {

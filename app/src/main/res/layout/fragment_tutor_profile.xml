@@ -15,6 +15,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <!--            Profile Header-->
             <RelativeLayout
                 android:id="@+id/rlyProfile"
                 android:layout_width="match_parent"
@@ -67,6 +68,7 @@
 
             </RelativeLayout>
 
+            <!--            Ratings and Reviews-->
             <LinearLayout
                 android:id="@+id/llyReviewsAndRatings"
                 android:layout_width="match_parent"
@@ -90,13 +92,20 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="4.6"
-                            android:textColor="@color/white"
-                            android:textSize="25sp" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="4.6"
+                                android:textColor="@color/white"
+                                android:textSize="25sp" />
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -104,7 +113,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="Stars"
                             android:textAllCaps="true"
-                            android:textColor="@color/white"
+                            android:textColor="@color/colorHint"
                             android:textSize="13sp" />
 
                     </LinearLayout>
@@ -141,7 +150,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="Reviews"
                             android:textAllCaps="true"
-                            android:textColor="@color/white"
+                            android:textColor="@color/colorSecondary"
                             android:textSize="13sp" />
 
                     </LinearLayout>
@@ -156,7 +165,9 @@
                 android:layout_below="@+id/llyReviewsAndRatings"
                 android:orientation="vertical">
 
+                <!--                About Me-->
                 <LinearLayout
+                    android:id="@+id/llyAboutMe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -175,90 +186,26 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Email"
-                            android:textSize="13sp" />
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="About me"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="joey@sharenofood.com"
-                            android:textColor="#000000"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Phone"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="+1-202-555-0157"
-                            android:textColor="#000000"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Twitter"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="Twitter"
-                            android:textColor="#000000"
-                            android:textSize="18sp" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Facebook"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="facebook.com/joeytrib"
-                            android:textColor="#000000"
-                            android:textSize="18sp" />
-
-
+                            android:fontFamily="@font/roboto_regular"
+                            android:justificationMode="inter_word"
+                            android:text="@string/aboutMe"
+                            android:textColor="@color/colorSecondary"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/contactInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -269,25 +216,51 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Contact Me"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_marginBottom="15sp"/>
+
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Email"
-                            android:textSize="13sp" />
+                        <ImageView
+                            android:layout_width="20sp"
+                            android:layout_height="20sp"
+                            android:src="@drawable/ic_baseline_mail_24"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="joey@sharenofood.com"
-                            android:textColor="#000000"
-                            android:textSize="18sp" />
+                            android:orientation="vertical"
+                            android:layout_marginStart="7sp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Email"
+                                android:fontFamily="@font/roboto_bold"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="joey@sharenofood.com"
+                                android:textColor="#000000"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
                     </LinearLayout>
+
+
 
                     <LinearLayout
                         android:layout_width="match_parent"

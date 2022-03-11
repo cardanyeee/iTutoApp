@@ -20,6 +20,7 @@
     <color name="colorPrimaryLight">#4FBD95</color>
     <color name="colorPrimary">#0A8B5C</color>
     <color name="colorSecondary">#2F4858</color>
+    <color name="colorRating">#FFE27B</color>
 
 <!--    <color name="colorBackground">#F6F7FC</color>-->
 <!--    <color name="colorError">#d46c4f</color>-->

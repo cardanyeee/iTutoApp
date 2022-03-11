@@ -92,7 +92,7 @@ public class TutorProfileFragment extends Fragment {
     }
 
     private void getTutorProfile() {
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.TUTOR_PROFILE + "/"+ tutorID, response -> {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.TUTOR_PROFILE + "/" + tutorID, response -> {
             try {
                 JSONObject object = new JSONObject(response);
 
@@ -110,12 +110,18 @@ public class TutorProfileFragment extends Fragment {
                     txtCourse.setText(courseObject.getString("name"));
 
                     if (subjectsJSONArray.length() > 0) {
-                        txtSubjects.setText("");
-                        for ( int a = 0; a < subjectsJSONArray.length(); a++) {
+                        for (int a = 0; a < subjectsJSONArray.length(); a++) {
                             JSONObject subjectObject = subjectsJSONArray.getJSONObject(a);
+                            if (a == 0) {
+                                txtSubjects.setText("");
+                                txtSubjects.setText(txtSubjects.getText() + subjectObject.getString("name"));
+                                continue;
+                            }
                             txtSubjects.setText(txtSubjects.getText() + "\n" + subjectObject.getString("name"));
                         }
                     }
+
+                    txtEmail.setText(userObject.getString("email"));
 
                 }
 

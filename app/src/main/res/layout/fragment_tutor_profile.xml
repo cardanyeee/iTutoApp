@@ -17,8 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:orientation="vertical">
 
             <!--            ~~~~~~~~~~~~~~~~~~Profile Header~~~~~~~~~~~~~~~~~~ -->
             <LinearLayout
@@ -29,23 +29,24 @@
                 android:orientation="vertical"
                 android:paddingBottom="20dp">
 
-                <LinearLayout
-                    android:id="@+id/rlyUser"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/circle_border">
+                <!--                <LinearLayout-->
+                <!--                    android:id="@+id/rlyUser"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_centerHorizontal="true"-->
+                <!--                    android:layout_marginTop="20dp"-->
+                <!--                    android:background="@drawable/circle_border">-->
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/imgUserProfile"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_margin="9dp"
-                        android:padding="3dp"
-                        android:src="@drawable/user2" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgUserProfile"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_margin="9dp"
+                    android:elevation="15dp"
+                    android:padding="3dp"
+                    android:src="@drawable/user2" />
 
-                </LinearLayout>
+                <!--                </LinearLayout>-->
 
                 <TextView
                     android:id="@+id/txtTutorName"
@@ -169,9 +170,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/llyReviewsAndRatings"
+                android:clipToPadding="false"
                 android:orientation="vertical"
-                android:paddingBottom="75dp"
-                android:clipToPadding="false">
+                android:paddingBottom="75dp">
 
                 <!--                ~~~~~~~~~~~~~~~~~~About Me~~~~~~~~~~~~~~~~~~ -->
                 <LinearLayout
@@ -182,7 +183,7 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/bg_round2"
-                    android:elevation="5dp"
+                    android:elevation="20dp"
                     android:orientation="vertical"
                     android:padding="20dp">
 
@@ -221,7 +222,7 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/bg_round2"
-                    android:elevation="5dp"
+                    android:elevation="20dp"
                     android:orientation="vertical"
                     android:padding="20dp">
 
@@ -254,7 +255,7 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/bg_round2"
-                    android:elevation="5dp"
+                    android:elevation="20dp"
                     android:orientation="vertical"
                     android:padding="20dp">
 
@@ -396,11 +397,12 @@
     </ScrollView>
 
     <Button
+        android:id="@+id/btnRequestSchedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/scrTutorProfile"
         android:background="@drawable/btn_round2"
         android:text="Request Schedule"
-        android:layout_alignBottom="@id/scrTutorProfile"
-        android:textSize="14sp"/>
+        android:textSize="14sp" />
 
 </RelativeLayout>

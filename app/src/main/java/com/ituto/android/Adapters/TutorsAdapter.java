@@ -22,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ituto.android.Constant;
 import com.ituto.android.ConversationActivity;
+import com.ituto.android.Fragments.TutorProfileFragment;
 import com.ituto.android.HomeActivity;
 import com.ituto.android.Models.Message;
 import com.ituto.android.Models.Tutor;
@@ -58,16 +59,25 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
         return new TutorHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull TutorHolder holder, @SuppressLint("RecyclerView") int position) {
         tutor = tutorArrayList.get(position);
         Picasso.get().load(tutor.getAvatar()).resize(500, 0).into(holder.imgTutor);
         holder.txtName.setText(tutor.getFirstname() + " " + tutor.getLastname());
 
-        holder.btnMessage.setOnClickListener(new View.OnClickListener() {
+        holder.btnMessage.setOnClickListener(v -> message(holder, position));
+
+        holder.btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                message(holder, position);
+                TutorProfileFragment tutorProfileFragment = new TutorProfileFragment();
+                ((HomeActivity)context).getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.fade_in,   // popEnter
+                        R.anim.slide_out  // popExit
+                ).replace(R.id.fragment_container, tutorProfileFragment).addToBackStack(null).commit();
             }
         });
 
@@ -119,13 +129,14 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
 
         private TextView txtName, txtCourse;
         private CircleImageView imgTutor;
-        private Button btnMessage;
+        private Button btnProfile, btnMessage;
 
         public TutorHolder(@NonNull View itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.txtName);
             txtCourse = itemView.findViewById(R.id.txtCourse);
             imgTutor = itemView.findViewById(R.id.imgTutor);
+            btnProfile = itemView.findViewById(R.id.btnProfile);
             btnMessage = itemView.findViewById(R.id.btnMessage);
 
             itemView.setClickable(true);

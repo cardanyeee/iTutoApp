@@ -121,6 +121,7 @@ public class TutorsFragment extends Fragment {
                         JSONObject avatar = userObject.getJSONObject("avatar");
 
                         Tutor tutor = new Tutor();
+                        tutor.setTutorID(tutorObject.getString("_id"));
                         tutor.setUserID(userObject.getString("_id"));
                         tutor.setFirstname(userObject.getString("firstname"));
                         tutor.setLastname(userObject.getString("lastname"));

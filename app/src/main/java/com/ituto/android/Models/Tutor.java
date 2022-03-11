@@ -4,9 +4,17 @@ import java.util.ArrayList;
 
 public class Tutor extends User {
 
-    private String userID, availability;
+    private String tutorID, userID, availability;
     private ArrayList<String> subjects;
     private int numOfReviews;
+
+    public String getTutorID() {
+        return tutorID;
+    }
+
+    public void setTutorID(String tutorID) {
+        this.tutorID = tutorID;
+    }
 
     public String getUserID() {
         return userID;

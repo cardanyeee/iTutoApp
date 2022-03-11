@@ -32,5 +32,6 @@ public class Constant {
     public static final String TUTORS = HOME + "/tutors";
     public static final String ADD_TUTOR_SUBJECTS = HOME + "/tutor/subject/add";
     public static final String CREATE_TUTOR_ACCOUNT = HOME + "/tutor/signup";
+    public static final String TUTOR_PROFILE = HOME + "/tutor";
 
 }

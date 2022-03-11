@@ -24,13 +24,7 @@ public class Tutor extends User {
         this.userID = userID;
     }
 
-    public String getAvailability() {
-        return availability;
-    }
 
-    public void setAvailability(String availability) {
-        this.availability = availability;
-    }
 
     public ArrayList<String> getSubjects() {
         return subjects;

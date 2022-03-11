@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +72,10 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
         holder.btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
                 TutorProfileFragment tutorProfileFragment = new TutorProfileFragment();
+                bundle.putString("_id", tutor.getTutorID());
+                tutorProfileFragment.setArguments(bundle);
                 ((HomeActivity)context).getSupportFragmentManager().beginTransaction().setCustomAnimations(
                         R.anim.slide_in,  // enter
                         R.anim.fade_out,  // exit

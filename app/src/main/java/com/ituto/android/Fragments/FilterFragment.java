@@ -82,22 +82,19 @@ public class FilterFragment extends Fragment {
 
         getCourses();
 
-        btnApplyFilters.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                TutorsFragment tutorsFragment = new TutorsFragment();
-                bundle.putBoolean("filter", true);
-                bundle.putString("subjects", subjectID == null ? "" : subjectID);
-                // R.id.container - the id of a view that will hold your fragment; usually a FrameLayout
-                tutorsFragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                        R.anim.slide_in,  // enter
-                        R.anim.fade_out,  // exit
-                        R.anim.fade_in,   // popEnter
-                        R.anim.slide_out  // popExit
-                ).replace(R.id.fragment_container, tutorsFragment).addToBackStack(null).commit();
-            }
+        btnApplyFilters.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            TutorsFragment tutorsFragment = new TutorsFragment();
+            bundle.putBoolean("filter", true);
+            bundle.putString("subjects", subjectID == null ? "" : subjectID);
+            // R.id.container - the id of a view that will hold your fragment; usually a FrameLayout
+            tutorsFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            ).replace(R.id.fragment_container, tutorsFragment).addToBackStack(null).commit();
         });
     }
 

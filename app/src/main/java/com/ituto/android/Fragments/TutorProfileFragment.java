@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,9 +46,11 @@ public class TutorProfileFragment extends Fragment {
     private CircleImageView imgUserProfile;
     private LinearLayout llyAboutMe, llySubjects, llyContactInfo, llyEmail, llyPhone;
     private TextView txtTutorName, txtCourse, txtNumberOfStars, txtNumberOfReviews, txtAboutMe, txtSubjects, txtEmail, txtPhone;
+    private Button btnRequestSchedule;
 
     private Dialog dialog;
     private String tutorID;
+    private String tutorResponse;
 
     private SharedPreferences sharedPreferences;
 
@@ -75,6 +78,7 @@ public class TutorProfileFragment extends Fragment {
         txtSubjects = view.findViewById(R.id.txtSubjects);
         txtEmail = view.findViewById(R.id.txtEmail);
         txtPhone = view.findViewById(R.id.txtPhone);
+        btnRequestSchedule = view.findViewById(R.id.btnRequestSchedule);
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
@@ -89,6 +93,21 @@ public class TutorProfileFragment extends Fragment {
         tutorID = getArguments().getString("_id");
 
         getTutorProfile();
+
+        btnRequestSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                RequestScheduleFragment requestScheduleFragment = new RequestScheduleFragment();
+                requestScheduleFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.slide_in,
+                        0// popExit
+                ).replace(R.id.fragment_container, requestScheduleFragment).addToBackStack(null).commit();
+            }
+        });
     }
 
     private void getTutorProfile() {
@@ -97,6 +116,7 @@ public class TutorProfileFragment extends Fragment {
                 JSONObject object = new JSONObject(response);
 
                 if (object.getBoolean("success")) {
+                    tutorResponse = object.toString();
                     JSONObject tutorObject = object.getJSONObject("tutor");
                     JSONObject userObject = tutorObject.getJSONObject("userID");
                     JSONObject avatarObject = userObject.getJSONObject("avatar");
@@ -128,11 +148,13 @@ public class TutorProfileFragment extends Fragment {
                 dialog.dismiss();
             } catch (JSONException e) {
                 e.printStackTrace();
+                btnRequestSchedule.setEnabled(false);
                 dialog.dismiss();
             }
 
         }, error -> {
             dialog.dismiss();
+            btnRequestSchedule.setEnabled(false);
             error.printStackTrace();
         }) {
             @Override

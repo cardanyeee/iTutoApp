@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".HomeActivity">
 
     <LinearLayout
@@ -42,11 +43,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
+                android:elevation="0dp"
                 android:outlineAmbientShadowColor="@android:color/transparent"
                 android:outlineSpotShadowColor="@android:color/transparent"
-                app:labelVisibilityMode="unlabeled"
-                android:elevation="0dp"
                 app:elevation="0dp"
+                app:labelVisibilityMode="unlabeled"
                 app:menu="@menu/menu_main" />
 
         </com.google.android.material.bottomappbar.BottomAppBar>

@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:orientation="vertical">
+    android:background="@color/colorBackground">
 
     <LinearLayout
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:background="@color/colorBackground"
         android:elevation="20dp"
         android:orientation="vertical">
@@ -73,28 +71,163 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scrScheduleInfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_below="@+id/rl_top">
 
-        <com.applandeo.materialcalendarview.CalendarView
-            android:id="@+id/calendarTutorSchedule"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            app:abbreviationsBarColor="@color/colorBackground"
-            app:abbreviationsLabelsColor="@color/black"
-            app:forwardButtonSrc="@drawable/ic_baseline_arrow_forward_ios_15"
-            app:headerColor="@color/colorBackground"
-            app:todayLabelColor="@color/colorPrimary"
-            app:headerLabelColor="@color/colorPrimary"
-            app:pagesColor="@color/colorBackground"
-            app:previousButtonSrc="@drawable/ic_baseline_arrow_back_ios_15"
-            app:selectionColor="@color/colorPrimaryLight"
-            app:type="one_day_picker" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingVertical="30dp">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:includeFontPadding="false"
+                        android:text="What subject do you need help with?"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:includeFontPadding="false"
+                        android:text="Take a look at the subjects offered by your tutor"
+                        android:textColor="@color/colorHint"
+                        android:textSize="12sp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtLayoutSubject"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:theme="@style/Button.Primary"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:hintEnabled="false">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/txtSubject"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custom_input"
+                            android:hint="Select Subject"
+                            android:maxHeight="300dp"
+                            android:padding="5dp"
+                            android:textSize="13sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:includeFontPadding="false"
+                        android:text="Mention the topic you're having trouble."
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:includeFontPadding="false"
+                        android:text="Write a short description to let your tutor know"
+                        android:textColor="@color/colorHint"
+                        android:textSize="12sp" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txtFirstNameSignUp"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:background="@drawable/custom_input"
+                        android:inputType="textImeMultiLine"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="5dp"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:includeFontPadding="false"
+                        android:text="Mention the topic you're having trouble."
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:includeFontPadding="false"
+                        android:text="Write a short description to let your tutor know"
+                        android:textColor="@color/colorHint"
+                        android:textSize="12sp" />
+
+                    <com.applandeo.materialcalendarview.CalendarView
+                        android:id="@+id/calendarTutorSchedule"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="30dp"
+                        app:abbreviationsBarColor="@color/colorBackground"
+                        app:abbreviationsLabelsColor="@color/black"
+                        app:forwardButtonSrc="@drawable/ic_baseline_arrow_forward_ios_15"
+                        app:headerColor="@color/colorBackground"
+                        app:headerLabelColor="@color/colorPrimary"
+                        app:pagesColor="@color/colorBackground"
+                        app:previousButtonSrc="@drawable/ic_baseline_arrow_back_ios_15"
+                        app:selectionColor="@color/colorPrimaryLight"
+                        app:todayLabelColor="@color/colorPrimary"
+                        app:type="one_day_picker" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
 
-</LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnRequestSchedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/scrScheduleInfo"
+        android:background="@drawable/btn_round2"
+        android:text="Confirm Schedule"
+        android:textSize="14sp" />
+
+</RelativeLayout>

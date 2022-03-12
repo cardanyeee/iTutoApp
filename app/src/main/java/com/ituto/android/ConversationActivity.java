@@ -210,13 +210,14 @@ public class ConversationActivity extends AppCompatActivity {
             }
 
             socket.emit("call", callObject);
-//            JitsiMeetConferenceOptions options
-//                    = new JitsiMeetConferenceOptions.Builder()
-//                    .setRoom(conversationID)
-//                    .setFeatureFlag("chat.enabled", false)
-//                    .build();
-//
-//            JitsiMeetActivity.launch(getApplicationContext(), options);
+            JitsiMeetConferenceOptions options
+                    = new JitsiMeetConferenceOptions.Builder()
+                    .setRoom(conversationID)
+                    .setFeatureFlag("invite.enabled", false)
+                    .setFeatureFlag("chat.enabled", false)
+                    .build();
+
+            JitsiMeetActivity.launch(getApplicationContext(), options);
         });
 
         socket.on("ring", args -> runOnUiThread(() -> {

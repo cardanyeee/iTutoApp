@@ -198,6 +198,7 @@
                         android:layout_marginHorizontal="10dp"
                         app:abbreviationsBarColor="@color/colorBackground"
                         app:abbreviationsLabelsColor="@color/black"
+                        app:firstDayOfWeek="sunday"
                         app:forwardButtonSrc="@drawable/ic_baseline_arrow_forward_ios_15"
                         app:headerColor="@color/colorBackground"
                         app:headerLabelColor="@color/colorPrimary"
@@ -205,12 +206,13 @@
                         app:previousButtonSrc="@drawable/ic_baseline_arrow_back_ios_15"
                         app:selectionColor="@color/colorPrimaryLight"
                         app:todayLabelColor="@color/colorPrimary"
-                        app:type="one_day_picker" />
+                        app:todayTypeface="@font/roboto_black"
+                        app:type="one_day_picker"
+                        app:typeface="@font/roboto_medium" />
 
                 </LinearLayout>
 
             </LinearLayout>
-
 
         </LinearLayout>
 

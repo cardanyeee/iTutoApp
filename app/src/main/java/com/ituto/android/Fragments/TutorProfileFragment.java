@@ -1,7 +1,6 @@
 package com.ituto.android.Fragments;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -22,10 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomappbar.BottomAppBar;
-import com.ituto.android.Adapters.MessagesAdapter;
 import com.ituto.android.Constant;
-import com.ituto.android.Models.Message;
-import com.ituto.android.Models.User;
 import com.ituto.android.R;
 import com.squareup.picasso.Picasso;
 
@@ -33,7 +29,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +45,6 @@ public class TutorProfileFragment extends Fragment {
 
     private Dialog dialog;
     private String tutorID;
-    private String tutorResponse;
 
     private SharedPreferences sharedPreferences;
 
@@ -81,7 +75,7 @@ public class TutorProfileFragment extends Fragment {
         btnRequestSchedule = view.findViewById(R.id.btnRequestSchedule);
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
         dialog.setContentView(R.layout.layout_progress_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setCancelable(false);
@@ -100,6 +94,7 @@ public class TutorProfileFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 RequestScheduleFragment requestScheduleFragment = new RequestScheduleFragment();
                 requestScheduleFragment.setArguments(bundle);
+                bundle.putString("_id", tutorID);
                 getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                         R.anim.slide_in,  // enter
                         R.anim.fade_out,  // exit
@@ -114,9 +109,7 @@ public class TutorProfileFragment extends Fragment {
         StringRequest request = new StringRequest(Request.Method.GET, Constant.TUTOR_PROFILE + "/" + tutorID, response -> {
             try {
                 JSONObject object = new JSONObject(response);
-
                 if (object.getBoolean("success")) {
-                    tutorResponse = object.toString();
                     JSONObject tutorObject = object.getJSONObject("tutor");
                     JSONObject userObject = tutorObject.getJSONObject("userID");
                     JSONObject avatarObject = userObject.getJSONObject("avatar");

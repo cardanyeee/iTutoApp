@@ -21,7 +21,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.imageview.ShapeableImageView;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
 import com.ituto.android.R;
@@ -66,7 +65,7 @@ public class AccountFragment extends Fragment {
             dialog = new Dialog(getContext());
             dialog.setContentView(R.layout.layout_logout_dialog);
 
-            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+            dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
             Button btnYes = dialog.findViewById(R.id.btnYes);

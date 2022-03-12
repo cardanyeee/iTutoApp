@@ -63,10 +63,9 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull TutorHolder holder, @SuppressLint("RecyclerView") int position) {
-        tutor = tutorArrayList.get(position);
+        Tutor tutor = tutorArrayList.get(position);
         Picasso.get().load(tutor.getAvatar()).resize(500, 0).into(holder.imgTutor);
         holder.txtName.setText(tutor.getFirstname() + " " + tutor.getLastname());
-
         holder.btnMessage.setOnClickListener(v -> message(holder, position));
 
         holder.btnProfile.setOnClickListener(new View.OnClickListener() {

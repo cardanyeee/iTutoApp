@@ -27,7 +27,7 @@
                 android:src="@drawable/ic_baseline_arrow_back_24" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imgConversationAvatar"
+                android:id="@+id/imgTutorProfile"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="10dp"
@@ -60,13 +60,6 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/applogo" />
-
         </androidx.appcompat.widget.Toolbar>
 
     </LinearLayout>
@@ -75,13 +68,15 @@
         android:id="@+id/scrScheduleInfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rl_top">
+        android:layout_below="@+id/rl_top"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingVertical="30dp">
+            android:paddingTop="30dp"
+            android:paddingBottom="75dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -183,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:includeFontPadding="false"
-                        android:text="Mention the topic you're having trouble."
+                        android:text="When would you like to start?"
                         android:textSize="18sp" />
 
                     <TextView
@@ -192,7 +187,7 @@
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/roboto_medium"
                         android:includeFontPadding="false"
-                        android:text="Write a short description to let your tutor know"
+                        android:text="Set schedule from the calendar"
                         android:textColor="@color/colorHint"
                         android:textSize="12sp" />
 
@@ -200,7 +195,7 @@
                         android:id="@+id/calendarTutorSchedule"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="30dp"
+                        android:layout_marginHorizontal="10dp"
                         app:abbreviationsBarColor="@color/colorBackground"
                         app:abbreviationsLabelsColor="@color/black"
                         app:forwardButtonSrc="@drawable/ic_baseline_arrow_forward_ios_15"
@@ -222,7 +217,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/btnRequestSchedule"
+        android:id="@+id/btnConfirmSchedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/scrScheduleInfo"

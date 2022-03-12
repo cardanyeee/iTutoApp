@@ -2,12 +2,10 @@ package com.ituto.android.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -27,12 +25,9 @@ import com.android.volley.toolbox.Volley;
 import com.applandeo.materialcalendarview.CalendarView;
 
 import com.ituto.android.Constant;
-import com.ituto.android.HomeActivity;
 import com.ituto.android.Models.Availability;
 import com.ituto.android.Models.Subject;
 import com.ituto.android.R;
-import com.ituto.android.TutorSubjectsActivity;
-import com.muddzdev.styleabletoast.StyleableToast;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -63,7 +58,7 @@ public class RequestScheduleFragment extends Fragment {
 
     private ArrayList<Subject> subjectArrayList;
     private ArrayList<String> stringSubjectArrayList;
-    private ArrayList<Integer> disabledDays;
+    private ArrayList<Integer> availableDays;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -81,10 +76,12 @@ public class RequestScheduleFragment extends Fragment {
         txtCourse = view.findViewById(R.id.txtCourse);
         txtSubject = view.findViewById(R.id.txtSubject);
         calendarTutorSchedule = view.findViewById(R.id.calendarTutorSchedule);
-        calendarTutorSchedule.setMinimumDate(Calendar.getInstance());
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, 1);
-        calendarTutorSchedule.setMaximumDate(calendar);
+        Calendar minDate = Calendar.getInstance();
+        minDate.add(Calendar.DATE, -1);
+        calendarTutorSchedule.setMinimumDate(minDate);
+        Calendar maxDate = Calendar.getInstance();
+        maxDate.add(Calendar.YEAR, 1);
+        calendarTutorSchedule.setMaximumDate(maxDate);
         btnConfirmSchedule = view.findViewById(R.id.btnConfirmSchedule);
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
@@ -107,32 +104,36 @@ public class RequestScheduleFragment extends Fragment {
 
     }
 
-    private void setDisableDaysInCalendar(ArrayList<Integer> disabledDays) {
+    private void setDisableDaysInCalendar(ArrayList<Integer> availableDays) {
 
         Calendar date;
-        List<Calendar> days = new ArrayList<>();
+        List<Integer> days = new ArrayList<>();
+
+        List<Calendar> disabledDays = new ArrayList<>();
         int weeks = 52;
 
-        for (int a = 0; a < disabledDays.size(); a++) {
-            Log.d("TASADSADSA", disabledDays.get(a).toString());
-            for (int i = -7; i < (weeks * 7) ; i = i + 7) {
-                date = Calendar.getInstance();
-                date.add(Calendar.DAY_OF_YEAR, (disabledDays.get(a) - date.get(Calendar.DAY_OF_WEEK) + 7 + i));
-                // saturday = Calendar.getInstance();
-                // saturday.add(Calendar.DAY_OF_YEAR, (Calendar.SATURDAY - saturday.get(Calendar.DAY_OF_WEEK) + i));
-                // weekends.add(saturday);
-                days.add(date);
+        for (int a = 0; a < 7; a++) {
+            if (!availableDays.contains(a)) {
+                for (int i = -7; i < (weeks * 7) ; i = i + 7) {
+                    date = Calendar.getInstance();
+                    date.add(Calendar.DAY_OF_YEAR, (a - date.get(Calendar.DAY_OF_WEEK) + 7 + i));
+                    // saturday = Calendar.getInstance();
+                    // saturday.add(Calendar.DAY_OF_YEAR, (Calendar.SATURDAY - saturday.get(Calendar.DAY_OF_WEEK) + i));
+                    // weekends.add(saturday);
+                    disabledDays.add(date);
+                }
             }
+
         }
 
-        calendarTutorSchedule.setDisabledDays(days);
+        calendarTutorSchedule.setDisabledDays(disabledDays);
 
     }
 
     private void getTutorProfile() {
         stringSubjectArrayList = new ArrayList<>();
         subjectArrayList = new ArrayList<>();
-        disabledDays = new ArrayList<>();
+        availableDays = new ArrayList<>();
 
         StringRequest request = new StringRequest(Request.Method.GET, Constant.TUTOR_PROFILE + "/" + tutorID, response -> {
             try {
@@ -174,14 +175,14 @@ public class RequestScheduleFragment extends Fragment {
                     for (int i = 0; i < availabilityJSONArray.length(); i++) {
                         JSONObject availabilityObject = availabilityJSONArray.getJSONObject(i);
                         Availability availability = new Availability();
-                        disabledDays.add(parseDayString(availabilityObject.getString("day")));
+                        availableDays.add(parseDayString(availabilityObject.getString("day")));
                     }
 
                     Picasso.get().load(avatarObject.getString("url")).resize(500, 0).into(imgTutorProfile);
                     txtName.setText(userObject.getString("firstname") + " " + userObject.getString("lastname"));
                     txtCourse.setText(courseObject.getString("name"));
 
-                    setDisableDaysInCalendar(disabledDays);
+                    setDisableDaysInCalendar(availableDays);
 
                 }
 

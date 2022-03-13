@@ -2,12 +2,17 @@ package com.ituto.android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.ituto.android.Fragments.MainAuthFragment;
 import com.ituto.android.Fragments.SignInFragment;
+import com.ituto.android.Fragments.SignUpAvailabilityFragment;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 public class AuthActivity extends AppCompatActivity {
@@ -40,6 +45,75 @@ public class AuthActivity extends AppCompatActivity {
             case R.id.rdbTutee:
                 if (checked)
                     SignInFragment.loggedInAs = "TUTEE";
+                break;
+        }
+    }
+
+
+    @SuppressLint("NonConstantResourceId")
+    public void showTimePicker(View view) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePickerDialogStyle, SignUpAvailabilityFragment.onTimeSetListener, SignUpAvailabilityFragment.hour, SignUpAvailabilityFragment.minute, false);
+        timePickerDialog.show();
+
+        switch (view.getId()) {
+            case R.id.txtMinTime:
+            case R.id.txtMinTime2:
+                SignUpAvailabilityFragment.time = (TextView) SignUpAvailabilityFragment.view.findViewById(R.id.txtMinTime);
+                SignUpAvailabilityFragment.period = (TextView) SignUpAvailabilityFragment.view.findViewById(R.id.txtMinTime2);
+                break;
+
+            case R.id.txtMaxTime:
+            case R.id.txtMaxTime2:
+                SignUpAvailabilityFragment.time = (TextView) SignUpAvailabilityFragment.view.findViewById(R.id.txtMaxTime);
+                SignUpAvailabilityFragment.period = (TextView) SignUpAvailabilityFragment.view.findViewById(R.id.txtMaxTime2);
+                break;
+        }
+    }
+
+    public void onDayCheckboxClicked(View view) {
+        boolean checked = ((CheckBox) view).isChecked();
+
+        switch (view.getId()) {
+            case R.id.ckbSunday:
+                if (checked) {
+                    SignUpAvailabilityFragment.days.add("Sunday");
+                }
+                break;
+
+            case R.id.ckbMonday:
+                if (checked) {
+                    SignUpAvailabilityFragment.days.add("Monday");
+                }
+                break;
+
+            case R.id.ckbTuesday:
+                if (checked) {
+                    SignUpAvailabilityFragment.days.add("Tuesday");
+                }
+                break;
+
+            case R.id.ckbWednesday:
+                if (checked) {
+                    SignUpAvailabilityFragment.days.add("Wednesday");
+                }
+                break;
+
+            case R.id.ckbThursday:
+                if (checked) {
+                    SignUpAvailabilityFragment.days.add("Thursday");
+                }
+                break;
+
+            case R.id.ckbFriday:
+                if (checked) {
+                    SignUpAvailabilityFragment.days.add("Friday");
+                }
+                break;
+
+            case R.id.ckbSaturday:
+                if (checked) {
+                    SignUpAvailabilityFragment.days.add("Saturday");
+                }
                 break;
         }
     }

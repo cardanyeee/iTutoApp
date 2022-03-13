@@ -9,6 +9,7 @@ public class Constant {
     public static final String REGISTER = HOME + "/auth/register";
     public static final String USER_PROFILE = HOME + "/profile/me";
     public static final String SAVE_USER_INFO = HOME + "/save_user_info ";
+    public static final String GOOGLE_LOGIN = HOME + "/auth/google/login";
 
     public static final String COURSES = HOME + "/courses";
     public static final String SUBJECT_COURSES = HOME + "/course-subjects";

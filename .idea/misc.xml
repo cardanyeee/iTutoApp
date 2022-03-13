@@ -80,6 +80,8 @@
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sessions.xml" value="0.25" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_in.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_up.xml" value="0.33" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_up_availability.xml" value="0.36666666666666664" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_up_subjects.xml" value="0.36666666666666664" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_tutee_home.xml" value="0.29322916666666665" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_tutee_tasks.xml" value="0.29322916666666665" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_tutor_profile.xml" value="0.33" />

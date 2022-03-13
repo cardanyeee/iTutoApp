@@ -1,6 +1,5 @@
 package com.ituto.android.Fragments;
 
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,10 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 //import com.example.movieapp.AuthActivity;
 //import com.example.movieapp.Constant;
 //import com.example.movieapp.HomeActivity;
@@ -38,30 +29,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.datepicker.MaterialDatePicker;
-import com.ituto.android.AuthActivity;
-import com.ituto.android.Constant;
-import com.ituto.android.HomeActivity;
-import com.ituto.android.Models.Course;
 import com.ituto.android.R;
 //import com.example.movieapp.UserInfoActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.ituto.android.TutorSignUpActivity;
-import com.ituto.android.UserInfoActivity;
-import com.muddzdev.styleabletoast.StyleableToast;
 //import com.muddzdev.styleabletoast.StyleableToast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class SignUpFragment extends Fragment {
     private View view;
@@ -76,9 +49,10 @@ public class SignUpFragment extends Fragment {
     private ProgressDialog dialog;
 
     private Boolean isTutor;
+    private Boolean googleRegister = false;
 
     private GoogleSignInClient googleSignInClient;
-    private static int RC_SIGN_IN = 100;
+    private static int RC_SIGN_IN = 1000;
 
     @Nullable
     @Override
@@ -91,10 +65,11 @@ public class SignUpFragment extends Fragment {
     private void init() {
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
 
-        googleSignInClient = GoogleSignIn.getClient(getActivity().getApplicationContext(), gso);
+        googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity().getApplicationContext());
 
@@ -137,6 +112,7 @@ public class SignUpFragment extends Fragment {
                 Bundle args = new Bundle();
                 UserInfoFragment userInfoFragment = new UserInfoFragment();
                 args.putBoolean("isTutor", isTutor);
+                args.putBoolean("googleRegister", googleRegister);
                 args.putString("email", txtEmail.getText().toString().trim());
                 args.putString("password", txtPassword.getText().toString());
                 args.putString("password_confirmation", txtConfirm.getText().toString());
@@ -244,7 +220,13 @@ public class SignUpFragment extends Fragment {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            try {
+                task.getResult(ApiException.class);
+                handleSignInResult(task);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -254,14 +236,23 @@ public class SignUpFragment extends Fragment {
 
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity().getApplicationContext());
             if (acct != null) {
-                String personName = acct.getDisplayName();
-                String personGivenName = acct.getGivenName();
-                String personFamilyName = acct.getFamilyName();
-                String personEmail = acct.getEmail();
-                String personId = acct.getId();
-                Uri personPhoto = acct.getPhotoUrl();
-
-                Toast.makeText(getActivity().getApplicationContext(), personEmail, Toast.LENGTH_SHORT).show();
+                googleRegister = true;
+                Bundle args = new Bundle();
+                UserInfoFragment userInfoFragment = new UserInfoFragment();
+                args.putBoolean("isTutor", isTutor);
+                args.putBoolean("googleRegister", googleRegister);
+                args.putString("firstname", acct.getGivenName());
+                args.putString("lastname", acct.getFamilyName());
+                args.putString("tokenId", acct.getIdToken());
+                userInfoFragment.setArguments(args);
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.fade_in,   // popEnter
+                        R.anim.slide_out  // popExit
+                ).replace(R.id.frameAuthContainer, userInfoFragment).addToBackStack(null).commit();
+//
+//                Toast.makeText(getActivity().getApplicationContext(), acct.getIdToken(), Toast.LENGTH_SHORT).show();
             }
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.

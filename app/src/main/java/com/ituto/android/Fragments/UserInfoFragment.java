@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,6 @@ import com.ituto.android.Constant;
 import com.ituto.android.HomeActivity;
 import com.ituto.android.Models.Course;
 import com.ituto.android.R;
-import com.ituto.android.TutorSignUpActivity;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import org.json.JSONArray;
@@ -108,6 +108,9 @@ public class UserInfoFragment extends Fragment {
         } else {
             btnSignUp.setText("Register");
         }
+
+        txtFirstName.setText(getArguments().getString("firstname"));
+        txtLastName.setText(getArguments().getString("lastname"));
 
 
         txtBirthdate.setOnClickListener(v -> {
@@ -191,7 +194,7 @@ public class UserInfoFragment extends Fragment {
 
         btnSignUp.setOnClickListener(v -> {
             if (validate()) {
-                register();
+                redirectAuthentication();
             }
         });
 
@@ -301,6 +304,56 @@ public class UserInfoFragment extends Fragment {
         queue.add(request);
     }
 
+    public void googleRegister() {
+        dialog.setMessage("Registering");
+        dialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.GOOGLE_LOGIN, response -> {
+
+            try {
+                JSONObject object = new JSONObject(response);
+                Log.d("TAGTAGTAGTAG", object.toString());
+                if (object.getBoolean("success")) {
+                    JSONObject user = object.getJSONObject("user");
+                    SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user", getContext().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = userPref.edit();
+                    editor.putString("token", object.getString("token"));
+                    editor.putString("_id", user.getString("_id"));
+                    editor.putString("firstname", user.getString("firstname"));
+                    editor.putString("lastname", user.getString("lastname"));
+                    editor.putString("isTutor", user.getString("isTutor"));
+                    editor.putString("loggedInAs", getArguments().getBoolean("isTutor") ? "TUTOR" : "TUTEE");
+                    editor.putBoolean("isLoggedIn", true);
+                    editor.apply();
+                    startActivity(new Intent(((AuthActivity) getContext()), HomeActivity.class));
+                    ((AuthActivity) getContext()).finish();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                StyleableToast.makeText(getContext(), "Register Unsuccessful", R.style.CustomToast).show();
+            }
+            dialog.dismiss();
+
+        }, error -> {
+            StyleableToast.makeText(getContext(), "Register Unsuccessful", R.style.CustomToast).show();
+            error.printStackTrace();
+            dialog.dismiss();
+        }) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("tokenId", getArguments().getString("tokenId"));
+                map.put("birthdate", txtBirthdate.getText().toString().trim());
+                map.put("gender", txtGender.getText().toString().trim());
+                map.put("course", courseID);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
     private boolean validate() {
 
         if (txtFirstName.getText().toString().isEmpty()) {
@@ -320,10 +373,26 @@ public class UserInfoFragment extends Fragment {
 
     private void redirectAuthentication() {
         if (isTutor) {
-            startActivity(new Intent(((AuthActivity) getContext()), TutorSignUpActivity.class));
+            Bundle args = getArguments();
+            SignUpAvailabilityFragment signUpAvailabilityFragment = new SignUpAvailabilityFragment();
+            args.putString("firstname", txtFirstName.getText().toString().trim());
+            args.putString("lastname", txtLastName.getText().toString().trim());
+            args.putString("birthdate", txtBirthdate.getText().toString().trim());
+            args.putString("gender", txtGender.getText().toString().trim());
+            args.putString("course", courseID);
+            signUpAvailabilityFragment.setArguments(args);
+            getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            ).replace(R.id.frameAuthContainer, signUpAvailabilityFragment).commit();
         } else {
-            startActivity(new Intent(((AuthActivity) getContext()), HomeActivity.class));
+            if (getArguments().getBoolean("googleRegister")) {
+                googleRegister();
+            } else {
+                register();
+            }
         }
-        ((AuthActivity) getContext()).finish();
     }
 }

@@ -75,6 +75,7 @@ public class SignInFragment extends Fragment {
     private void init() {
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
 
@@ -272,6 +273,8 @@ public class SignInFragment extends Fragment {
                 Uri personPhoto = acct.getPhotoUrl();
 
                 Toast.makeText(getActivity().getApplicationContext(), personEmail, Toast.LENGTH_SHORT).show();
+
+                googleSignIn(acct.getIdToken());
             }
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
@@ -279,6 +282,54 @@ public class SignInFragment extends Fragment {
             Log.w("TAG", e.toString());
 
         }
+    }
+
+    public void googleSignIn(String idToken) {
+        dialog.setMessage("Registering");
+        dialog.show();
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.GOOGLE_LOGIN, response -> {
+
+            try {
+                JSONObject object = new JSONObject(response);
+                Log.d("TAGTAGTAGTAG", object.toString());
+                if (object.getBoolean("success")) {
+                    JSONObject user = object.getJSONObject("user");
+                    SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user", getContext().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = userPref.edit();
+                    editor.putString("token", object.getString("token"));
+                    editor.putString("_id", user.getString("_id"));
+                    editor.putString("firstname", user.getString("firstname"));
+                    editor.putString("lastname", user.getString("lastname"));
+                    editor.putString("isTutor", user.getString("isTutor"));
+                    editor.putString("loggedInAs", loggedInAs);
+                    editor.putBoolean("isLoggedIn", true);
+                    editor.apply();
+                    startActivity(new Intent(((AuthActivity) getContext()), HomeActivity.class));
+                    ((AuthActivity) getContext()).finish();
+                }
+                StyleableToast.makeText(getContext(), "Login Successful", R.style.CustomToast).show();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                StyleableToast.makeText(getContext(), "Login Unsuccessful", R.style.CustomToast).show();
+            }
+            dialog.dismiss();
+
+        }, error -> {
+            StyleableToast.makeText(getContext(), "Login Unsuccessful", R.style.CustomToast).show();
+            error.printStackTrace();
+            dialog.dismiss();
+        }) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("tokenId", idToken);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
     }
 
 }

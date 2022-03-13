@@ -107,8 +107,6 @@ public class RequestScheduleFragment extends Fragment {
     private void setDisableDaysInCalendar(ArrayList<Integer> availableDays) {
 
         Calendar date;
-        List<Integer> days = new ArrayList<>();
-
         List<Calendar> disabledDays = new ArrayList<>();
         int weeks = 52;
 
@@ -211,7 +209,7 @@ public class RequestScheduleFragment extends Fragment {
 
     }
 
-//    private void confirmSchedule() {
+    private void confirmSchedule() {
 //        StringRequest request = new StringRequest(Request.Method.POST, Constant., response -> {
 //
 //            try {
@@ -248,7 +246,7 @@ public class RequestScheduleFragment extends Fragment {
 //
 //        RequestQueue queue = Volley.newRequestQueue(getContext());
 //        queue.add(request);
-//    }
+    }
 
     private int parseDayString(String day) {
         switch (day) {

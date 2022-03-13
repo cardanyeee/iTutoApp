@@ -48,6 +48,15 @@
         <item name="backgroundTint">@color/colorBackground</item>
     </style>
 
+    <style name="AppTheme.BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary2</item>
+        <item name="elevation">0dp</item>
+        <item name="backgroundTint">@color/colorTransparent</item>
+    </style>
+
     <style name="Button.Primary" parent="ThemeOverlay.AppCompat">
         <item name="colorPrimary">@color/colorPrimaryLight</item>
     </style>

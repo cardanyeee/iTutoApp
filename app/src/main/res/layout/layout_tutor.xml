@@ -15,134 +15,142 @@
         android:background="@drawable/bg_round2"
         android:elevation="5dp"
         android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="10">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imgTutor"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/user2" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:orientation="vertical"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="5dp">
-
-                <TextView
-                    android:id="@+id/txtName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_black"
-                    android:text="Juan Dela Cruz"
-                    android:textFontWeight="900"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/txtCourse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/roboto"
-                    android:maxLines="1"
-                    android:scrollHorizontally="true"
-                    android:text="Bachelor of Science in Information Technology"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/txtYearLevel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Third Year"
-                    android:textSize="13sp" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:src="@drawable/ic_baseline_verified_24"
-                app:tint="@color/colorPrimary" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:orientation="vertical"
-            android:paddingHorizontal="15dp">
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="7dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgTutor"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/user2" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="5dp">
+
+                    <TextView
+                        android:id="@+id/txtName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_black"
+                        android:text="Juan Dela Cruz"
+                        android:textFontWeight="900"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/txtCourse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        android:scrollHorizontally="true"
+                        android:text="Bachelor of Science in Information Technology"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/txtYearLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Third Year"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
                 <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_baseline_access_time_24"
+                    android:layout_gravity="top"
+                    android:src="@drawable/ic_baseline_verified_24"
                     app:tint="@color/colorPrimary" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical"
+                android:paddingHorizontal="15dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginBottom="7dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_baseline_access_time_24"
+                        app:tint="@color/colorPrimary" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Monday, Tuesday"
+                            android:textSize="12sp" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="9:00AM - 4:00PM"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_baseline_library_books_24"
+                        app:tint="@color/colorPrimary" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Monday, Tuesday"
-                        android:textSize="12sp" />
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="9:00AM - 4:00PM"
+                        android:text="Computer Programming"
                         android:textSize="12sp" />
 
                 </LinearLayout>
 
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_baseline_library_books_24"
-                    app:tint="@color/colorPrimary" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Computer Programming"
-                    android:textSize="12sp" />
-
             </LinearLayout>
 
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -150,25 +158,12 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <!--            <ImageView-->
-            <!--                android:layout_width="20dp"-->
-            <!--                android:layout_height="20dp"-->
-            <!--                android:src="@drawable/ic_clock"/>-->
-
-            <!--            <TextView-->
-            <!--                android:id="@+id/txtMessageContent"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:padding="10dp"-->
-            <!--                android:text="Monday - Thursday"-->
-            <!--                android:textSize="12sp" />-->
 
             <Button
                 android:id="@+id/btnProfile"
                 android:layout_width="0dp"
                 android:layout_height="42dp"
                 android:layout_gravity="end"
-                android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:background="@color/colorTransparent"
                 android:elevation="4dp"
@@ -184,7 +179,7 @@
                 android:layout_height="42dp"
                 android:layout_gravity="end"
                 android:layout_weight="1"
-                android:background="@drawable/btn_solid"
+                android:background="@drawable/btn_layout_tutor"
                 android:fontFamily="@font/roboto"
                 android:text="Message"
                 android:textSize="12sp"
@@ -195,4 +190,5 @@
 
 
     </LinearLayout>
+
 </LinearLayout>

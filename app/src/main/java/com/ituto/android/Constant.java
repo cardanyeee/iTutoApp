@@ -1,8 +1,8 @@
 package com.ituto.android;
 
 public class Constant {
-    public static final String URL = "http://192.168.1.2:8080/";
-    public static final String HOME = URL + "api";
+    public static final String URL = "http://192.168.1.2:8080";
+    public static final String HOME = URL + "/api";
 
     public static final String LOGIN = HOME + "/auth/login";
     public static final String LOGOUT = HOME + "/auth/logout";
@@ -19,6 +19,7 @@ public class Constant {
     public static final String CONVERSATION = HOME + "/conversation";
     public static final String SEND_FILES = HOME + "/file/send";
 
+    public static final String REQUEST_SESSION = HOME + "/session/request";
     public static final String TUTOR_SESSIONS = HOME + "/sessions/tutor";
     public static final String TUTEE_SESSIONS = HOME + "/sessions/tutee";
     public static final String SESSIONS = HOME + "/sessions";

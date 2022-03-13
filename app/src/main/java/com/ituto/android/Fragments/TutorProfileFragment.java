@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class TutorProfileFragment extends Fragment {
 
     private View view;
 
+    private ImageView imgBackButton;
     private CircleImageView imgUserProfile;
     private LinearLayout llyAboutMe, llySubjects, llyContactInfo, llyEmail, llyPhone;
     private TextView txtTutorName, txtCourse, txtNumberOfStars, txtNumberOfReviews, txtAboutMe, txtSubjects, txtEmail, txtPhone;
@@ -58,6 +60,7 @@ public class TutorProfileFragment extends Fragment {
     private void init() {
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
 
+        imgBackButton = view.findViewById(R.id.imgBackButton);
         imgUserProfile = view.findViewById(R.id.imgUserProfile);
         llyAboutMe = view.findViewById(R.id.llyAboutMe);
         llyContactInfo = view.findViewById(R.id.llyContactInfo);
@@ -87,6 +90,10 @@ public class TutorProfileFragment extends Fragment {
         tutorID = getArguments().getString("_id");
 
         getTutorProfile();
+
+        imgBackButton.setOnClickListener(v -> {
+            getActivity().getSupportFragmentManager().popBackStack();
+        });
 
         btnRequestSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +125,7 @@ public class TutorProfileFragment extends Fragment {
                     JSONArray availabilityJSONArray = tutorObject.getJSONArray("availability");
                     JSONArray reviewsJSONArray = tutorObject.getJSONArray("reviews");
 
-                    Picasso.get().load(avatarObject.getString("url")).resize(500, 0).into(imgUserProfile);
+                    Picasso.get().load(avatarObject.getString("url")).into(imgUserProfile);
                     txtTutorName.setText(userObject.getString("firstname") + " " + userObject.getString("lastname"));
                     txtCourse.setText(courseObject.getString("name"));
 

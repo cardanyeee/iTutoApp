@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="" android:id="@+id/item_home"
+    <item android:title="Home" android:id="@+id/item_home"
         app:showAsAction="always" android:icon="@drawable/ic_baseline_home_24"/>
 
-    <item android:title="" android:id="@+id/item_tutors"
+    <item android:title="Tutors" android:id="@+id/item_tutors"
         app:showAsAction="always" android:icon="@drawable/ic_baseline_school_24"/>
 
-    <item android:title="" android:id="@+id/item_tasks"
+    <item android:title="Sessions" android:id="@+id/item_tasks"
         app:showAsAction="always" android:icon="@drawable/ic_baseline_assignment_24"/>
 
-    <item android:title="" android:id="@+id/item_messages"
+    <item android:title="Messages" android:id="@+id/item_messages"
         app:showAsAction="always" android:icon="@drawable/ic_baseline_message_24"/>
 
-    <item android:title="" android:id="@+id/item_account"
+    <item android:title="Account" android:id="@+id/item_account"
         app:showAsAction="always" android:icon="@drawable/ic_baseline_person_outline_24"/>
 
 </menu>

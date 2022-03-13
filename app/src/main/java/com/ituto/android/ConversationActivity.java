@@ -134,7 +134,7 @@ public class ConversationActivity extends AppCompatActivity {
         getMessages();
 
         try {
-            socket = IO.socket("http://192.168.1.2:8080");
+            socket = IO.socket(Constant.URL);
 
             socket.connect();
 
@@ -318,9 +318,6 @@ public class ConversationActivity extends AppCompatActivity {
         };
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
-
-//        User user = messageArrayList.get(1).getUser();
-//        Picasso.get().load(user.getAvatar()).fit().centerCrop().into(imgYouHeader);
     }
 
     private void sendMessage() {

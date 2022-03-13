@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +18,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +32,12 @@ import com.android.volley.toolbox.Volley;
 //import com.example.movieapp.AuthActivity;
 //import com.example.movieapp.Constant;
 //import com.example.movieapp.HomeActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
@@ -58,21 +66,19 @@ import java.util.Map;
 public class SignUpFragment extends Fragment {
     private View view;
     private SharedPreferences sharedPreferences;
-    private TextInputLayout layoutFirstName, layoutLastName, layoutEmail, layoutPassword, layoutConfirm, layoutBirthdate, layoutGender, layoutCourse;
-    private TextInputEditText txtFirstName, txtLastName, txtEmail, txtPassword, txtConfirm, txtBirthdate;
-    private AutoCompleteTextView txtGender;
-    private AutoCompleteTextView txtCourse;
+    private TextInputLayout layoutEmail, layoutPassword, layoutConfirm;
+    private TextInputEditText txtEmail, txtPassword, txtConfirm;
+
     private TextView txtSignIn;
-    private Button btnSignUp;
+
+    private Button btnSignUp, btnSignInWithGoogle;
+
     private ProgressDialog dialog;
-    private DatePickerDialog.OnDateSetListener dateSetListener;
-    private ArrayList<Course> courseArrayList;
-    private ArrayList<String> stringCourseArrayList;
-    private static final String[] GENDERS = new String[]{
-            "Male", "Female", "Prefer not to say"
-    };
+
     private Boolean isTutor;
-    private String courseID;
+
+    private GoogleSignInClient googleSignInClient;
+    private static int RC_SIGN_IN = 100;
 
     @Nullable
     @Override
@@ -83,74 +89,39 @@ public class SignUpFragment extends Fragment {
     }
 
     private void init() {
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(getActivity().getApplicationContext(), gso);
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity().getApplicationContext());
+
+        btnSignInWithGoogle = view.findViewById(R.id.btnSignInWithGoogle);
+
+        btnSignInWithGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInWithGoogle();
+            }
+        });
+
         sharedPreferences = getContext().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         isTutor = getArguments().getBoolean("isTutor");
 
-        layoutFirstName = view.findViewById(R.id.txtLayoutFirstNameSignUp);
-        layoutLastName = view.findViewById(R.id.txtLayoutLastNameSignUp);
         layoutPassword = view.findViewById(R.id.txtLayoutPasswordSignUp);
         layoutEmail = view.findViewById(R.id.txtLayoutEmailSignUp);
         layoutConfirm = view.findViewById(R.id.txtLayoutConfirmSignUp);
-        layoutBirthdate = view.findViewById(R.id.txtLayoutBirthdateSignUp);
-        layoutGender = view.findViewById(R.id.txtLayoutGenderSignUp);
-        layoutCourse = view.findViewById(R.id.txtLayoutCourseSignUp);
 
-        txtFirstName = view.findViewById(R.id.txtFirstNameSignUp);
-        txtLastName = view.findViewById(R.id.txtLastNameSignUp);
         txtPassword = view.findViewById(R.id.txtPasswordSignUp);
         txtConfirm = view.findViewById(R.id.txtConfirmSignUp);
         txtEmail = view.findViewById(R.id.txtEmailSignUp);
-        txtBirthdate = view.findViewById(R.id.txtBirthdateSignUp);
-        txtGender = view.findViewById(R.id.txtGenderSignUp);
-        txtCourse = view.findViewById(R.id.txtCourseSignUp);
 
         txtSignIn = view.findViewById(R.id.txtSignIn);
         btnSignUp = view.findViewById(R.id.btnSignUp);
         dialog = new ProgressDialog(getContext());
         dialog.setCancelable(false);
-
-        getCourses();
-
-        if (isTutor) {
-            btnSignUp.setText("Continue");
-        } else {
-            btnSignUp.setText("Register");
-        }
-
-        txtBirthdate.setOnClickListener(v -> {
-            Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-            com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePickerDialog = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(
-                    (view, year1, monthOfYear, dayOfMonth) -> {
-                        monthOfYear = monthOfYear + 1;
-                        String date = year1 + "-" + monthOfYear + "-" + dayOfMonth;
-                        txtBirthdate.setText(date);
-                    },
-                    year,
-                    month,
-                    day);
-            datePickerDialog.setAccentColor("#477B72");
-            datePickerDialog.setMaxDate(Calendar.getInstance());
-            datePickerDialog.show(getParentFragmentManager(), "");
-        });
-
-        dateSetListener = (view, year, month, dayOfMonth) -> {
-            month = month + 1;
-            String date = year + "-" + month + "-" + dayOfMonth;
-            txtBirthdate.setText(date);
-        };
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                getContext(),
-                R.layout.item_dropdown,
-                R.id.txtDropdownItem,
-                GENDERS
-        );
-
-        txtGender.setAdapter(arrayAdapter);
 
         txtSignIn.setOnClickListener(v -> {
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
@@ -163,50 +134,19 @@ public class SignUpFragment extends Fragment {
 
         btnSignUp.setOnClickListener(v -> {
             if (validate()) {
-                register();
-            }
-        });
-
-        txtCourse.setOnItemClickListener((parent, view, position, id) -> {
-            String selected = (String) parent.getItemAtPosition(position);
-            courseID = courseArrayList.get(stringCourseArrayList.indexOf(selected)).getId();
-        });
-
-        txtFirstName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (txtFirstName.getText().toString().isEmpty()) {
-                    layoutFirstName.setErrorEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        txtLastName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (txtLastName.getText().toString().isEmpty()) {
-                    layoutLastName.setErrorEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+                Bundle args = new Bundle();
+                UserInfoFragment userInfoFragment = new UserInfoFragment();
+                args.putBoolean("isTutor", isTutor);
+                args.putString("email", txtEmail.getText().toString().trim());
+                args.putString("password", txtPassword.getText().toString());
+                args.putString("password_confirmation", txtConfirm.getText().toString());
+                userInfoFragment.setArguments(args);
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.fade_in,   // popEnter
+                        R.anim.slide_out  // popExit
+                ).replace(R.id.frameAuthContainer, userInfoFragment).addToBackStack(null).commit();
             }
         });
 
@@ -270,18 +210,6 @@ public class SignUpFragment extends Fragment {
 
     private boolean validate() {
 
-        if (txtFirstName.getText().toString().isEmpty()) {
-            layoutFirstName.setErrorEnabled(true);
-            layoutFirstName.setError("Enter a valid firstname");
-            return false;
-        }
-
-        if (txtLastName.getText().toString().isEmpty()) {
-            layoutLastName.setErrorEnabled(true);
-            layoutLastName.setError("Enter a valid lastname");
-            return false;
-        }
-
         if (txtEmail.getText().toString().isEmpty()) {
             layoutEmail.setErrorEnabled(true);
             layoutEmail.setError("Enter a valid e-mail");
@@ -303,120 +231,44 @@ public class SignUpFragment extends Fragment {
         return true;
     }
 
-    private void register() {
-        dialog.setMessage("Registering");
-        dialog.show();
-        StringRequest request = new StringRequest(Request.Method.POST, Constant.REGISTER, response -> {
-
-            try {
-                JSONObject object = new JSONObject(response);
-                if (object.getBoolean("success")) {
-                    JSONObject user = object.getJSONObject("user");
-                    SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user", getContext().MODE_PRIVATE);
-                    SharedPreferences.Editor editor = userPref.edit();
-                    editor.putString("token", object.getString("token"));
-                    editor.putString("firstname", user.getString("firstname"));
-                    editor.putString("lastname", user.getString("lastname"));
-                    editor.putBoolean("isLoggedIn", true);
-                    editor.apply();
-                    redirectAuthentication();
-                    StyleableToast.makeText(getContext(), "Register Successful", R.style.CustomToast).show();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                StyleableToast.makeText(getContext(), "Register Unsuccessful", R.style.CustomToast).show();
-            }
-            dialog.dismiss();
-
-        }, error -> {
-            StyleableToast.makeText(getContext(), "Register Unsuccessful", R.style.CustomToast).show();
-            error.printStackTrace();
-            dialog.dismiss();
-        }) {
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("firstname", txtFirstName.getText().toString().trim());
-                map.put("lastname", txtLastName.getText().toString().trim());
-                map.put("birthdate", txtBirthdate.getText().toString().trim());
-                map.put("gender", txtGender.getText().toString().trim());
-                map.put("course", courseID);
-                map.put("email", txtEmail.getText().toString().trim());
-                map.put("password", txtPassword.getText().toString());
-                map.put("password_confirmation", txtConfirm.getText().toString());
-                return map;
-            }
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        queue.add(request);
+    private void signInWithGoogle() {
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void getCourses() {
-        stringCourseArrayList = new ArrayList<>();
-        courseArrayList = new ArrayList<>();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.COURSES, response -> {
-
-            try {
-                JSONObject object = new JSONObject(response);
-
-                if (object.getBoolean("success")) {
-
-                    JSONArray coursesArray = new JSONArray(object.getString("courses"));
-
-                    for (int i = 0; i < coursesArray.length(); i++) {
-                        JSONObject courseObject = coursesArray.getJSONObject(i);
-
-                        if (courseObject.getBoolean("active")) {
-                            Course course = new Course();
-
-                            course.setId(courseObject.getString("_id"));
-                            course.setCode(courseObject.getString("code"));
-                            course.setName(courseObject.getString("name"));
-
-                            stringCourseArrayList.add(courseObject.getString("name"));
-                            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                                    getContext(),
-                                    R.layout.item_dropdown,
-                                    R.id.txtDropdownItem,
-                                    stringCourseArrayList
-                            );
-
-                            courseArrayList.add(course);
-                            txtCourse.setAdapter(arrayAdapter);
-                        }
-
-                    }
-
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }, error -> {
-            error.printStackTrace();
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                String token = sharedPreferences.getString("token", "");
-                HashMap<String, String> map = new HashMap<>();
-                map.put("Authorization", "Bearer " + token);
-                return map;
-            }
-        };
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        queue.add(request);
-    }
-
-    private void redirectAuthentication() {
-        if (isTutor) {
-            startActivity(new Intent(((AuthActivity) getContext()), TutorSignUpActivity.class));
-        } else {
-            startActivity(new Intent(((AuthActivity) getContext()), HomeActivity.class));
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
         }
-        ((AuthActivity) getContext()).finish();
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity().getApplicationContext());
+            if (acct != null) {
+                String personName = acct.getDisplayName();
+                String personGivenName = acct.getGivenName();
+                String personFamilyName = acct.getFamilyName();
+                String personEmail = acct.getEmail();
+                String personId = acct.getId();
+                Uri personPhoto = acct.getPhotoUrl();
+
+                Toast.makeText(getActivity().getApplicationContext(), personEmail, Toast.LENGTH_SHORT).show();
+            }
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w("TAG", e.toString());
+
+        }
     }
 
 }

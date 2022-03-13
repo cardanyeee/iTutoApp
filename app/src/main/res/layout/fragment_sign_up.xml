@@ -30,124 +30,11 @@
         android:textFontWeight="700"
         android:textSize="12sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        android:orientation="horizontal">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtLayoutFirstNameSignUp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:theme="@style/Button.Primary"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtFirstNameSignUp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/custom_input"
-                android:hint="@string/firstname"
-                android:inputType="textEmailAddress"
-                android:textSize="13sp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtLayoutLastNameSignUp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:theme="@style/Button.Primary"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtLastNameSignUp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/custom_input"
-                android:hint="@string/lastname"
-                android:inputType="textEmailAddress"
-                android:textSize="13sp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </LinearLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtLayoutGenderSignUp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        android:theme="@style/Button.Primary"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp">
-
-        <AutoCompleteTextView
-            android:id="@+id/txtGenderSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_input"
-            android:focusable="false"
-            android:hint="@string/gender"
-            android:textSize="13sp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtLayoutBirthdateSignUp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        android:theme="@style/Button.Primary"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtBirthdateSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_input"
-            android:focusable="false"
-            android:hint="@string/birthday"
-            android:inputType="none"
-            android:textSize="13sp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtLayoutCourseSignUp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        android:theme="@style/Button.Primary"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp">
-
-        <AutoCompleteTextView
-            android:id="@+id/txtCourseSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_input"
-            android:hint="@string/course"
-            android:textSize="13sp"
-            android:maxHeight="300dp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtLayoutEmailSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="15dp"
         android:theme="@style/Button.Primary"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp">
@@ -167,7 +54,7 @@
         android:id="@+id/txtLayoutPasswordSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="15dp"
         android:theme="@style/Button.Primary"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
@@ -188,7 +75,7 @@
         android:id="@+id/txtLayoutConfirmSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="30dp"
         android:theme="@style/Button.Primary"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
@@ -205,20 +92,61 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
-
-
-
     <Button
         android:id="@+id/btnSignUp"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/btn_solid"
         android:elevation="4dp"
         android:fontFamily="@font/roboto"
         android:text="@string/btnTextSignUp"
         android:textColor="@color/colorWhite"
+        android:theme="@style/Button.Primary" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:id="@+id/tvText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="or" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toLeftOf="@id/tvText"
+            android:background="@android:color/darker_gray" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:layout_toRightOf="@id/tvText"
+            android:background="@android:color/darker_gray" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnSignInWithGoogle"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/btn_transparent_with_border"
+        android:drawableLeft="@drawable/ic_google_logo"
+        android:text="@string/continue_with_google"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
         android:theme="@style/Button.Primary" />
 
     <LinearLayout

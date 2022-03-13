@@ -68,6 +68,8 @@ public class SessionsFragment extends Fragment {
 
         btnAddSession = view.findViewById(R.id.btnAddSession);
 
+        swipeSession.setOnRefreshListener(() -> getSessions());
+
         getSessions();
     }
 

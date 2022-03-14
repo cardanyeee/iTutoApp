@@ -38,8 +38,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-        } else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TutorsFragment()).commit();
         }
         init();
     }

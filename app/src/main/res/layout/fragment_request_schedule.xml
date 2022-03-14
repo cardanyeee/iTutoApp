@@ -156,15 +156,28 @@
                         android:textColor="@color/colorHint"
                         android:textSize="12sp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txtFirstNameSignUp"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtLayoutDescription"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:background="@drawable/custom_input"
-                        android:inputType="textImeMultiLine"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="5dp"
-                        android:textSize="13sp" />
+                        android:layout_height="wrap_content"
+                        android:theme="@style/Button.Primary"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:background="@drawable/custom_input"
+                            android:inputType="textImeMultiLine"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="5dp"
+                            android:textSize="13sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
 
                 </LinearLayout>
 

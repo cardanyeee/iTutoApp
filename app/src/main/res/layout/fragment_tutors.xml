@@ -50,6 +50,7 @@
             android:id="@+id/recyclerTutor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
             android:paddingBottom="60dp">
 
         </androidx.recyclerview.widget.RecyclerView>

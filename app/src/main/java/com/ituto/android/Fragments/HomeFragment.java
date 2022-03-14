@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.ituto.android.HomeActivity;
 import com.ituto.android.Models.Course;
 import com.ituto.android.R;
@@ -51,6 +52,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void init() {
+        BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
+        bottomAppBar.setVisibility(View.VISIBLE);
         sharedPreferences = getContext().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
 //        toolbar = view.findViewById(R.id.toolbar);
         ((HomeActivity)getContext()).setSupportActionBar(toolbar);

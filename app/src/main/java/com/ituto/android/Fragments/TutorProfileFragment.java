@@ -107,7 +107,7 @@ public class TutorProfileFragment extends Fragment {
                         R.anim.fade_out,  // exit
                         R.anim.slide_in,
                         0// popExit
-                ).replace(R.id.fragment_container, requestScheduleFragment).addToBackStack(null).commit();
+                ).replace(R.id.fragment_container, requestScheduleFragment).commit();
             }
         });
     }

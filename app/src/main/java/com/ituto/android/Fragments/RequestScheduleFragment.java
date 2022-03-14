@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -24,16 +25,24 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.applandeo.materialcalendarview.CalendarView;
 
+import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.ituto.android.Constant;
 import com.ituto.android.Models.Availability;
 import com.ituto.android.Models.Subject;
+import com.ituto.android.Models.Tutor;
 import com.ituto.android.R;
+import com.muddzdev.styleabletoast.StyleableToast;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -49,17 +58,23 @@ public class RequestScheduleFragment extends Fragment {
 
     private CircleImageView imgTutorProfile;
     private TextView txtName, txtCourse;
+    private TextInputLayout txtLayoutSubject, txtLayoutDescription;
     private AutoCompleteTextView txtSubject;
+    private TextInputEditText txtDescription;
     private CalendarView calendarTutorSchedule;
     private Button btnConfirmSchedule;
 
     private Dialog dialog;
     private String tutorID;
+    private String subjectID;
+    private String startDate;
 
     private ArrayList<Subject> subjectArrayList;
     private ArrayList<String> stringSubjectArrayList;
     private ArrayList<Integer> availableDays;
     private SharedPreferences sharedPreferences;
+
+    private Tutor tutor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,8 +88,15 @@ public class RequestScheduleFragment extends Fragment {
 
         imgTutorProfile = view.findViewById(R.id.imgTutorProfile);
         txtName = view.findViewById(R.id.txtName);
+
+        txtLayoutSubject = view.findViewById(R.id.txtLayoutSubject);
+        txtLayoutDescription = view.findViewById(R.id.txtLayoutDescription);
+
         txtCourse = view.findViewById(R.id.txtCourse);
+
         txtSubject = view.findViewById(R.id.txtSubject);
+        txtDescription = view.findViewById(R.id.txtDescription);
+
         calendarTutorSchedule = view.findViewById(R.id.calendarTutorSchedule);
         Calendar minDate = Calendar.getInstance();
         minDate.add(Calendar.DATE, -1);
@@ -98,7 +120,24 @@ public class RequestScheduleFragment extends Fragment {
         btnConfirmSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (validate()) {
+                    confirmSchedule();
+                }
+            }
+        });
 
+        txtSubject.setOnItemClickListener((parent, view, position, id) -> {
+            String selected = (String) parent.getItemAtPosition(position);
+            subjectID = subjectArrayList.get(stringSubjectArrayList.indexOf(selected)).getId();
+        });
+
+        calendarTutorSchedule.setOnDayClickListener(new OnDayClickListener() {
+            @Override
+            public void onDayClick(EventDay eventDay) {
+                Calendar clickedDayCalendar = eventDay.getCalendar();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                startDate = format.format(clickedDayCalendar.getTime());
+                Log.d("TAGTAGTAG", startDate);
             }
         });
 
@@ -112,7 +151,7 @@ public class RequestScheduleFragment extends Fragment {
 
         for (int a = 0; a < 7; a++) {
             if (!availableDays.contains(a)) {
-                for (int i = -7; i < (weeks * 7) ; i = i + 7) {
+                for (int i = -7; i < (weeks * 7); i = i + 7) {
                     date = Calendar.getInstance();
                     date.add(Calendar.DAY_OF_YEAR, (a - date.get(Calendar.DAY_OF_WEEK) + 7 + i));
                     // saturday = Calendar.getInstance();
@@ -123,15 +162,14 @@ public class RequestScheduleFragment extends Fragment {
             }
 
         }
-
         calendarTutorSchedule.setDisabledDays(disabledDays);
-
     }
 
     private void getTutorProfile() {
         stringSubjectArrayList = new ArrayList<>();
         subjectArrayList = new ArrayList<>();
         availableDays = new ArrayList<>();
+        tutor = new Tutor();
 
         StringRequest request = new StringRequest(Request.Method.GET, Constant.TUTOR_PROFILE + "/" + tutorID, response -> {
             try {
@@ -145,6 +183,8 @@ public class RequestScheduleFragment extends Fragment {
                     JSONArray subjectsJSONArray = tutorObject.getJSONArray("subjects");
                     JSONArray availabilityJSONArray = tutorObject.getJSONArray("availability");
                     JSONArray reviewsJSONArray = tutorObject.getJSONArray("reviews");
+
+                    tutor.setUserID(userObject.getString("_id"));
 
                     for (int i = 0; i < subjectsJSONArray.length(); i++) {
                         JSONObject subjectObject = subjectsJSONArray.getJSONObject(i);
@@ -210,42 +250,70 @@ public class RequestScheduleFragment extends Fragment {
     }
 
     private void confirmSchedule() {
-//        StringRequest request = new StringRequest(Request.Method.POST, Constant., response -> {
-//
-//            try {
-//                JSONObject object = new JSONObject(response);
-//                if (object.getBoolean("success")) {
-//
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//                StyleableToast.makeText(getContext(), "Unsuccessful", R.style.CustomToast).show();
-//            }
-//
-//        }, error -> {
-//            StyleableToast.makeText(getContext(), "Unable to request schedule", R.style.CustomToast).show();
-//            error.printStackTrace();
-//        }) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                String token = sharedPreferences.getString("token", "");
-//                HashMap<String, String> map = new HashMap<>();
-//                map.put("Authorization", "Bearer " + token);
-//                return map;
-//            }
-//
-//            @Nullable
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                HashMap<String, String> map = new HashMap<>();
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.REQUEST_SESSION, response -> {
+
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                            R.anim.slide_in,  // enter
+                            R.anim.fade_out,  // exit
+                            R.anim.fade_in,   // popEnter
+                            R.anim.slide_out  // popExit
+                    ).replace(R.id.fragment_container, new HomeFragment()).addToBackStack(null).commit();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }, error -> {
+            StyleableToast.makeText(getContext(), "Unable to request schedule", R.style.CustomToast).show();
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
 //                JSONArray jsArray = new JSONArray(tutorSubjectsArrayList);
-//                map.put("subjectID", jsArray.toString());
-//                return map;
-//            }
-//        };
-//
-//        RequestQueue queue = Volley.newRequestQueue(getContext());
-//        queue.add(request);
+                map.put("tutor", tutor.getUserID());
+                map.put("subject", subjectID);
+                map.put("description", txtDescription.getText().toString().trim());
+                map.put("startDate", startDate);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
+    private boolean validate() {
+
+        if (txtSubject.getText().toString().isEmpty()) {
+            txtLayoutSubject.setErrorEnabled(true);
+            txtLayoutSubject.setError("Please select a subject");
+            return false;
+        }
+
+        if (txtDescription.getText().toString().isEmpty()) {
+            txtLayoutDescription.setErrorEnabled(true);
+            txtLayoutDescription.setError("Please input on which area of the subject you are having trouble with");
+            return false;
+        }
+
+        if (startDate == null) {
+            StyleableToast.makeText(getContext(), "Select a date on when would you like to start", R.style.CustomToast).show();
+        }
+
+        return true;
     }
 
     private int parseDayString(String day) {

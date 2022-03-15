@@ -46,7 +46,6 @@
                 android:outlineAmbientShadowColor="@android:color/transparent"
                 android:outlineSpotShadowColor="@android:color/transparent"
                 android:paddingBottom="5dp"
-                app:elevation="100dp"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/menu_main" />
 

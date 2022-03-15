@@ -1,4 +1,4 @@
-package com.ituto.android.Fragments;
+package com.ituto.android.Fragments.MainFragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.ituto.android.Adapters.TutorsAdapter;
 import com.ituto.android.Constant;
+import com.ituto.android.Fragments.FilterFragment;
 import com.ituto.android.Models.Tutor;
 import com.ituto.android.R;
 import com.muddzdev.styleabletoast.StyleableToast;

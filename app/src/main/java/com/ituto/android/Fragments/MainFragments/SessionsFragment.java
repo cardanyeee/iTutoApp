@@ -1,4 +1,4 @@
-package com.ituto.android.Fragments;
+package com.ituto.android.Fragments.MainFragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;

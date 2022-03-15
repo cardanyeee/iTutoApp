@@ -9,12 +9,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.ituto.android.Fragments.AccountFragment;
-import com.ituto.android.Fragments.ContactsFragment;
-import com.ituto.android.Fragments.HomeFragment;
-import com.ituto.android.Fragments.SessionsFragment;
-import com.ituto.android.Fragments.TutorsFragment;
-import com.ituto.android.Models.Session;
+import com.ituto.android.Fragments.MainFragments.AccountFragment;
+import com.ituto.android.Fragments.MainFragments.ContactsFragment;
+import com.ituto.android.Fragments.MainFragments.HomeFragment;
+import com.ituto.android.Fragments.MainFragments.SessionsFragment;
+import com.ituto.android.Fragments.MainFragments.TutorsFragment;
 
 import io.socket.client.Socket;
 

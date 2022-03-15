@@ -1,4 +1,4 @@
-package com.ituto.android.Fragments;
+package com.ituto.android.Fragments.MainFragments;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -29,6 +29,9 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +40,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 @SuppressWarnings("ALL")
 public class AccountFragment extends Fragment {
     private View view;
-    private TextView txtFirstName, txtLastName, txtEmail, txtUsername;
+    private TextView txtName, txtBirthdate, txtEmail, txtUsername, txtPhone, txtGender, txtCourse;
     private Button btnLogOut;
     private SharedPreferences sharedPreferences;
     private Dialog dialog;
@@ -55,10 +58,13 @@ public class AccountFragment extends Fragment {
     private void init() {
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         btnLogOut = view.findViewById(R.id.btnLogOut);
-        txtFirstName = view.findViewById(R.id.txtFirstName);
-        txtLastName = view.findViewById(R.id.txtLastName);
+        txtName = view.findViewById(R.id.txtName);
+        txtBirthdate = view.findViewById(R.id.txtBirthdate);
         txtEmail = view.findViewById(R.id.txtEmail);
         txtUsername = view.findViewById(R.id.txtUsername);
+        txtPhone = view.findViewById(R.id.txtPhone);
+        txtGender = view.findViewById(R.id.txtGender);
+        txtCourse = view.findViewById(R.id.txtCourse);
         imgUserInfo = view.findViewById(R.id.imgUserInfo);
 
         btnLogOut.setOnClickListener(v -> {
@@ -132,14 +138,23 @@ public class AccountFragment extends Fragment {
                 if(object.getBoolean("success")){
                     JSONObject user = object.getJSONObject("user");
                     JSONObject avatar = user.getJSONObject("avatar");
+                    JSONObject course = user.getJSONObject("course");
 
-                    txtFirstName.setText(user.getString("firstname"));
-                    txtLastName.setText(user.getString("lastname"));
+                    txtName.setText(user.getString("firstname") + " " + user.getString("lastname"));
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    Date date = format.parse(user.getString("birthdate"));
+                    String outputPattern = "MMMM dd, yyyy";
+                    SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+                    txtBirthdate.setText(outputFormat.format(date));
                     txtUsername.setText(user.getString("username"));
                     txtEmail.setText(user.getString("email"));
-                    Picasso.get().load(avatar.getString("url")).fit().into(imgUserInfo);
+                    txtGender.setText(user.getString("gender"));
+                    txtCourse.setText(course.getString("name"));
+                    Log.d("avatar.getString(\"url\")avatar.getString(\"url\")avatar.getString(\"url\")", avatar.getString("url"));
+                    Picasso.get().load(avatar.getString("url")).into(imgUserInfo);
+                    txtPhone.setText(user.getString("phone"));
                 }
-            } catch (JSONException e) {
+            } catch (JSONException | ParseException e) {
                 e.printStackTrace();
             }
 

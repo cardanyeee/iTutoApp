@@ -149,7 +149,7 @@ public class RequestScheduleFragment extends Fragment {
         List<Calendar> disabledDays = new ArrayList<>();
         int weeks = 52;
 
-        for (int a = 0; a < 7; a++) {
+        for (int a = 1; a < 8; a++) {
             if (!availableDays.contains(a)) {
                 for (int i = -7; i < (weeks * 7); i = i + 7) {
                     date = Calendar.getInstance();

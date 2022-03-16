@@ -25,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.ituto.android.Constant;
 import com.ituto.android.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -84,7 +85,6 @@ public class TutorProfileFragment extends Fragment {
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
         dialog.setContentView(R.layout.layout_progress_dialog);
-        dialog.getWindow().setLayout(dialog.getWindow().getAttributes().width, 500);
         dialog.setCancelable(false);
         dialog.show();
 
@@ -128,7 +128,17 @@ public class TutorProfileFragment extends Fragment {
                     JSONArray availabilityJSONArray = tutorObject.getJSONArray("availability");
                     JSONArray reviewsJSONArray = tutorObject.getJSONArray("reviews");
 
-                    Picasso.get().load(avatarObject.getString("url")).into(imgUserProfile);
+                    Picasso.get().load(avatarObject.getString("url")).placeholder(R.drawable.blank_avatar).into(imgUserProfile, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            dialog.dismiss();
+                        }
+                    });
                     txtTutorName.setText(userObject.getString("firstname") + " " + userObject.getString("lastname"));
                     txtCourse.setText(courseObject.getString("name"));
 
@@ -148,7 +158,6 @@ public class TutorProfileFragment extends Fragment {
 
                 }
 
-                dialog.dismiss();
             } catch (JSONException e) {
                 e.printStackTrace();
                 btnRequestSchedule.setEnabled(false);

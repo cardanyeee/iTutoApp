@@ -90,7 +90,6 @@ public class AccountFragment extends Fragment {
         WindowManager.LayoutParams wlp = window.getAttributes();
         wlp.height = getActivity().getResources().getDisplayMetrics().heightPixels - bottomAppBar.getHeight();
         window.setAttributes(wlp);
-        bottomAppBar.bringToFront();
 
         btnLogOut.setOnClickListener(v -> {
             dialog = new Dialog(getContext());

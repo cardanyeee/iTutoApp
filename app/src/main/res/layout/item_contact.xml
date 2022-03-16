@@ -24,7 +24,7 @@
             android:id="@+id/imgUserContact"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/user2" />
+            android:src="@drawable/blank_avatar" />
 
         <TextView
             android:layout_width="28dp"
@@ -73,7 +73,7 @@
                 android:textSize="@dimen/h3"
                 android:layout_marginTop="3dp"/>
             <TextView
-                android:id="@+id/tv_time"
+                android:id="@+id/txtTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/_5_04pm"

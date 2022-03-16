@@ -128,7 +128,7 @@ public class UserInfoFragment extends Fragment {
                     year,
                     month,
                     day);
-            datePickerDialog.setAccentColor("#477B72");
+            datePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimaryLight));
             datePickerDialog.setMaxDate(Calendar.getInstance());
             datePickerDialog.show(getParentFragmentManager(), "");
         });

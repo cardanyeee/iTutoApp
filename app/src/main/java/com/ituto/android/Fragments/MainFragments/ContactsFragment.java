@@ -95,6 +95,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
                             message.setMessageID(messageObject.getString("_id"));
                             message.setContent(messageObject.getString("content"));
                             message.setConversationID(messageObject.getString("conversationID"));
+                            message.setTimestamp(messageObject.getString("createdAt"));
                         } else {
                             message.setMessageID("none");
                             message.setContent("Start a conversation...");

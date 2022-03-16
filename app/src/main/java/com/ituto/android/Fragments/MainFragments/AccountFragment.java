@@ -7,11 +7,15 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -22,11 +26,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
 import com.ituto.android.Fragments.RequestScheduleFragment;
 import com.ituto.android.Fragments.UpdateProfileFragment;
 import com.ituto.android.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -60,6 +66,8 @@ public class AccountFragment extends Fragment {
     }
 
     private void init() {
+        BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
+        bottomAppBar.setVisibility(View.VISIBLE);
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         btnLogOut = view.findViewById(R.id.btnLogOut);
         txtName = view.findViewById(R.id.txtName);
@@ -72,12 +80,21 @@ public class AccountFragment extends Fragment {
         txtCourse = view.findViewById(R.id.txtCourse);
         imgUserInfo = view.findViewById(R.id.imgUserInfo);
 
+        dialog = new Dialog(getContext(), R.style.DialogTheme);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
+        dialog.setContentView(R.layout.layout_progress_dialog);
+        RelativeLayout dialogLayout = dialog.findViewById(R.id.rllDialog);
+        dialog.setCancelable(false);
+        dialog.show();
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.height = getActivity().getResources().getDisplayMetrics().heightPixels - bottomAppBar.getHeight();
+        window.setAttributes(wlp);
+        bottomAppBar.bringToFront();
+
         btnLogOut.setOnClickListener(v -> {
             dialog = new Dialog(getContext());
             dialog.setContentView(R.layout.layout_logout_dialog);
-
-            dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
             Button btnYes = dialog.findViewById(R.id.btnYes);
             Button btnNo = dialog.findViewById(R.id.btnNo);
@@ -110,7 +127,7 @@ public class AccountFragment extends Fragment {
                         R.anim.fade_out,  // exit
                         R.anim.slide_in,
                         0// popExit
-                ).replace(R.id.fragment_container, updateProfileFragment).commit();
+                ).replace(R.id.fragment_container, updateProfileFragment).addToBackStack(null).commit();
             }
         });
 
@@ -170,16 +187,27 @@ public class AccountFragment extends Fragment {
                     txtEmail.setText(user.getString("email"));
                     txtGender.setText(user.getString("gender"));
                     txtCourse.setText(course.getString("name"));
-                    Log.d("avatar.getString(\"url\")avatar.getString(\"url\")avatar.getString(\"url\")", avatar.getString("url"));
-                    Picasso.get().load(avatar.getString("url")).into(imgUserInfo);
-                    txtPhone.setText(user.getString("phone"));
+                    txtPhone.setText(user.has("phone") ? user.getString("phone") : "");
+                    Picasso.get().load(avatar.getString("url")).placeholder(R.drawable.blank_avatar).into(imgUserInfo, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            dialog.dismiss();
+                        }
+                    });
                 }
             } catch (JSONException | ParseException e) {
+                dialog.dismiss();
                 e.printStackTrace();
             }
 
 
         }, error -> {
+            dialog.dismiss();
             error.printStackTrace();
         }){
             @Override

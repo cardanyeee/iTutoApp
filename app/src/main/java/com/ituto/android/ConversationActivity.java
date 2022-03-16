@@ -164,7 +164,7 @@ public class ConversationActivity extends AppCompatActivity {
 //                return;
 //            }
             if (all_file_path == null) {
-                Toast.makeText(ConversationActivity.this, "ALl File File Empty", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ConversationActivity.this, "ALl File File Empty", Toast.LENGTH_SHORT).show();
                 return;
             }
 //            if (camera_file_path == null) {

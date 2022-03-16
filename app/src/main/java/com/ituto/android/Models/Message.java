@@ -2,7 +2,7 @@ package com.ituto.android.Models;
 
 public class Message {
 
-    private String messageID, senderID, conversationID, content;
+    private String messageID, senderID, conversationID, content, timestamp;
     private Conversation conversation;
     private User user;
 
@@ -52,5 +52,13 @@ public class Message {
 
     public void setConversation(Conversation conversation) {
         this.conversation = conversation;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }

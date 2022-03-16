@@ -28,7 +28,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:clipToPadding="false"
+        android:paddingBottom="70dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -198,7 +200,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="15dp"
                     android:theme="@style/Button.Primary"
                     app:boxStrokeWidth="0dp"
                     app:boxStrokeWidthFocused="0dp">
@@ -228,11 +230,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_input"
-                        android:hint="Username"
-                        android:inputType="text"
+                        android:hint="Phone"
+                        android:inputType="phone"
                         android:textSize="13sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btnUpdateProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="70dp"
+                    android:background="@drawable/btn_solid"
+                    android:elevation="4dp"
+                    android:text="Update Profile"
+                    android:textAllCaps="false"
+                    android:textSize="15sp"
+                    android:theme="@style/Button.Primary" />
 
             </LinearLayout>
 

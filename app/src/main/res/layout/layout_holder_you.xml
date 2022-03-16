@@ -17,7 +17,7 @@
             android:id="@+id/imgYou"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/user2"
+            android:src="@drawable/blank_avatar"
             android:layout_marginEnd="10dp"/>
         <TextView
             android:id="@+id/txtMessageContent"

@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,15 +78,17 @@ public class TutorProfileFragment extends Fragment {
         txtPhone = view.findViewById(R.id.txtPhone);
         btnRequestSchedule = view.findViewById(R.id.btnRequestSchedule);
 
+        BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
+        bottomAppBar.setVisibility(View.GONE);
+
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
         dialog.setContentView(R.layout.layout_progress_dialog);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.getWindow().setLayout(dialog.getWindow().getAttributes().width, 500);
         dialog.setCancelable(false);
         dialog.show();
 
-        BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
-        bottomAppBar.setVisibility(View.GONE);
+        Log.d("TAG", String.valueOf(dialog.getWindow().getAttributes().height));
 
         tutorID = getArguments().getString("_id");
 

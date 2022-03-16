@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -23,6 +24,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
+import com.ituto.android.Fragments.RequestScheduleFragment;
+import com.ituto.android.Fragments.UpdateProfileFragment;
 import com.ituto.android.R;
 import com.squareup.picasso.Picasso;
 
@@ -41,6 +44,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AccountFragment extends Fragment {
     private View view;
     private TextView txtName, txtBirthdate, txtEmail, txtUsername, txtPhone, txtGender, txtCourse;
+    private ImageView imgUpdateProfile;
     private Button btnLogOut;
     private SharedPreferences sharedPreferences;
     private Dialog dialog;
@@ -59,6 +63,7 @@ public class AccountFragment extends Fragment {
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         btnLogOut = view.findViewById(R.id.btnLogOut);
         txtName = view.findViewById(R.id.txtName);
+        imgUpdateProfile = view.findViewById(R.id.imgUpdateProfile);
         txtBirthdate = view.findViewById(R.id.txtBirthdate);
         txtEmail = view.findViewById(R.id.txtEmail);
         txtUsername = view.findViewById(R.id.txtUsername);
@@ -92,6 +97,21 @@ public class AccountFragment extends Fragment {
                     dialog.cancel();
                 }
             });
+        });
+
+        imgUpdateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                UpdateProfileFragment updateProfileFragment = new UpdateProfileFragment();
+                updateProfileFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.slide_in,
+                        0// popExit
+                ).replace(R.id.fragment_container, updateProfileFragment).commit();
+            }
         });
 
         getUser();

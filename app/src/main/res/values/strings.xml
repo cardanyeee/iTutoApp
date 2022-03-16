@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">iTutoApp</string>
+    <string name="app_name">iTuto</string>
     <string name="iTuto">iTuto</string>
     <string name="emailHint">Email</string>
     <string name="passwordHint">Password</string>

@@ -43,8 +43,8 @@ public class TutorProfileFragment extends Fragment {
 
     private ImageView imgBackButton;
     private CircleImageView imgUserProfile;
-    private LinearLayout llyAboutMe, llySubjects, llyContactInfo, llyEmail, llyPhone;
-    private TextView txtTutorName, txtCourse, txtNumberOfStars, txtNumberOfReviews, txtAboutMe, txtSubjects, txtEmail, txtPhone;
+    private LinearLayout llyAboutMe, llySubjects, llyContactInfo, llyEmail, llyPhone, llyMorning, llyAfternoon, llyEvening;
+    private TextView txtTutorName, txtCourse, txtNumberOfStars, txtNumberOfReviews, txtAboutMe, txtSubjects, txtDays, timeMorning, timeAfternoon, timeEvening, txtEmail, txtPhone;
     private Button btnRequestSchedule;
 
     private Dialog dialog;
@@ -75,6 +75,13 @@ public class TutorProfileFragment extends Fragment {
         txtNumberOfReviews = view.findViewById(R.id.txtNumberOfReviews);
         txtAboutMe = view.findViewById(R.id.txtAboutMe);
         txtSubjects = view.findViewById(R.id.txtSubjects);
+        txtDays = view.findViewById(R.id.txtDays);
+        llyMorning = view.findViewById(R.id.llyMorning);
+        llyAfternoon = view.findViewById(R.id.llyAfternoon);
+        llyEvening = view.findViewById(R.id.llyEvening);
+        timeMorning = view.findViewById(R.id.timeMorning);
+        timeAfternoon = view.findViewById(R.id.timeAfternoon);
+        timeEvening = view.findViewById(R.id.timeEvening);
         txtEmail = view.findViewById(R.id.txtEmail);
         txtPhone = view.findViewById(R.id.txtPhone);
         btnRequestSchedule = view.findViewById(R.id.btnRequestSchedule);
@@ -127,9 +134,7 @@ public class TutorProfileFragment extends Fragment {
                     JSONArray subjectsJSONArray = tutorObject.getJSONArray("subjects");
                     JSONObject availabilityObject = tutorObject.getJSONObject("availability");
                     JSONArray daysJSONArray = availabilityObject.getJSONArray("days");
-                    JSONObject morning = availabilityObject.has("morning") ? availabilityObject.getJSONObject("morning") : null;
-                    JSONObject afternoon = availabilityObject.has("afternoon") ? availabilityObject.getJSONObject("afternoon") : null;
-                    JSONObject evening = availabilityObject.has("evening") ? availabilityObject.getJSONObject("evening") : null;
+                    JSONArray timeJSONArray = availabilityObject.getJSONArray("time");
                     JSONArray reviewsJSONArray = tutorObject.getJSONArray("reviews");
 
                     Picasso.get().load(avatarObject.getString("url")).placeholder(R.drawable.blank_avatar).into(imgUserProfile, new Callback() {
@@ -158,7 +163,39 @@ public class TutorProfileFragment extends Fragment {
                         }
                     }
 
+                    if (daysJSONArray.length() > 0) {
+                        for (int a = 0; a < daysJSONArray.length(); a++) {
+                            if (a == 0) {
+                                txtDays.setText("");
+                                txtDays.setText(txtDays.getText() + daysJSONArray.getString(a));
+                                continue;
+                            }
+                            txtDays.setText(txtDays.getText() + ", " + daysJSONArray.getString(a));
+                        }
+                    }
+
+                    if (timeJSONArray.length() > 0) {
+                        for (int a = 0; a < timeJSONArray.length(); a++) {
+                            JSONObject time = timeJSONArray.getJSONObject(a);
+                            if (time.get("timeOfDay").equals("Morning")) {
+                                llyMorning.setVisibility(View.VISIBLE);
+                                timeMorning.setText(time.getString("min") + " - " + time.getString("max"));
+                            }
+
+                            if (time.get("timeOfDay").equals("Afternoon")) {
+                                llyAfternoon.setVisibility(View.VISIBLE);
+                                timeAfternoon.setText(time.getString("min") + " - " + time.getString("max"));
+                            }
+
+                            if (time.get("timeOfDay").equals("Evening")) {
+                                llyEvening.setVisibility(View.VISIBLE);
+                                timeEvening.setText(time.getString("min") + " - " + time.getString("max"));
+                            }
+                        }
+                    }
+
                     txtEmail.setText(userObject.getString("email"));
+                    txtPhone.setText(userObject.has("phone") ? userObject.getString("phone") : " ");
 
                 }
 

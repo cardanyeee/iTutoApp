@@ -265,6 +265,179 @@
 
                 </LinearLayout>
 
+                <!--                ~~~~~~~~~~~~~~~~~~Availability~~~~~~~~~~~~~~~~~~ -->
+                <LinearLayout
+                    android:id="@+id/llyAvailability"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/bg_round2"
+                    android:elevation="20dp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Availability"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:id="@+id/llyDays"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20sp"
+                            android:layout_height="20sp"
+                            android:src="@drawable/ic_baseline_calendar_month_24" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="Days"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/txtDays"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="Sunday, Friday, Saturday"
+                                android:textColor="@color/colorSecondary"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llyTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20sp"
+                            android:layout_height="20sp"
+                            android:src="@drawable/ic_baseline_access_time_filled_24" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="Time"
+                                android:textSize="14sp" />
+
+                            <LinearLayout
+                                android:id="@+id/llyMorning"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:visibility="gone"
+                                android:weightSum="5">
+
+                                <TextView
+                                    android:id="@+id/timeOfDayMorning"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.5"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Morning"
+                                    android:textColor="@color/colorSecondary" />
+
+                                <TextView
+                                    android:id="@+id/timeMorning"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="3"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="7:00 am - 11:00 am"
+                                    android:textColor="@color/colorSecondary" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/llyAfternoon"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:visibility="gone"
+                                android:weightSum="5">
+
+                                <TextView
+                                    android:id="@+id/timeOfDayAfternoon"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.5"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Afternoon"
+                                    android:textColor="@color/colorSecondary" />
+
+                                <TextView
+                                    android:id="@+id/timeAfternoon"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="3"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="2:00 pm - 4:00 pm"
+                                    android:textColor="@color/colorSecondary" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/llyEvening"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:visibility="gone"
+                                android:weightSum="5">
+
+                                <TextView
+                                    android:id="@+id/timeOfDayEvening"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.5"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Evening"
+                                    android:textColor="@color/colorSecondary" />
+
+                                <TextView
+                                    android:id="@+id/timeEvening"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="3"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="7:00 pm - 10:00 pm"
+                                    android:textColor="@color/colorSecondary" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
                 <!--                ~~~~~~~~~~~~~~~~~~Contact Me~~~~~~~~~~~~~~~~~~ -->
                 <LinearLayout
                     android:id="@+id/llyContactInfo"
@@ -408,16 +581,16 @@
 
                 </LinearLayout>
 
-<!--                <Button-->
-<!--                    android:id="@+id/btnSeeReviews"-->
-<!--                    android:layout_marginHorizontal="20dp"-->
-<!--                    android:layout_marginTop="30dp"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_alignBottom="@id/scrTutorProfile"-->
-<!--                    android:background="@drawable/btn_round"-->
-<!--                    android:text="See Reviews"-->
-<!--                    android:textSize="14sp" />-->
+                <!--                <Button-->
+                <!--                    android:id="@+id/btnSeeReviews"-->
+                <!--                    android:layout_marginHorizontal="20dp"-->
+                <!--                    android:layout_marginTop="30dp"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_alignBottom="@id/scrTutorProfile"-->
+                <!--                    android:background="@drawable/btn_round"-->
+                <!--                    android:text="See Reviews"-->
+                <!--                    android:textSize="14sp" />-->
 
             </LinearLayout>
 

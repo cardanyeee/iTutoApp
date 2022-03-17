@@ -62,12 +62,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
 
         getContacts();
 
-        swipeContacts.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getContacts();
-            }
-        });
+        swipeContacts.setOnRefreshListener(() -> getContacts());
 
     }
 
@@ -105,7 +100,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
                         User user = new User();
                         for ( int a = 0; a < userArray.length(); a++) {
                             JSONObject userObjectInConversation = userArray.getJSONObject(a);
-                            if (signedUser.getUserID().equals(userObjectInConversation.getString("_id"))) {
+                            if (sharedPreferences.getString("_id", "").equals(userObjectInConversation.getString("_id"))) {
 
                             } else {
                                 JSONObject avatar = userObjectInConversation.getJSONObject("avatar");

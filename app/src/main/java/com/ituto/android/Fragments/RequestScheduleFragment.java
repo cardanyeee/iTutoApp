@@ -27,6 +27,7 @@ import com.applandeo.materialcalendarview.CalendarView;
 
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ituto.android.Constant;
@@ -62,6 +63,7 @@ public class RequestScheduleFragment extends Fragment {
     private AutoCompleteTextView txtSubject;
     private TextInputEditText txtDescription;
     private CalendarView calendarTutorSchedule;
+    private Chip chpMorning, chpAfternoon, chpEvening;
     private Button btnConfirmSchedule;
 
     private Dialog dialog;
@@ -106,6 +108,10 @@ public class RequestScheduleFragment extends Fragment {
         calendarTutorSchedule.setMaximumDate(maxDate);
         btnConfirmSchedule = view.findViewById(R.id.btnConfirmSchedule);
 
+        chpMorning = view.findViewById(R.id.chpMorning);
+        chpAfternoon = view.findViewById(R.id.chpAfternoon);
+        chpEvening = view.findViewById(R.id.chpEvening);
+
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
         dialog.setContentView(R.layout.layout_progress_dialog);
@@ -137,7 +143,6 @@ public class RequestScheduleFragment extends Fragment {
                 Calendar clickedDayCalendar = eventDay.getCalendar();
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 startDate = format.format(clickedDayCalendar.getTime());
-                Log.d("TAGTAGTAG", startDate);
             }
         });
 
@@ -183,6 +188,7 @@ public class RequestScheduleFragment extends Fragment {
                     JSONArray subjectsJSONArray = tutorObject.getJSONArray("subjects");
                     JSONObject availabilityObject = tutorObject.getJSONObject("availability");
                     JSONArray daysArray = availabilityObject.getJSONArray("days");
+                    JSONArray timeJSONArray = availabilityObject.getJSONArray("time");
 
                     tutor.setUserID(userObject.getString("_id"));
 
@@ -212,6 +218,26 @@ public class RequestScheduleFragment extends Fragment {
 
                     for (int i = 0; i < daysArray.length(); i++) {
                         availableDays.add(parseDayString(daysArray.getString(i)));
+                    }
+
+                    if (timeJSONArray.length() > 0) {
+                        for (int a = 0; a < timeJSONArray.length(); a++) {
+                            JSONObject time = timeJSONArray.getJSONObject(a);
+                            if (time.get("timeOfDay").equals("Morning")) {
+                                chpMorning.setVisibility(View.VISIBLE);
+                                chpMorning.setText(time.getString("min") + " - " + time.getString("max"));
+                            }
+
+                            if (time.get("timeOfDay").equals("Afternoon")) {
+                                chpAfternoon.setVisibility(View.VISIBLE);
+                                chpAfternoon.setText(time.getString("min") + " - " + time.getString("max"));
+                            }
+
+                            if (time.get("timeOfDay").equals("Evening")) {
+                                chpEvening.setVisibility(View.VISIBLE);
+                                chpEvening.setText(time.getString("min") + " - " + time.getString("max"));
+                            }
+                        }
                     }
 
                     Picasso.get().load(avatarObject.getString("url")).resize(500, 0).into(imgTutorProfile);
@@ -280,11 +306,11 @@ public class RequestScheduleFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
-//                JSONArray jsArray = new JSONArray(tutorSubjectsArrayList);
                 map.put("tutor", tutor.getUserID());
                 map.put("subject", subjectID);
                 map.put("description", txtDescription.getText().toString().trim());
                 map.put("startDate", startDate);
+                map.put("time", checkWhatTime().toString());
                 return map;
             }
         };
@@ -311,7 +337,39 @@ public class RequestScheduleFragment extends Fragment {
             StyleableToast.makeText(getContext(), "Select a date on when would you like to start", R.style.CustomToast).show();
         }
 
+        if (!(chpMorning.isChecked() || chpAfternoon.isChecked() || chpEvening.isChecked())) {
+            StyleableToast.makeText(getContext(), "Select which preferable time to start sessions", R.style.CustomToast).show();
+        }
+
         return true;
+    }
+
+    private JSONObject checkWhatTime() {
+        JSONObject timeJSONObject = new JSONObject();
+        try {
+            if (chpMorning.isChecked()) {
+                timeJSONObject.put("timeOfDay", "Morning");
+                timeJSONObject.put("min", chpMorning.getText().toString().split(" - ")[0].trim());
+                timeJSONObject.put("max", chpMorning.getText().toString().split(" - ")[1].trim());
+            }
+
+            if (chpAfternoon.isChecked()) {
+                timeJSONObject.put("timeOfDay", "Afternoon");
+                timeJSONObject.put("min", chpAfternoon.getText().toString().split(" - ")[0].trim());
+                timeJSONObject.put("max", chpAfternoon.getText().toString().split(" - ")[1].trim());
+            }
+
+            if (chpEvening.isChecked()) {
+                timeJSONObject.put("timeOfDay", "Evening");
+                timeJSONObject.put("min", chpEvening.getText().toString().split(" - ")[0].trim());
+                timeJSONObject.put("max", chpEvening.getText().toString().split(" - ")[1].trim());
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("TAGTAGTAGTAG", timeJSONObject.toString());
+        return timeJSONObject;
     }
 
     private int parseDayString(String day) {

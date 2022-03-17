@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.ituto.android.Fragments.MainAuthFragment;
 import com.ituto.android.Fragments.SignInFragment;
 import com.ituto.android.Fragments.SignUpAvailabilityFragment;
@@ -55,19 +56,31 @@ public class AuthActivity extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePickerDialogStyle, SignUpAvailabilityFragment.onTimeSetListener, SignUpAvailabilityFragment.hour, SignUpAvailabilityFragment.minute, false);
         timePickerDialog.show();
 
-        switch (view.getId()) {
-            case R.id.txtMinTime:
-            case R.id.txtMinTime2:
-                SignUpAvailabilityFragment.time = (TextView) SignUpAvailabilityFragment.view.findViewById(R.id.txtMinTime);
-                SignUpAvailabilityFragment.period = (TextView) SignUpAvailabilityFragment.view.findViewById(R.id.txtMinTime2);
-                break;
-
-            case R.id.txtMaxTime:
-            case R.id.txtMaxTime2:
-                SignUpAvailabilityFragment.time = (TextView) SignUpAvailabilityFragment.view.findViewById(R.id.txtMaxTime);
-                SignUpAvailabilityFragment.period = (TextView) SignUpAvailabilityFragment.view.findViewById(R.id.txtMaxTime2);
-                break;
-        }
+//        switch (view.getId()) {
+//            case R.id.txtStartMorningTime:
+//                SignUpAvailabilityFragment.time = (TextInputEditText) SignUpAvailabilityFragment.view.findViewById(R.id.txtStartMorningTime);
+//                break;
+//
+//            case R.id.txtEndMorningTime:
+//                SignUpAvailabilityFragment.time = (TextInputEditText) SignUpAvailabilityFragment.view.findViewById(R.id.txtEndMorningTime);
+//                break;
+//
+//            case R.id.txtStartAfternoonTime:
+//                SignUpAvailabilityFragment.time = (TextInputEditText) SignUpAvailabilityFragment.view.findViewById(R.id.txtStartAfternoonTime);
+//                break;
+//
+//            case R.id.txtEndAfternoonTime:
+//                SignUpAvailabilityFragment.time = (TextInputEditText) SignUpAvailabilityFragment.view.findViewById(R.id.txtEndAfternoonTime);
+//                break;
+//
+//            case R.id.txtStartEveningTime:
+//                SignUpAvailabilityFragment.time = (TextInputEditText) SignUpAvailabilityFragment.view.findViewById(R.id.txtStartEveningTime);
+//                break;
+//
+//            case R.id.txtEndEveningTime:
+//                SignUpAvailabilityFragment.time = (TextInputEditText) SignUpAvailabilityFragment.view.findViewById(R.id.txtEndEveningTime);
+//                break;
+//        }
     }
 
     public void onDayCheckboxClicked(View view) {

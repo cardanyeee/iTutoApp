@@ -1,7 +1,6 @@
 package com.ituto.android.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -25,13 +24,10 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.textfield.TextInputLayout;
-import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
-import com.ituto.android.HomeActivity;
 import com.ituto.android.Models.Course;
 import com.ituto.android.Models.Subject;
 import com.ituto.android.R;
-import com.ituto.android.TutorSubjectsActivity;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import org.json.JSONArray;

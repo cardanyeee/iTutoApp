@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="40dp"
         android:fontFamily="@font/roboto_regular"
         android:gravity="center"
         android:text="Pick a time of day, when you would be available to provide your tutoring services."
@@ -36,67 +37,307 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="90dp"
-        android:gravity="center|bottom"
-        android:orientation="horizontal">
+        android:layout_marginBottom="50dp"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingHorizontal="40dp">
 
-        <TextView
-            android:id="@+id/txtMinTime"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:clickable="true"
-            android:fontFamily="@font/roboto_black"
-            android:onClick="showTimePicker"
-            android:text="9:00"
-            android:textFontWeight="900"
-            android:textSize="40sp" />
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-        <TextView
-            android:id="@+id/txtMinTime2"
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="9"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Morning"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="15sp" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/chkMorning"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:minHeight="0dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtLayoutStartMorningTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:theme="@style/Button.Primary"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txtStartMorningTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_input"
+                        android:focusable="false"
+                        android:gravity="center"
+                        android:inputType="none"
+                        android:padding="5dp"
+                        android:textSize="12sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight=".5"
+                    android:background="@color/colorSecondaryLight" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtLayoutEndMorningTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:theme="@style/Button.Primary"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txtEndMorningTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_input"
+                        android:focusable="false"
+                        android:gravity="center"
+                        android:inputType="none"
+                        android:padding="5dp"
+                        android:textSize="12sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:fontFamily="@font/roboto_light"
-            android:onClick="showTimePicker"
-            android:text="AM"
-            android:textAllCaps="true"
-            android:textSize="20sp" />
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="20dp"
-            android:src="@drawable/ic_baseline_east_24" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10">
 
-        <TextView
-            android:id="@+id/txtMaxTime"
-            android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="9"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Afternoon"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="15sp" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/chkAfternoon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:minHeight="0dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtLayoutStartAfternoonTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:theme="@style/Button.Primary"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txtStartAfternoonTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_input"
+                        android:focusable="false"
+                        android:gravity="center"
+                        android:inputType="none"
+                        android:padding="5dp"
+                        android:textSize="12sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight=".5"
+                    android:background="@color/colorSecondaryLight" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtLayoutEndAfternoonTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:theme="@style/Button.Primary"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txtEndAfternoonTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_input"
+                        android:focusable="false"
+                        android:gravity="center"
+                        android:inputType="none"
+                        android:padding="5dp"
+                        android:textSize="12sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:clickable="true"
-            android:fontFamily="@font/roboto_black"
-            android:onClick="showTimePicker"
-            android:text="6:00"
-            android:textSize="40sp" />
+            android:orientation="vertical"
+            android:padding="10dp">
 
-        <TextView
-            android:id="@+id/txtMaxTime2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="showTimePicker"
-            android:text="PM"
-            android:textAllCaps="true"
-            android:textSize="20sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="9"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Evening"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="15sp" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/chkEvening"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:minHeight="0dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtLayoutStartEveningTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:theme="@style/Button.Primary"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txtStartEveningTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_input"
+                        android:focusable="false"
+                        android:gravity="center"
+                        android:inputType="none"
+                        android:padding="5dp"
+                        android:textSize="12sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight=".5"
+                    android:background="@color/colorSecondaryLight" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtLayoutEndEveningTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:theme="@style/Button.Primary"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txtEndEveningTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_input"
+                        android:focusable="false"
+                        android:gravity="center"
+                        android:inputType="none"
+                        android:padding="5dp"
+                        android:textSize="12sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="50dp"
         android:gravity="center">
 
         <CheckBox

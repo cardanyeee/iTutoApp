@@ -1,30 +1,65 @@
 package com.ituto.android.Models;
 
+import java.util.ArrayList;
+
 public class Availability {
 
-    private String day, startTime, endTime;
+    private ArrayList<String> days;
+    private String morningMin, morningMax, afternoonMin, afternoonMax, eveningMin, eveningMax;
 
-    public String getDay() {
-        return day;
+    public ArrayList<String> getDays() {
+        return days;
     }
 
-    public void setDay(String day) {
-        this.day = day;
+    public void setDays(ArrayList<String> days) {
+        this.days = days;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public String getMorningMin() {
+        return morningMin;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setMorningMin(String morningMin) {
+        this.morningMin = morningMin;
     }
 
-    public String getEndTime() {
-        return endTime;
+    public String getMorningMax() {
+        return morningMax;
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public void setMorningMax(String morningMax) {
+        this.morningMax = morningMax;
+    }
+
+    public String getAfternoonMin() {
+        return afternoonMin;
+    }
+
+    public void setAfternoonMin(String afternoonMin) {
+        this.afternoonMin = afternoonMin;
+    }
+
+    public String getAfternoonMax() {
+        return afternoonMax;
+    }
+
+    public void setAfternoonMax(String afternoonMax) {
+        this.afternoonMax = afternoonMax;
+    }
+
+    public String getEveningMin() {
+        return eveningMin;
+    }
+
+    public void setEveningMin(String eveningMin) {
+        this.eveningMin = eveningMin;
+    }
+
+    public String getEveningMax() {
+        return eveningMax;
+    }
+
+    public void setEveningMax(String eveningMax) {
+        this.eveningMax = eveningMax;
     }
 }

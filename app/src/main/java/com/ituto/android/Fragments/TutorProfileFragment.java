@@ -125,7 +125,11 @@ public class TutorProfileFragment extends Fragment {
                     JSONObject avatarObject = userObject.getJSONObject("avatar");
                     JSONObject courseObject = userObject.getJSONObject("course");
                     JSONArray subjectsJSONArray = tutorObject.getJSONArray("subjects");
-                    JSONArray availabilityJSONArray = tutorObject.getJSONArray("availability");
+                    JSONObject availabilityObject = tutorObject.getJSONObject("availability");
+                    JSONArray daysJSONArray = availabilityObject.getJSONArray("days");
+                    JSONObject morning = availabilityObject.has("morning") ? availabilityObject.getJSONObject("morning") : null;
+                    JSONObject afternoon = availabilityObject.has("afternoon") ? availabilityObject.getJSONObject("afternoon") : null;
+                    JSONObject evening = availabilityObject.has("evening") ? availabilityObject.getJSONObject("evening") : null;
                     JSONArray reviewsJSONArray = tutorObject.getJSONArray("reviews");
 
                     Picasso.get().load(avatarObject.getString("url")).placeholder(R.drawable.blank_avatar).into(imgUserProfile, new Callback() {

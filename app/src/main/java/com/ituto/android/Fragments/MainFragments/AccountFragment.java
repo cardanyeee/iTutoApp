@@ -93,6 +93,7 @@ public class AccountFragment extends Fragment {
 
         btnLogOut.setOnClickListener(v -> {
             dialog = new Dialog(getContext());
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             dialog.setContentView(R.layout.layout_logout_dialog);
 
             Button btnYes = dialog.findViewById(R.id.btnYes);
@@ -190,15 +191,16 @@ public class AccountFragment extends Fragment {
                     Picasso.get().load(avatar.getString("url")).placeholder(R.drawable.blank_avatar).into(imgUserInfo, new Callback() {
                         @Override
                         public void onSuccess() {
-                            dialog.dismiss();
+
                         }
 
                         @Override
                         public void onError(Exception e) {
-                            dialog.dismiss();
+
                         }
                     });
                 }
+                dialog.dismiss();
             } catch (JSONException | ParseException e) {
                 dialog.dismiss();
                 e.printStackTrace();

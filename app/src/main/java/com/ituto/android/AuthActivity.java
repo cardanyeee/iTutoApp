@@ -50,39 +50,6 @@ public class AuthActivity extends AppCompatActivity {
         }
     }
 
-
-    @SuppressLint("NonConstantResourceId")
-    public void showTimePicker(View view) {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePickerDialogStyle, SignUpAvailabilityFragment.onTimeSetListener, SignUpAvailabilityFragment.hour, SignUpAvailabilityFragment.minute, false);
-        timePickerDialog.show();
-
-//        switch (view.getId()) {
-//            case R.id.txtStartMorningTime:
-//                SignUpAvailabilityFragment.time = (TextInputEditText) SignUpAvailabilityFragment.view.findViewById(R.id.txtStartMorningTime);
-//                break;
-//
-//            case R.id.txtEndMorningTime:
-//                SignUpAvailabilityFragment.time = (TextInputEditText) SignUpAvailabilityFragment.view.findViewById(R.id.txtEndMorningTime);
-//                break;
-//
-//            case R.id.txtStartAfternoonTime:
-//                SignUpAvailabilityFragment.time = (TextInputEditText) SignUpAvailabilityFragment.view.findViewById(R.id.txtStartAfternoonTime);
-//                break;
-//
-//            case R.id.txtEndAfternoonTime:
-//                SignUpAvailabilityFragment.time = (TextInputEditText) SignUpAvailabilityFragment.view.findViewById(R.id.txtEndAfternoonTime);
-//                break;
-//
-//            case R.id.txtStartEveningTime:
-//                SignUpAvailabilityFragment.time = (TextInputEditText) SignUpAvailabilityFragment.view.findViewById(R.id.txtStartEveningTime);
-//                break;
-//
-//            case R.id.txtEndEveningTime:
-//                SignUpAvailabilityFragment.time = (TextInputEditText) SignUpAvailabilityFragment.view.findViewById(R.id.txtEndEveningTime);
-//                break;
-//        }
-    }
-
     public void onDayCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
 

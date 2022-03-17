@@ -86,7 +86,7 @@
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sessions.xml" value="0.25" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_in.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_up.xml" value="0.33" />
-        <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_up_availability.xml" value="0.33" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_up_availability.xml" value="0.5" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_up_subjects.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_tutee_home.xml" value="0.29322916666666665" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_tutee_tasks.xml" value="0.29322916666666665" />
@@ -109,7 +109,7 @@
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_holder_you.xml" value="0.30520833333333336" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_home.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_home_course.xml" value="0.271875" />
-        <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_logout_dialog.xml" value="0.36666666666666664" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_logout_dialog.xml" value="0.5" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_main_auth.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_messages.xml" value="0.28854166666666664" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_progress_dialog.xml" value="0.2994791666666667" />

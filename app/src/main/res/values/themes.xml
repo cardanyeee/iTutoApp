@@ -112,7 +112,7 @@
 
         <!-- No backgrounds, titles or window float -->
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowBackground">@color/amp_transparent</item>
+        <item name="android:windowBackground">@color/colorTransparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
     </style>

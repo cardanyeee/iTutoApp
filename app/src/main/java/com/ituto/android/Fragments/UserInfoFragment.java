@@ -386,7 +386,7 @@ public class UserInfoFragment extends Fragment {
                     R.anim.fade_out,  // exit
                     R.anim.fade_in,   // popEnter
                     R.anim.slide_out  // popExit
-            ).replace(R.id.frameAuthContainer, signUpAvailabilityFragment).commit();
+            ).replace(R.id.frameAuthContainer, signUpAvailabilityFragment).addToBackStack(null).commit();
         } else {
             if (getArguments().getBoolean("googleRegister")) {
                 googleRegister();

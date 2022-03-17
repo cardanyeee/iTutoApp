@@ -181,8 +181,8 @@ public class RequestScheduleFragment extends Fragment {
                     JSONObject avatarObject = userObject.getJSONObject("avatar");
                     JSONObject courseObject = userObject.getJSONObject("course");
                     JSONArray subjectsJSONArray = tutorObject.getJSONArray("subjects");
-                    JSONArray availabilityJSONArray = tutorObject.getJSONArray("availability");
-                    JSONArray reviewsJSONArray = tutorObject.getJSONArray("reviews");
+                    JSONObject availabilityObject = tutorObject.getJSONObject("availability");
+                    JSONArray daysArray = availabilityObject.getJSONArray("days");
 
                     tutor.setUserID(userObject.getString("_id"));
 
@@ -210,10 +210,8 @@ public class RequestScheduleFragment extends Fragment {
                     }
 
 
-                    for (int i = 0; i < availabilityJSONArray.length(); i++) {
-                        JSONObject availabilityObject = availabilityJSONArray.getJSONObject(i);
-                        Availability availability = new Availability();
-                        availableDays.add(parseDayString(availabilityObject.getString("day")));
+                    for (int i = 0; i < daysArray.length(); i++) {
+                        availableDays.add(parseDayString(daysArray.getString(i)));
                     }
 
                     Picasso.get().load(avatarObject.getString("url")).resize(500, 0).into(imgTutorProfile);

@@ -53,6 +53,10 @@
         <item name="colorPrimary">@color/colorPrimaryLight</item>
     </style>
 
+    <style name="Button.Decline" parent="ThemeOverlay.AppCompat">
+        <item name="colorPrimary">@color/colorError</item>
+    </style>
+
     <style name="Button.Secondary" parent="ThemeOverlay.AppCompat">
         <item name="colorPrimary">@color/colorSecondary</item>
     </style>

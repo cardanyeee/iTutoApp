@@ -335,10 +335,12 @@ public class RequestScheduleFragment extends Fragment {
 
         if (startDate == null) {
             StyleableToast.makeText(getContext(), "Select a date on when would you like to start", R.style.CustomToast).show();
+            return false;
         }
 
         if (!(chpMorning.isChecked() || chpAfternoon.isChecked() || chpEvening.isChecked())) {
             StyleableToast.makeText(getContext(), "Select which preferable time to start sessions", R.style.CustomToast).show();
+            return false;
         }
 
         return true;

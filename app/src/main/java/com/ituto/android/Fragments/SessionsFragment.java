@@ -1,4 +1,4 @@
-package com.ituto.android.Fragments.MainFragments;
+package com.ituto.android.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,6 +23,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ituto.android.Adapters.SessionsAdapter;
 import com.ituto.android.Adapters.TutorsAdapter;
 import com.ituto.android.Constant;
+import com.ituto.android.Fragments.SessionInfoFragment;
+import com.ituto.android.Fragments.TutorProfileFragment;
 import com.ituto.android.Models.Session;
 import com.ituto.android.Models.Subject;
 import com.ituto.android.Models.Tutor;
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SessionsFragment extends Fragment {
+public class SessionsFragment extends Fragment implements SessionsAdapter.OnItemListener {
 
     private View view;
     private SharedPreferences sharedPreferences;
@@ -76,7 +78,9 @@ public class SessionsFragment extends Fragment {
     private void getSessions() {
         sessionArrayList = new ArrayList<>();
 
-        StringRequest request = new StringRequest(Request.Method.GET, loggedInAs.equals("TUTOR") ? Constant.TUTOR_SESSIONS : Constant.TUTEE_SESSIONS, response -> {
+        String sessionsLink = loggedInAs.equals("TUTOR") ? Constant.TUTOR_SESSIONS : Constant.TUTEE_SESSIONS;
+
+        StringRequest request = new StringRequest(Request.Method.GET, sessionsLink + "?status=Ongoing", response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
@@ -123,7 +127,7 @@ public class SessionsFragment extends Fragment {
                         session.setTutee(user);
                         sessionArrayList.add(session);
                     }
-                    sessionsAdapter = new SessionsAdapter(getContext(), sessionArrayList);
+                    sessionsAdapter = new SessionsAdapter(getContext(), sessionArrayList, this);
                     recyclerSession.setAdapter(sessionsAdapter);
                 }
                 swipeSession.setRefreshing(false);
@@ -146,5 +150,19 @@ public class SessionsFragment extends Fragment {
         };
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Bundle bundle = new Bundle();
+        SessionInfoFragment sessionInfoFragment = new SessionInfoFragment();
+        bundle.putString("sessionID", "");
+        sessionInfoFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                R.anim.slide_in,  // enter
+                R.anim.fade_out,  // exit
+                R.anim.fade_in,   // popEnter
+                R.anim.slide_out  // popExit
+        ).add(R.id.fragment_container, sessionInfoFragment).addToBackStack(null).commit();
     }
 }

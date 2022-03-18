@@ -8,7 +8,7 @@
     android:clipToPadding="false"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".Fragments.SignUpSubjectsFragment">
+    tools:context=".Fragments.AuthFragments.SignUpSubjectsFragment">
 
     <TextView
         android:layout_width="match_parent"

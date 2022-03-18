@@ -1,4 +1,4 @@
-package com.ituto.android.Fragments;
+package com.ituto.android.Fragments.AuthFragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,12 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ituto.android.R;
-import com.ituto.android.Utils.RangeTimePickerDialog;
 import com.muddzdev.styleabletoast.StyleableToast;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 

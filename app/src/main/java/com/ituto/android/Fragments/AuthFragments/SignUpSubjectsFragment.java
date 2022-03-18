@@ -1,4 +1,4 @@
-package com.ituto.android.Fragments;
+package com.ituto.android.Fragments.AuthFragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -25,6 +25,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ituto.android.Constant;
+import com.ituto.android.Fragments.AuthFragments.SignInFragment;
 import com.ituto.android.Models.Course;
 import com.ituto.android.Models.Subject;
 import com.ituto.android.R;

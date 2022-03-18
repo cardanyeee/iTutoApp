@@ -12,7 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ituto.android.Fragments.MainFragments.AccountFragment;
 import com.ituto.android.Fragments.MainFragments.ContactsFragment;
 import com.ituto.android.Fragments.MainFragments.HomeFragment;
-import com.ituto.android.Fragments.MainFragments.SessionsFragment;
+import com.ituto.android.Fragments.MainFragments.MainSessionsFragment;
 import com.ituto.android.Fragments.MainFragments.TutorsFragment;
 
 import io.socket.client.Socket;
@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 bottomNavigation.setSelectedItemId(R.id.item_home);
             else if (current instanceof TutorsFragment)
                 bottomNavigation.setSelectedItemId(R.id.item_tutors);
-            else if (current instanceof SessionsFragment)
+            else if (current instanceof MainSessionsFragment)
                 bottomNavigation.setSelectedItemId(R.id.item_tasks);
             else if (current instanceof ContactsFragment)
                 bottomNavigation.setSelectedItemId(R.id.item_messages);
@@ -153,7 +153,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         R.anim.fade_out,  // exit
                         R.anim.fade_in,   // popEnter
                         R.anim.slide_out  // popExit
-                ).replace(R.id.fragment_container, new SessionsFragment()).addToBackStack(null).commit();
+                ).replace(R.id.fragment_container, new MainSessionsFragment()).addToBackStack(null).commit();
                 break;
             case R.id.item_messages:
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(

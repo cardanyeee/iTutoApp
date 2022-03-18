@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.ituto.android.Models.Session;
 import com.ituto.android.Models.Tutor;
 import com.ituto.android.Models.User;
@@ -24,13 +25,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.SessionHolder> {
     private Context context;
+    private OnItemListener onItemListener;
     private ArrayList<Session> sessionArrayList;
     private SharedPreferences sharedPreferences;
     private Session session;
     private String loggedInAs;
 
-    public SessionsAdapter(Context context, ArrayList<Session> sessionArrayList) {
+    public SessionsAdapter(Context context, ArrayList<Session> sessionArrayList, OnItemListener onItemListener) {
         this.context = context;
+        this.onItemListener = onItemListener;
         this.sessionArrayList = sessionArrayList;
         sharedPreferences = context.getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         loggedInAs = sharedPreferences.getString("loggedInAs", "");
@@ -40,7 +43,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
     @Override
     public SessionsAdapter.SessionHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_session, parent, false);
-        return new SessionsAdapter.SessionHolder(view);
+        return new SessionsAdapter.SessionHolder(view, onItemListener);
     }
 
     @Override
@@ -53,20 +56,32 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
         holder.txtTutorTutee.setText(loggedInAs.equals("TUTEE") ? tutor.getFirstname() + " " + tutor.getLastname() : user.getFirstname() + " " + user.getLastname());
     }
 
-    class SessionHolder extends RecyclerView.ViewHolder {
+    class SessionHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
 
+        OnItemListener onItemListener;
         private TextView txtSubjectName, txtSessionDays, txtSessionTime, txtTutorTutee;
         private ImageView imgMore;
+        private MaterialCardView sessionCardView;
 
-        public SessionHolder(@NonNull View itemView) {
+        public SessionHolder(@NonNull View itemView, OnItemListener onItemListener) {
             super(itemView);
+            sessionCardView = itemView.findViewById(R.id.sessionCardView);
             txtSubjectName = itemView.findViewById(R.id.txtSubjectName);
             txtSessionDays = itemView.findViewById(R.id.txtSessionDays);
             txtSessionTime = itemView.findViewById(R.id.txtSessionTime);
             txtTutorTutee = itemView.findViewById(R.id.txtTutorTutee);
             imgMore = itemView.findViewById(R.id.imgMore);
 
+            this.onItemListener = onItemListener;
+
+            sessionCardView.setOnClickListener(this);
+
             itemView.setClickable(true);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onItemListener.onItemClick(getAdapterPosition());
         }
 
     }
@@ -74,5 +89,9 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
     @Override
     public int getItemCount() {
         return sessionArrayList.size();
+    }
+
+    public interface OnItemListener {
+        void onItemClick(int position);
     }
 }

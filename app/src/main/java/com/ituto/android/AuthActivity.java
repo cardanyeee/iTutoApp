@@ -2,19 +2,14 @@ package com.ituto.android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.ituto.android.Fragments.MainAuthFragment;
-import com.ituto.android.Fragments.SignInFragment;
-import com.ituto.android.Fragments.SignUpAvailabilityFragment;
-import com.muddzdev.styleabletoast.StyleableToast;
+import com.ituto.android.Fragments.AuthFragments.MainAuthFragment;
+import com.ituto.android.Fragments.AuthFragments.SignInFragment;
+import com.ituto.android.Fragments.AuthFragments.SignUpAvailabilityFragment;
 
 public class AuthActivity extends AppCompatActivity {
 

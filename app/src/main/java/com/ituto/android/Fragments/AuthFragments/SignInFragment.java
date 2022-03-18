@@ -1,4 +1,4 @@
-package com.ituto.android.Fragments;
+package com.ituto.android.Fragments.AuthFragments;
 
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 //import android.widget.Toast;
@@ -24,10 +23,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -39,6 +36,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
+import com.ituto.android.Fragments.AuthFragments.MainAuthFragment;
 import com.ituto.android.HomeActivity;
 import com.ituto.android.R;
 import com.google.android.material.textfield.TextInputEditText;

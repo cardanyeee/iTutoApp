@@ -1,4 +1,4 @@
-package com.ituto.android.Fragments;
+package com.ituto.android.Fragments.AuthFragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

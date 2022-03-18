@@ -14,6 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="android:actionMenuTextColor">@color/colorSecondaryLight</item>
         <item name="colorAccent">@color/colorPrimaryLight</item>
+        <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
     </style>
 
     <style name="ActivityAnimation" parent="@android:style/Animation.Activity">
@@ -119,6 +120,16 @@
         <item name="android:windowBackground">@color/colorTransparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="Widget.App.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Card</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Card" parent="">
+        <!--        <item name="colorPrimary">@color/shrine_pink_100</item>-->
+        <!--        <item name="colorSurface">@color/shrine_pink_light</item>-->
+        <item name="colorOnSurface">@color/colorPrimaryLight</item>
     </style>
 
 </resources>

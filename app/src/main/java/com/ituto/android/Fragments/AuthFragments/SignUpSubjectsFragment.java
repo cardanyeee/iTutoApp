@@ -278,6 +278,7 @@ public class SignUpSubjectsFragment extends Fragment {
                 map.put("birthdate",  getArguments().getString("birthdate"));
                 map.put("gender",  getArguments().getString("gender"));
                 map.put("course",  getArguments().getString("course"));
+                map.put("yearLevel", getArguments().getString("yearLevel"));
                 map.put("availability",  getArguments().getString("availability"));
                 map.put("subjectID", jsArray.toString());
                 return map;

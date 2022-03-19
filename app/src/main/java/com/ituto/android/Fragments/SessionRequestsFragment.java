@@ -21,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ituto.android.Adapters.SessionsRequestAdapter;
 import com.ituto.android.Constant;
+import com.ituto.android.HomeActivity;
 import com.ituto.android.Models.Session;
 import com.ituto.android.Models.Subject;
 import com.ituto.android.Models.Tutor;
@@ -150,6 +151,16 @@ public class SessionRequestsFragment extends Fragment implements SessionsRequest
 
     @Override
     public void onItemClick(int position) {
-
+        Bundle bundle = new Bundle();
+        SessionRequestInfo sessionRequestInfo = new SessionRequestInfo();
+        Session session = sessionArrayList.get(position);
+        bundle.putString("_id", session.getSessionID());
+        sessionRequestInfo.setArguments(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                R.anim.slide_in,  // enter
+                R.anim.fade_out,  // exit
+                R.anim.fade_in,   // popEnter
+                R.anim.slide_out  // popExit
+        ).replace(R.id.fragment_container, sessionRequestInfo).addToBackStack(null).commit();
     }
 }

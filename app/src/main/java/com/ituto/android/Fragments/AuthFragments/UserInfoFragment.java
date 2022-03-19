@@ -49,10 +49,11 @@ public class UserInfoFragment extends Fragment {
 
     private SharedPreferences sharedPreferences;
 
-    private TextInputLayout layoutFirstName, layoutLastName, layoutBirthdate, layoutGender, layoutCourse;
+    private TextInputLayout layoutFirstName, layoutLastName, layoutBirthdate, layoutGender, layoutCourse, layoutYearLevel;
     private TextInputEditText txtFirstName, txtLastName, txtBirthdate;
     private AutoCompleteTextView txtGender;
     private AutoCompleteTextView txtCourse;
+    private AutoCompleteTextView txtYearLevel;
     private Button btnSignUp;
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private Boolean isTutor;
@@ -66,6 +67,10 @@ public class UserInfoFragment extends Fragment {
     private ProgressDialog dialog;
 
     private static final String[] GENDERS = new String[]{
+            "First", "Second", "Third", "Fourth"
+    };
+
+    private static final String[] YEAR = new String[]{
             "Male", "Female", "Prefer not to say"
     };
 
@@ -89,12 +94,14 @@ public class UserInfoFragment extends Fragment {
         layoutBirthdate = view.findViewById(R.id.txtLayoutBirthdateSignUp);
         layoutGender = view.findViewById(R.id.txtLayoutGenderSignUp);
         layoutCourse = view.findViewById(R.id.txtLayoutCourseSignUp);
+        layoutYearLevel = view.findViewById(R.id.txtLayoutYearLevelSignUp);
 
         txtFirstName = view.findViewById(R.id.txtFirstNameSignUp);
         txtLastName = view.findViewById(R.id.txtLastNameSignUp);
         txtBirthdate = view.findViewById(R.id.txtBirthdateSignUp);
         txtGender = view.findViewById(R.id.txtGenderSignUp);
         txtCourse = view.findViewById(R.id.txtCourseSignUp);
+        txtYearLevel = view.findViewById(R.id.txtYearLevelSignUp);
 
         btnSignUp = view.findViewById(R.id.btnSignUp);
 
@@ -139,14 +146,23 @@ public class UserInfoFragment extends Fragment {
             txtBirthdate.setText(date);
         };
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+        ArrayAdapter<String> genderArrayAdapter = new ArrayAdapter<>(
                 getContext(),
                 R.layout.item_dropdown,
                 R.id.txtDropdownItem,
                 GENDERS
         );
 
-        txtGender.setAdapter(arrayAdapter);
+        txtGender.setAdapter(genderArrayAdapter);
+
+        ArrayAdapter<String> yearArrayAdapter = new ArrayAdapter<>(
+                getContext(),
+                R.layout.item_dropdown,
+                R.id.txtDropdownItem,
+                YEAR
+        );
+
+        txtYearLevel.setAdapter(yearArrayAdapter);
 
 
         txtCourse.setOnItemClickListener((parent, view, position, id) -> {
@@ -293,6 +309,7 @@ public class UserInfoFragment extends Fragment {
                 map.put("birthdate", txtBirthdate.getText().toString().trim());
                 map.put("gender", txtGender.getText().toString().trim());
                 map.put("course", courseID);
+                map.put("yearLevel", txtYearLevel.getText().toString().trim());
                 map.put("email", email);
                 map.put("password", password);
                 map.put("password_confirmation", confirmPassword);
@@ -345,6 +362,7 @@ public class UserInfoFragment extends Fragment {
                 map.put("tokenId", getArguments().getString("tokenId"));
                 map.put("birthdate", txtBirthdate.getText().toString().trim());
                 map.put("gender", txtGender.getText().toString().trim());
+                map.put("yearLevel", txtYearLevel.getText().toString().trim());
                 map.put("course", courseID);
                 return map;
             }
@@ -380,6 +398,7 @@ public class UserInfoFragment extends Fragment {
             args.putString("birthdate", txtBirthdate.getText().toString().trim());
             args.putString("gender", txtGender.getText().toString().trim());
             args.putString("course", courseID);
+            args.putString("yearLevel", txtYearLevel.getText().toString().trim());
             signUpAvailabilityFragment.setArguments(args);
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                     R.anim.slide_in,  // enter

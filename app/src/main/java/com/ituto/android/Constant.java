@@ -22,10 +22,12 @@ public class Constant {
     public static final String SEND_FILES = HOME + "/file/send";
 
     public static final String REQUEST_SESSION = HOME + "/session/request";
+    public static final String DECLINE_SESSION = HOME + "/session/decline";
+    public static final String ACCEPT_SESSION = HOME + "/session/accept";
     public static final String TUTOR_SESSIONS = HOME + "/sessions/tutor";
     public static final String TUTEE_SESSIONS = HOME + "/sessions/tutee";
     public static final String SESSIONS = HOME + "/sessions";
-    public static final String SESSION = HOME + "/session";
+    public static final String GET_SESSION = HOME + "/session";
 
     public static final String CREATE_ASSESSMENT  = HOME + "/assessment/create";
     public static final String TUTOR_ASSESSMENTS = HOME + "/assessment/tutor";

@@ -219,33 +219,33 @@
 
     </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/scrScheduleInfo"
-        android:orientation="horizontal"
-        android:weightSum="2">
-s
-        <Button
-            android:id="@+id/btnAcceptSchedule"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/btn_decline"
-            android:backgroundTint="@color/colorError"
-            android:theme="@style/Button.Decline"
-            android:text="Decline"
-            android:textSize="14sp" />
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignBottom="@id/scrScheduleInfo"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:weightSum="2">-->
+<!--s-->
+<!--        <Button-->
+<!--            android:id="@+id/btnAcceptSchedule"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/btn_decline"-->
+<!--            android:backgroundTint="@color/colorError"-->
+<!--            android:theme="@style/Button.Decline"-->
+<!--            android:text="Decline"-->
+<!--            android:textSize="14sp" />-->
 
-        <Button
-            android:id="@+id/btnDeclineSchedule"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/btn_accept"
-            android:text="Accept"
-            android:textSize="14sp" />
-    </LinearLayout>
+<!--        <Button-->
+<!--            android:id="@+id/btnDeclineSchedule"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/btn_accept"-->
+<!--            android:text="Accept"-->
+<!--            android:textSize="14sp" />-->
+<!--    </LinearLayout>-->
 
 
 </RelativeLayout>

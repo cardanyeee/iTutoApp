@@ -1,5 +1,7 @@
 package com.ituto.android.Fragments.MainFragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.tabs.TabLayout;
 import com.ituto.android.Fragments.SessionRequestsFragment;
 import com.ituto.android.Fragments.SessionsFragment;
@@ -24,16 +27,15 @@ import java.util.List;
 public class MainSessionsFragment extends Fragment {
 
     private View view;
+    private SharedPreferences sharedPreferences;
     private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
     private SessionsFragment sessionsFragment;
     private SessionRequestsFragment sessionRequestsFragment;
+    private String loggedInAs;
 
-    //    private FlightsFragment flightsFragment;
-//    private TravelFragment travelFragment;
-//
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main_sessions, container, false);
@@ -42,6 +44,10 @@ public class MainSessionsFragment extends Fragment {
     }
 
     private void init() {
+        sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        loggedInAs = sharedPreferences.getString("loggedInAs", "");
+        BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
+        bottomAppBar.setVisibility(View.VISIBLE);
 
         viewPager = view.findViewById(R.id.view_pager);
         tabLayout = view.findViewById(R.id.tab_layout);
@@ -53,7 +59,9 @@ public class MainSessionsFragment extends Fragment {
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPagerAdapter.addFragment(sessionsFragment, "Sessions");
-        viewPagerAdapter.addFragment(sessionRequestsFragment, "Requests");
+        if (loggedInAs.equals("TUTOR")) {
+            viewPagerAdapter.addFragment(sessionRequestsFragment, "Requests");
+        }
         viewPager.setAdapter(viewPagerAdapter);
 //
 //        tabLayout.getTabAt(0).setIcon(R.drawable.ic_baseline_explore_24);

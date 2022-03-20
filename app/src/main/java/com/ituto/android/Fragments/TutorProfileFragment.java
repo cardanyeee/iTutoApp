@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.opengl.Visibility;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -51,6 +52,7 @@ public class TutorProfileFragment extends Fragment {
     private String tutorID;
 
     private SharedPreferences sharedPreferences;
+    private String loggedInAs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class TutorProfileFragment extends Fragment {
 
     private void init() {
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        loggedInAs = sharedPreferences.getString("loggedInAs", "");
 
         imgBackButton = view.findViewById(R.id.imgBackButton);
         imgUserProfile = view.findViewById(R.id.imgUserProfile);
@@ -100,6 +103,10 @@ public class TutorProfileFragment extends Fragment {
         tutorID = getArguments().getString("_id");
 
         getTutorProfile();
+
+        if (loggedInAs.equals("TUTOR")) {
+            btnRequestSchedule.setVisibility(View.GONE);
+        }
 
         imgBackButton.setOnClickListener(v -> {
             getActivity().getSupportFragmentManager().popBackStack();

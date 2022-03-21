@@ -42,20 +42,25 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     @Override
     public void onBindViewHolder(@NonNull QuestionHolder holder, int position) {
         Question question = questionArrayList.get(position);
+        ArrayList<String> choices = question.getChoices();
 
+        holder.txtItemNum.setText(String.valueOf(position + 1) + ".");
         holder.txtQuestion.setText(question.getQuestion());
-
-
+        holder.txtChoiceA.setText("A. " + choices.get(0));
+        holder.txtChoiceB.setText("B. " + choices.get(1));
+        holder.txtChoiceC.setText("C. " + choices.get(2));
+        holder.txtChoiceD.setText("D. " + choices.get(3));
     }
 
     class QuestionHolder extends RecyclerView.ViewHolder {
 
         private EditText txtAnswer;
-        private TextView txtQuestion, txtChoiceA, txtChoiceB, txtChoiceC, txtChoiceD;
+        private TextView txtItemNum, txtQuestion, txtChoiceA, txtChoiceB, txtChoiceC, txtChoiceD;
 
         public QuestionHolder(@NonNull View itemView) {
             super(itemView);
             txtAnswer = itemView.findViewById(R.id.txtAnswer);
+            txtItemNum = itemView.findViewById(R.id.txtItemNum);
             txtQuestion = itemView.findViewById(R.id.txtQuestion);
             txtChoiceA = itemView.findViewById(R.id.txtChoiceA);
             txtChoiceB = itemView.findViewById(R.id.txtChoiceB);

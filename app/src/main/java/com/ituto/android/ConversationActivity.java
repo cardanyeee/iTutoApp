@@ -321,6 +321,7 @@ public class ConversationActivity extends AppCompatActivity {
     }
 
     private void sendMessage() {
+        txtEnterMessage.setText("");
         StringRequest request = new StringRequest(Request.Method.POST, Constant.SEND_MESSAGE, response -> {
             try {
                 JSONObject object = new JSONObject(response);
@@ -359,8 +360,6 @@ public class ConversationActivity extends AppCompatActivity {
                     recyclerConversation.getAdapter().notifyDataSetChanged();
 
                     recyclerConversation.smoothScrollToPosition(recyclerConversation.getAdapter().getItemCount());
-
-                    txtEnterMessage.setText("");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

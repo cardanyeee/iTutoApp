@@ -65,7 +65,7 @@ public class SessionRequestsFragment extends Fragment implements SessionsRequest
         recyclerSession = view.findViewById(R.id.recyclerSession);
         recyclerSession.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        btnAddSession = view.findViewById(R.id.btnAddSession);
+//        btnAddSession = view.findViewById(R.id.btnAddSession);
 
         swipeSession.setOnRefreshListener(() -> getSessions());
 

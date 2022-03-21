@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ituto.android.Adapters.SessionsAdapter;
 import com.ituto.android.Adapters.TutorsAdapter;
@@ -68,7 +69,7 @@ public class SessionsFragment extends Fragment implements SessionsAdapter.OnItem
         recyclerSession = view.findViewById(R.id.recyclerSession);
         recyclerSession.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        btnAddSession = view.findViewById(R.id.btnAddSession);
+//        btnAddSession = view.findViewById(R.id.btnAddSession);
 
         swipeSession.setOnRefreshListener(() -> getSessions());
 
@@ -156,13 +157,14 @@ public class SessionsFragment extends Fragment implements SessionsAdapter.OnItem
     public void onItemClick(int position) {
         Bundle bundle = new Bundle();
         SessionInfoFragment sessionInfoFragment = new SessionInfoFragment();
-        bundle.putString("sessionID", "");
+        Session session = sessionArrayList.get(position);
+        bundle.putString("_id", session.getSessionID());
         sessionInfoFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                 R.anim.slide_in,  // enter
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter
                 R.anim.slide_out  // popExit
-        ).add(R.id.fragment_container, sessionInfoFragment).addToBackStack(null).commit();
+        ).replace(R.id.fragment_container, sessionInfoFragment).addToBackStack(null).commit();
     }
 }

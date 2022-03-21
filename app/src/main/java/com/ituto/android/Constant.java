@@ -1,6 +1,8 @@
 package com.ituto.android;
 
 public class Constant {
+//    https://mern-ituto.herokuapp.com
+//    http://192.168.1.2:8080
     public static final String URL = "http://192.168.1.2:8080";
     public static final String HOME = URL + "/api";
 

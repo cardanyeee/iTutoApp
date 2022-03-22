@@ -52,7 +52,7 @@
                         android:fontFamily="@font/roboto_black"
                         android:text="Juan Dela Cruz"
                         android:textFontWeight="900"
-                        android:textSize="13sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/txtCourse"
@@ -86,14 +86,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:orientation="vertical"
                 android:paddingHorizontal="15dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="7dp"
+                    android:layout_marginBottom="5dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -110,17 +109,22 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/txtDays"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Monday, Tuesday"
-                            android:textSize="12sp" />
-
+                            android:ellipsize="end"
+                            android:fontFamily="@font/roboto"
+                            android:maxLines="1"
+                            android:text="Monday, Tuesday, Wednesday" />
 
                         <TextView
+                            android:id="@+id/txtTime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="9:00AM - 4:00PM"
-                            android:textSize="12sp" />
+                            android:ellipsize="end"
+                            android:fontFamily="@font/roboto"
+                            android:maxLines="1"
+                            android:text="8:00 am - 9:00 am, 1:00 pm - 3:00 pm" />
 
                     </LinearLayout>
 
@@ -140,10 +144,14 @@
                         app:tint="@color/colorPrimary" />
 
                     <TextView
+                        android:id="@+id/txtSubjects"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="2"
                         android:text="Computer Programming"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 

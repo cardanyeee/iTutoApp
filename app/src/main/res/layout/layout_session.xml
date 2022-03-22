@@ -17,7 +17,7 @@
         android:focusable="true"
         android:longClickable="true"
         app:cardCornerRadius="10dp"
-        app:cardElevation="9dp">
+        app:cardElevation="6dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,13 +55,6 @@
                         android:textFontWeight="900"
                         android:textSize="20sp" />
 
-                    <ImageView
-                        android:id="@+id/imgMore"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_baseline_more_vert_24" />
-
                 </LinearLayout>
 
 
@@ -94,17 +87,21 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/txtSessionDays"
+                            android:id="@+id/txtDays"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:text="Monday, Tuesday"
                             android:textSize="12sp" />
 
 
                         <TextView
-                            android:id="@+id/txtSessionTime"
+                            android:id="@+id/txtTime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:text="9:00AM - 4:00PM"
                             android:textSize="12sp" />
 

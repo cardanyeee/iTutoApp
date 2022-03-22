@@ -67,10 +67,9 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             super(itemView);
             sessionCardView = itemView.findViewById(R.id.sessionCardView);
             txtSubjectName = itemView.findViewById(R.id.txtSubjectName);
-            txtSessionDays = itemView.findViewById(R.id.txtSessionDays);
-            txtSessionTime = itemView.findViewById(R.id.txtSessionTime);
+            txtSessionDays = itemView.findViewById(R.id.txtDays);
+            txtSessionTime = itemView.findViewById(R.id.txtTime);
             txtTutorTutee = itemView.findViewById(R.id.txtTutorTutee);
-            imgMore = itemView.findViewById(R.id.imgMore);
 
             this.onItemListener = onItemListener;
 

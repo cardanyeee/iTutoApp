@@ -6,7 +6,8 @@ public class Tutor extends User {
 
     private String tutorID, userID;
     private ArrayList<String> subjects;
-    private ArrayList<Availability> availabilityArrayList;
+    private ArrayList<String> daysArrayList;
+    private ArrayList<Time> timeArrayList;
     private int numOfReviews;
 
     public String getTutorID() {
@@ -25,12 +26,20 @@ public class Tutor extends User {
         this.userID = userID;
     }
 
-    public ArrayList<Availability> getAvailabilityArrayList() {
-        return availabilityArrayList;
+    public ArrayList<String> getDaysArrayList() {
+        return daysArrayList;
     }
 
-    public void setAvailabilityArrayList(ArrayList<Availability> availabilityArrayList) {
-        this.availabilityArrayList = availabilityArrayList;
+    public void setDaysArrayList(ArrayList<String> daysArrayList) {
+        this.daysArrayList = daysArrayList;
+    }
+
+    public ArrayList<Time> getTimeArrayList() {
+        return timeArrayList;
+    }
+
+    public void setTimeArrayList(ArrayList<Time> timeArrayList) {
+        this.timeArrayList = timeArrayList;
     }
 
     public ArrayList<String> getSubjects() {

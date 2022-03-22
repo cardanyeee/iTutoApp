@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Assessment {
 
     private String name, subject, tutor, tutee;
-    private int score;
+    private int score, totalItems;
     private ArrayList<Question> questions;
 
     public String getName() {
@@ -54,5 +54,13 @@ public class Assessment {
 
     public void setQuestions(ArrayList<Question> questions) {
         this.questions = questions;
+    }
+
+    public int getTotalItems() {
+        return totalItems;
+    }
+
+    public void setTotalItems(int totalItems) {
+        this.totalItems = totalItems;
     }
 }

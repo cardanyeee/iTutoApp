@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -23,7 +24,10 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.ituto.android.Adapters.AssessmentsAdapter;
+import com.ituto.android.Adapters.TutorsAdapter;
 import com.ituto.android.Constant;
+import com.ituto.android.Models.Assessment;
 import com.ituto.android.R;
 import com.squareup.picasso.Picasso;
 
@@ -40,7 +44,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SessionInfoFragment extends Fragment {
+public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.OnItemListener{
     
     private View view;
     private ImageView imgBackButton;
@@ -51,6 +55,8 @@ public class SessionInfoFragment extends Fragment {
     private FloatingActionButton btnAddAssessment;
     private Dialog dialog;
 
+    private AssessmentsAdapter assessmentsAdapter;
+    private ArrayList<Assessment> assessmentArrayList;
     private SharedPreferences sharedPreferences;
     private String loggedInAs;
 
@@ -73,6 +79,8 @@ public class SessionInfoFragment extends Fragment {
         txtName = view.findViewById(R.id.txtName);
         txtCourse = view.findViewById(R.id.txtCourse);
         txtDescription = view.findViewById(R.id.txtDescription);
+        recyclerAssessments = view.findViewById(R.id.recyclerAssessments);
+        recyclerAssessments.setLayoutManager(new LinearLayoutManager(getContext()));
         btnAddAssessment = view.findViewById(R.id.btnAddAssessment);
         imgBackButton = view.findViewById(R.id.imgBackButton);
 
@@ -111,6 +119,7 @@ public class SessionInfoFragment extends Fragment {
     }
 
     private void getSession() {
+        assessmentArrayList = new ArrayList<>();
         StringRequest request = new StringRequest(Request.Method.GET, Constant.GET_SESSION + "/" + sessionID, response -> {
             try {
                 JSONObject object = new JSONObject(response);
@@ -123,6 +132,7 @@ public class SessionInfoFragment extends Fragment {
                     JSONObject avatarObject = tuteeObject.getJSONObject("avatar");
                     JSONObject subjectObject = sessionObject.getJSONObject("subject");
                     JSONObject timeObject = sessionObject.getJSONObject("time");
+                    JSONArray assessments = sessionObject.getJSONArray("assessments");
 
                     JSONObject availabilityObject = object.getJSONObject("availability");
                     JSONArray days = availabilityObject.getJSONArray("days");
@@ -140,6 +150,20 @@ public class SessionInfoFragment extends Fragment {
                     txtName.setText(tuteeObject.getString("firstname") + " " + tuteeObject.getString("lastname"));
                     txtCourse.setText(courseObject.getString("name"));
                     txtDescription.setText(sessionObject.getString("description"));
+
+                    for (int i = 0; i < assessments.length(); i++) {
+                        JSONObject assessmentObject = assessments.getJSONObject(i);
+                        Assessment assessment = new Assessment();
+
+                        assessment.setName(assessmentObject.getString("name"));
+                        assessment.setScore(assessmentObject.getInt("score"));
+                        assessment.setTotalItems(assessmentObject.getJSONArray("questions").length());
+
+                        assessmentArrayList.add(assessment);
+                    }
+
+                    assessmentsAdapter = new AssessmentsAdapter(getContext(), assessmentArrayList, this);
+                    recyclerAssessments.setAdapter(assessmentsAdapter);
                 }
 
                 dialog.dismiss();
@@ -164,5 +188,10 @@ public class SessionInfoFragment extends Fragment {
         };
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 }

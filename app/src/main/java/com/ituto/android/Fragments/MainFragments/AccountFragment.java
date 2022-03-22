@@ -86,10 +86,10 @@ public class AccountFragment extends Fragment {
         RelativeLayout dialogLayout = dialog.findViewById(R.id.rllDialog);
         dialog.setCancelable(false);
         dialog.show();
-        Window window = dialog.getWindow();
-        WindowManager.LayoutParams wlp = window.getAttributes();
-        wlp.height = getActivity().getResources().getDisplayMetrics().heightPixels - bottomAppBar.getHeight();
-        window.setAttributes(wlp);
+//        Window window = dialog.getWindow();
+//        WindowManager.LayoutParams wlp = window.getAttributes();
+//        wlp.height = getActivity().getResources().getDisplayMetrics().heightPixels - bottomAppBar.getHeight();
+//        window.setAttributes(wlp);
 
         btnLogOut.setOnClickListener(v -> {
             dialog = new Dialog(getContext());

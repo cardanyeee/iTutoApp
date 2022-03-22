@@ -25,6 +25,8 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.ituto.android.Adapters.TutorsAdapter;
 import com.ituto.android.Constant;
 import com.ituto.android.Fragments.FilterFragment;
+import com.ituto.android.Models.Availability;
+import com.ituto.android.Models.Time;
 import com.ituto.android.Models.Tutor;
 import com.ituto.android.R;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -120,6 +122,10 @@ public class TutorsFragment extends Fragment {
                         JSONObject tutorObject = resultArray.getJSONObject(i);
                         JSONObject userObject = tutorObject.getJSONObject("userID");
                         JSONObject avatar = userObject.getJSONObject("avatar");
+                        JSONObject availabilityObject = tutorObject.getJSONObject("availability");
+                        JSONArray days = availabilityObject.getJSONArray("days");
+                        JSONArray timeArray = availabilityObject.getJSONArray("time");
+                        JSONArray subjectsArray = tutorObject.getJSONArray("subjects");
 
                         Tutor tutor = new Tutor();
                         tutor.setTutorID(tutorObject.getString("_id"));
@@ -127,6 +133,34 @@ public class TutorsFragment extends Fragment {
                         tutor.setFirstname(userObject.getString("firstname"));
                         tutor.setLastname(userObject.getString("lastname"));
                         tutor.setAvatar(avatar.getString("url"));
+
+                        ArrayList<String> daysArray = new ArrayList<>();
+                        ArrayList<Time> timeArrayList = new ArrayList<>();
+                        ArrayList<String> subjectArrayList = new ArrayList<>();
+
+                        for (int d = 0; d < days.length(); d++) {
+                            daysArray.add(days.getString(d));
+                        }
+
+                        for (int t = 0; t < timeArray.length(); t++) {
+                            Time time = new Time();
+                            JSONObject timeObject = timeArray.getJSONObject(t);
+
+                            time.setTimeOfDay(timeObject.getString("timeOfDay"));
+                            time.setMin(timeObject.getString("min"));
+                            time.setMax(timeObject.getString("max"));
+
+                            timeArrayList.add(time);
+                        }
+
+                        for (int s = 0; s < subjectsArray.length(); s++) {
+                            JSONObject subject = subjectsArray.getJSONObject(s);
+                            subjectArrayList.add(subject.getString("name"));
+                        }
+
+                        tutor.setDaysArrayList(daysArray);
+                        tutor.setTimeArrayList(timeArrayList);
+                        tutor.setSubjects(subjectArrayList);
 
                         tutorArrayList.add(tutor);
                     }

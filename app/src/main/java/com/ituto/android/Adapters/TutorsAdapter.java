@@ -26,6 +26,7 @@ import com.ituto.android.ConversationActivity;
 import com.ituto.android.Fragments.TutorProfileFragment;
 import com.ituto.android.HomeActivity;
 import com.ituto.android.Models.Message;
+import com.ituto.android.Models.Time;
 import com.ituto.android.Models.Tutor;
 import com.ituto.android.Models.User;
 import com.ituto.android.R;
@@ -64,9 +65,43 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
     @Override
     public void onBindViewHolder(@NonNull TutorHolder holder, @SuppressLint("RecyclerView") int position) {
         Tutor tutor = tutorArrayList.get(position);
+        ArrayList<String> days = tutor.getDaysArrayList();
+        ArrayList<Time> timeArrayList = tutor.getTimeArrayList();
+        ArrayList<String> subjects = tutor.getSubjects();
         Picasso.get().load(tutor.getAvatar()).resize(500, 0).placeholder(R.drawable.blank_avatar).into(holder.imgTutor);
         holder.txtName.setText(tutor.getFirstname() + " " + tutor.getLastname());
         holder.btnMessage.setOnClickListener(v -> message(holder, position));
+
+        holder.txtDays.setText("");
+        for (int d = 0; d < days.size(); d++) {
+            if (d == 0) {
+                holder.txtDays.setText("");
+                holder.txtDays.setText(holder.txtDays.getText() + days.get(d));
+                continue;
+            }
+            holder.txtDays.setText(holder.txtDays.getText() + ", " + days.get(d));
+        }
+
+        holder.txtTime.setText("");
+        for (int t = 0; t < timeArrayList.size(); t++) {
+            Time time = timeArrayList.get(t);
+            if (t == 0) {
+                holder.txtTime.setText("");
+                holder.txtTime.setText(holder.txtTime.getText() + time.getMin() + " - " + time.getMax());
+                continue;
+            }
+            holder.txtTime.setText(holder.txtTime.getText() + ", " + time.getMin() + " - " + time.getMax());
+        }
+
+        holder.txtSubjects.setText("");
+        for (int s = 0; s < subjects.size(); s++) {
+            if (s == 0) {
+                holder.txtSubjects.setText("");
+                holder.txtSubjects.setText(holder.txtSubjects.getText() + subjects.get(s));
+                continue;
+            }
+            holder.txtSubjects.setText(holder.txtSubjects.getText() + ", " + subjects.get(s));
+        }
 
         holder.btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +165,7 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
 
     class TutorHolder extends RecyclerView.ViewHolder {
 
-        private TextView txtName, txtCourse;
+        private TextView txtName, txtCourse, txtDays, txtTime, txtSubjects;
         private CircleImageView imgTutor;
         private Button btnProfile, btnMessage;
 
@@ -138,6 +173,9 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
             super(itemView);
             txtName = itemView.findViewById(R.id.txtName);
             txtCourse = itemView.findViewById(R.id.txtCourse);
+            txtDays = itemView.findViewById(R.id.txtDays);
+            txtTime = itemView.findViewById(R.id.txtTime);
+            txtSubjects = itemView.findViewById(R.id.txtSubjects);
             imgTutor = itemView.findViewById(R.id.imgTutor);
             btnProfile = itemView.findViewById(R.id.btnProfile);
             btnMessage = itemView.findViewById(R.id.btnMessage);

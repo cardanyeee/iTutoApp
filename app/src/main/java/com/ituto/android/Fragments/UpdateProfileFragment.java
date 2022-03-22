@@ -71,9 +71,12 @@ public class UpdateProfileFragment extends Fragment {
     private CircleImageView imgUserInfo;
     private FloatingActionButton fabUpload;
     private TextInputEditText txtFirstname, txtLastname, txtUsername, txtBirthdate, txtPhone;
-    private AutoCompleteTextView txtGender, txtCourse;
+    private AutoCompleteTextView txtGender, txtCourse, txtYearLevel;
     private static final String[] GENDERS = new String[]{
             "Male", "Female", "Prefer not to say"
+    };
+    private static final String[] YEAR = new String[]{
+            "First", "Second", "Third", "Fourth"
     };
     private Button btnUpdateProfile;
 
@@ -105,6 +108,7 @@ public class UpdateProfileFragment extends Fragment {
         txtGender = view.findViewById(R.id.txtGender);
         txtCourse = view.findViewById(R.id.txtCourse);
         txtPhone = view.findViewById(R.id.txtPhone);
+        txtYearLevel = view.findViewById(R.id.txtYearLevel);
         btnUpdateProfile = view.findViewById(R.id.btnUpdateProfile);
 
         getUser();
@@ -149,6 +153,15 @@ public class UpdateProfileFragment extends Fragment {
         txtGender.setAdapter(arrayAdapter);
         txtGender.setThreshold(10);
 
+        ArrayAdapter<String> yearArrayAdapter = new ArrayAdapter<>(
+                getContext(),
+                R.layout.item_dropdown,
+                R.id.txtDropdownItem,
+                YEAR
+        );
+
+        txtYearLevel.setAdapter(yearArrayAdapter);
+
         btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,6 +196,7 @@ public class UpdateProfileFragment extends Fragment {
                     txtBirthdate.setText(outputFormat.format(date));
                     txtUsername.setText(user.getString("username"));
                     txtGender.setText(user.getString("gender"));
+                    txtYearLevel.setText(user.getString("yearLevel"));
                     txtCourse.setText(course.getString("name"));
                     courseID = course.getString("_id");
                     txtPhone.setText(user.has("phone") ? user.getString("phone") : "");
@@ -325,6 +339,7 @@ public class UpdateProfileFragment extends Fragment {
                         .addFormDataPart("birthdate", txtBirthdate.getText().toString().trim())
                         .addFormDataPart("gender", txtGender.getText().toString().trim())
                         .addFormDataPart("course", courseID)
+                        .addFormDataPart("yearLevel", txtYearLevel.getText().toString().trim())
                         .addFormDataPart("phone", txtPhone.getText().toString().trim());
 
                 RequestBody requestBody = body.build();

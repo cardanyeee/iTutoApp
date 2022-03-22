@@ -321,7 +321,9 @@ public class ConversationActivity extends AppCompatActivity {
     }
 
     private void sendMessage() {
+        String message = txtEnterMessage.getText().toString();
         txtEnterMessage.setText("");
+
         StringRequest request = new StringRequest(Request.Method.POST, Constant.SEND_MESSAGE, response -> {
             try {
                 JSONObject object = new JSONObject(response);
@@ -380,7 +382,7 @@ public class ConversationActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("content", txtEnterMessage.getText().toString());
+                map.put("content", message);
                 map.put("conversationID", conversationID);
                 return map;
             }

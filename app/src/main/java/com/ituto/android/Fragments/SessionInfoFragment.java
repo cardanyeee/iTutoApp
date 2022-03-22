@@ -97,6 +97,8 @@ public class SessionInfoFragment extends Fragment {
             Bundle bundle = new Bundle();
             CreateAssessmentFragment createAssessmentFragment = new CreateAssessmentFragment();
             bundle.putString("sessionID", sessionID);
+            bundle.putString("subjectID", subjectID);
+            bundle.putString("tuteeID", tuteeID);
             createAssessmentFragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                     R.anim.slide_in,  // enter
@@ -125,6 +127,9 @@ public class SessionInfoFragment extends Fragment {
                     JSONObject availabilityObject = object.getJSONObject("availability");
                     JSONArray days = availabilityObject.getJSONArray("days");
                     JSONArray time = availabilityObject.getJSONArray("time");
+
+                    tuteeID = tuteeObject.getString("_id");
+                    subjectID = subjectObject.getString("_id");
 
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                     Date date = format.parse(sessionObject.getString("startDate"));

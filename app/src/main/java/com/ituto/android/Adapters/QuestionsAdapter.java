@@ -1,5 +1,6 @@
 package com.ituto.android.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.google.android.material.card.MaterialCardView;
 import com.ituto.android.Models.Question;
@@ -40,7 +42,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     }
 
     @Override
-    public void onBindViewHolder(@NonNull QuestionHolder holder, int position) {
+    public void onBindViewHolder(@NonNull QuestionHolder holder, @SuppressLint("RecyclerView") int position) {
         Question question = questionArrayList.get(position);
         ArrayList<String> choices = question.getChoices();
 
@@ -50,15 +52,33 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         holder.txtChoiceB.setText("B. " + choices.get(1));
         holder.txtChoiceC.setText("C. " + choices.get(2));
         holder.txtChoiceD.setText("D. " + choices.get(3));
+        holder.txtAnswer.setText(showAnswerLetter(choices.indexOf(question.getAnswer())));
+        holder.txtAnswer.setEnabled(false);
+
+        viewBinderHelper.setOpenOnlyOne(true);
+        viewBinderHelper.bind(holder.swipeQuestionLayout, String.valueOf(position));
+        viewBinderHelper.closeLayout(String.valueOf(position));
+
+        holder.btnDeleteQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                questionArrayList.remove(position);
+                notifyItemRemoved(position);
+                notifyDataSetChanged();
+            }
+        });
     }
 
     class QuestionHolder extends RecyclerView.ViewHolder {
 
+        private SwipeRevealLayout swipeQuestionLayout;
         private EditText txtAnswer;
         private TextView txtItemNum, txtQuestion, txtChoiceA, txtChoiceB, txtChoiceC, txtChoiceD;
+        private ImageView btnDeleteQuestion;
 
         public QuestionHolder(@NonNull View itemView) {
             super(itemView);
+            swipeQuestionLayout = itemView.findViewById(R.id.swipeQuestionLayout);
             txtAnswer = itemView.findViewById(R.id.txtAnswer);
             txtItemNum = itemView.findViewById(R.id.txtItemNum);
             txtQuestion = itemView.findViewById(R.id.txtQuestion);
@@ -67,13 +87,34 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             txtChoiceC = itemView.findViewById(R.id.txtChoiceC);
             txtChoiceD = itemView.findViewById(R.id.txtChoiceD);
 
+            btnDeleteQuestion = itemView.findViewById(R.id.btnDeleteQuestion);
         }
-
-
     }
 
     @Override
     public int getItemCount() {
         return questionArrayList.size();
+    }
+
+    private String showAnswerLetter(int index) {
+        String answer = "";
+
+        if (index == 0) {
+            answer = "A";
+        }
+
+        if (index == 1) {
+            answer = "B";
+        }
+
+        if (index == 2) {
+            answer = "C";
+        }
+
+        if (index == 3) {
+            answer = "D";
+        }
+
+        return answer;
     }
 }

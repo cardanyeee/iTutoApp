@@ -1,9 +1,12 @@
 package com.ituto.android.Fragments;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,17 +18,30 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ituto.android.Adapters.QuestionsAdapter;
+import com.ituto.android.Constant;
+import com.ituto.android.Fragments.MainFragments.HomeFragment;
 import com.ituto.android.Models.Question;
 import com.ituto.android.Models.Tutor;
 import com.ituto.android.R;
 import com.muddzdev.styleabletoast.StyleableToast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateAssessmentFragment extends Fragment {
 
@@ -37,10 +53,13 @@ public class CreateAssessmentFragment extends Fragment {
     private QuestionsAdapter questionsAdapter;
     private Dialog addQuestionDialog;
 
-    private TextInputEditText txtQuestion, txtChoiceA, txtChoiceB, txtChoiceC, txtChoiceD;
+    private TextInputEditText txtAssessmentName, txtQuestion, txtChoiceA, txtChoiceB, txtChoiceC, txtChoiceD;
     private RadioGroup rdgChoices;
     private RadioButton rdbA, rdbB, rdbC, rdbD;
-    private MaterialButton btnAdd;
+    private MaterialButton btnAdd, btnConfirmAssessment;
+
+    private String sessionID, tuteeID, tutorID, subjectID;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,9 +69,11 @@ public class CreateAssessmentFragment extends Fragment {
     }
 
     private void init() {
+        sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.GONE);
 
+        txtAssessmentName = view.findViewById(R.id.txtAssessmentName);
         recyclerQuestions = view.findViewById(R.id.recyclerQuestions);
         recyclerQuestions.setLayoutManager(new LinearLayoutManager(getContext()));
         btnAddQuestion = view.findViewById(R.id.btnAddQuestion);
@@ -60,6 +81,11 @@ public class CreateAssessmentFragment extends Fragment {
         questionArrayList = new ArrayList<>();
         questionsAdapter = new QuestionsAdapter(getContext(), questionArrayList);
         recyclerQuestions.setAdapter(questionsAdapter);
+        btnConfirmAssessment = view.findViewById(R.id.btnConfirmAssessment);
+
+        sessionID = getArguments().getString("sessionID");
+        tuteeID = getArguments().getString("tuteeID");
+        subjectID = getArguments().getString("subjectID");
 
         addQuestionDialog = new Dialog(getContext());
 
@@ -108,6 +134,55 @@ public class CreateAssessmentFragment extends Fragment {
             }
         });
 
+        btnConfirmAssessment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addAssessment();
+            }
+        });
+
+    }
+
+    private void addAssessment() {
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.CREATE_ASSESSMENT, response -> {
+
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    StyleableToast.makeText(getContext(), "Assessment successfully created!", R.style.CustomToast).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }, error -> {
+            StyleableToast.makeText(getContext(), "Unable to create assessment", R.style.CustomToast).show();
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("sessionID", sessionID);
+                map.put("name", txtAssessmentName.getText().toString().trim());
+                map.put("subject", sessionID);
+                map.put("tutee", tuteeID);
+                map.put("questions", convertQuestions().toString());
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
     }
 
     private boolean validateDialog() {
@@ -165,5 +240,33 @@ public class CreateAssessmentFragment extends Fragment {
         }
 
         return answer;
+    }
+
+    private JSONArray convertQuestions() {
+
+        JSONArray questionArray = new JSONArray();
+
+        for (int i = 0; i < questionArrayList.size(); i++) {
+            try {
+                Question question = questionArrayList.get(i);
+                ArrayList<String> choices = question.getChoices();
+
+                JSONObject questionObject = new JSONObject();
+                questionObject.put("question", question.getQuestion());
+                questionObject.put("answer", question.getAnswer());
+
+                JSONArray choicesArray = new JSONArray();
+                for (int c = 0; c < choices.size(); c++) {
+                    choicesArray.put(choices.get(c));
+                }
+
+                questionObject.put("choices", choicesArray.toString());
+
+                questionArray.put(questionObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return questionArray;
     }
 }

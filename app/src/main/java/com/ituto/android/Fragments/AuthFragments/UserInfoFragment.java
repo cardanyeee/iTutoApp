@@ -66,11 +66,11 @@ public class UserInfoFragment extends Fragment {
 
     private ProgressDialog dialog;
 
-    private static final String[] GENDERS = new String[]{
+    private static final String[] YEAR = new String[]{
             "First", "Second", "Third", "Fourth"
     };
 
-    private static final String[] YEAR = new String[]{
+    private static final String[] GENDERS = new String[]{
             "Male", "Female", "Prefer not to say"
     };
 

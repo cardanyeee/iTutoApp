@@ -3,6 +3,7 @@ package com.ituto.android.Fragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -21,6 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ituto.android.Adapters.AssessmentsAdapter;
@@ -51,6 +53,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
     private TextView txtSubjectName, txtName, txtCourse, txtYearLevel, txtDescription;
     private RecyclerView recyclerAssessments;
     private FloatingActionButton btnAddAssessment;
+    private MaterialButton btnReviewTutor;
     private Dialog dialog;
 
     private AssessmentsAdapter assessmentsAdapter;
@@ -81,6 +84,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         recyclerAssessments.setLayoutManager(new LinearLayoutManager(getContext()));
         btnAddAssessment = view.findViewById(R.id.btnAddAssessment);
         imgBackButton = view.findViewById(R.id.imgBackButton);
+        btnReviewTutor = view.findViewById(R.id.btnReviewTutor);
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
@@ -112,6 +116,17 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                     R.anim.fade_in,   // popEnter
                     R.anim.slide_out  // popExit
             ).replace(R.id.fragment_container, createAssessmentFragment).addToBackStack(null).commit();
+        });
+
+        btnReviewTutor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialog reviewDialog = new Dialog(getContext());
+
+                reviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                reviewDialog.getWindow().getAttributes().windowAnimations = R.style.AddQuestionDialogAnimation;
+                reviewDialog.setContentView(R.layout.layout_dialog_review);
+            }
         });
 
     }

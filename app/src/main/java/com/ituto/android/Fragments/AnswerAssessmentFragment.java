@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -49,6 +50,7 @@ public class AnswerAssessmentFragment extends Fragment {
 
     private RecyclerView recyclerQuestions;
     private MaterialButton btnSubmitAnswers;
+    private ImageView imgBackButton;
 
     private ArrayList<Question> questionArrayList;
     private AnswerQuestionsAdapter answerQuestionsAdapter;
@@ -71,6 +73,8 @@ public class AnswerAssessmentFragment extends Fragment {
         bottomAppBar.setVisibility(View.GONE);
         assessmentID = getArguments().getString("_id");
 
+        imgBackButton = view.findViewById(R.id.imgBackButton);
+
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
         dialog.setContentView(R.layout.layout_dialog_progress);
@@ -83,12 +87,13 @@ public class AnswerAssessmentFragment extends Fragment {
 
         btnSubmitAnswers = view.findViewById(R.id.btnSubmitAnswers);
 
-        btnSubmitAnswers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (validateAnswers()) {
-                    submitAnswers();
-                }
+        imgBackButton.setOnClickListener(view -> {
+            getActivity().getSupportFragmentManager().popBackStack();
+        });
+
+        btnSubmitAnswers.setOnClickListener(view -> {
+            if (validateAnswers()) {
+                submitAnswers();
             }
         });
 

@@ -31,6 +31,7 @@
                     android:textSize="14sp"/>
 
                 <TextView
+                    android:id="@+id/txtFirstname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Juan"
@@ -49,6 +50,7 @@
                         android:fontFamily="@font/roboto"
                         android:textSize="14sp"/>
                     <TextView
+                        android:id="@+id/txtLoggedInAs"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tutor"
@@ -62,7 +64,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="0dp"
                 android:layout_weight="1.5"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/blank_avatar"/>
 

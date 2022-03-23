@@ -32,6 +32,6 @@
 
     <color name="colorTransparent">@android:color/transparent</color>
 
-    <color name="colorHint">#CCCCCC</color>
+    <color name="colorHint">#A5B0B9</color>
 
 </resources>

@@ -2,6 +2,7 @@ package com.ituto.android.Fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -29,7 +30,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class FilterFragment extends Fragment {
 
@@ -50,6 +55,7 @@ public class FilterFragment extends Fragment {
 
     private String courseID;
     private String subjectID;
+    private String dayOfWeek;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,9 +69,62 @@ public class FilterFragment extends Fragment {
 
         txtCourse = view.findViewById(R.id.txtCourse);
         txtSubject = view.findViewById(R.id.txtSubject);
+        txtAvailability = view.findViewById(R.id.txtAvailability);
 
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.GONE);
+
+        txtAvailability.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePickerDialog = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(
+                    (view, year1, monthOfYear, dayOfMonth) -> {
+                        monthOfYear = monthOfYear + 1;
+                        String date = year1 + "-" + monthOfYear + "-" + dayOfMonth;
+                        txtAvailability.setText(date);
+                        try {
+                            Calendar c = Calendar.getInstance();
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                            c.setTime(sdf.parse(date));// all done
+                            int d = c.get(Calendar.DAY_OF_WEEK);
+
+                            switch (d) {
+                                case Calendar.SUNDAY:
+                                    dayOfWeek = "Sunday";
+                                    break;
+                                case Calendar.MONDAY:
+                                    dayOfWeek = "Monday";
+                                    break;
+                                case Calendar.TUESDAY:
+                                    dayOfWeek = "Tuesday";
+                                    break;
+                                case Calendar.WEDNESDAY:
+                                    dayOfWeek = "Wednesday";
+                                    break;
+                                case Calendar.THURSDAY:
+                                    dayOfWeek = "Thursday";
+                                    break;
+                                case Calendar.FRIDAY:
+                                    dayOfWeek = "Friday";
+                                    break;
+                                case Calendar.SATURDAY:
+                                    dayOfWeek = "Saturday";
+                                    break;
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    },
+                    year,
+                    month,
+                    day);
+            datePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimaryLight));
+            datePickerDialog.setMinDate(Calendar.getInstance());
+            datePickerDialog.show(getParentFragmentManager(), "");
+        });
 
         txtCourse.setOnItemClickListener((parent, view, position, id) -> {
             String selected = (String) parent.getItemAtPosition(position);
@@ -88,6 +147,7 @@ public class FilterFragment extends Fragment {
             TutorsFragment tutorsFragment = new TutorsFragment();
             bundle.putBoolean("filter", true);
             bundle.putString("subjects", subjectID == null ? "" : subjectID);
+            bundle.putString("day", dayOfWeek == null ? "" : dayOfWeek);
             // R.id.container - the id of a view that will hold your fragment; usually a FrameLayout
             tutorsFragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(

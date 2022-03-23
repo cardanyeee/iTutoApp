@@ -102,12 +102,7 @@ public class SessionRequestInfo extends Fragment {
 
         StyleableToast.makeText(getContext(), sessionID, R.style.CustomToast).show();
 
-        imgBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
+        imgBackButton.setOnClickListener(view -> getActivity().getSupportFragmentManager().popBackStack());
 
         btnDeclineSchedule.setOnClickListener(view -> {
             Dialog declinedDialog = new Dialog(getContext());

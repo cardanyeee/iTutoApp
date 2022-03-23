@@ -52,42 +52,56 @@ public class AuthActivity extends AppCompatActivity {
             case R.id.ckbSunday:
                 if (checked) {
                     SignUpAvailabilityFragment.days.add("Sunday");
+                } else {
+                    SignUpAvailabilityFragment.days.remove("Sunday");
                 }
                 break;
 
             case R.id.ckbMonday:
                 if (checked) {
                     SignUpAvailabilityFragment.days.add("Monday");
+                } else {
+                    SignUpAvailabilityFragment.days.remove("Monday");
                 }
                 break;
 
             case R.id.ckbTuesday:
                 if (checked) {
                     SignUpAvailabilityFragment.days.add("Tuesday");
+                } else {
+                    SignUpAvailabilityFragment.days.remove("Tuesday");
                 }
                 break;
 
             case R.id.ckbWednesday:
                 if (checked) {
                     SignUpAvailabilityFragment.days.add("Wednesday");
+                } else {
+                    SignUpAvailabilityFragment.days.remove("Wednesday");
                 }
                 break;
 
             case R.id.ckbThursday:
                 if (checked) {
                     SignUpAvailabilityFragment.days.add("Thursday");
+                } else {
+                    SignUpAvailabilityFragment.days.remove("Thursday");
                 }
                 break;
 
             case R.id.ckbFriday:
                 if (checked) {
                     SignUpAvailabilityFragment.days.add("Friday");
+                } else {
+                    SignUpAvailabilityFragment.days.remove("Friday");
                 }
                 break;
 
             case R.id.ckbSaturday:
                 if (checked) {
                     SignUpAvailabilityFragment.days.add("Saturday");
+                } else {
+                    SignUpAvailabilityFragment.days.remove("Saturday");
                 }
                 break;
         }

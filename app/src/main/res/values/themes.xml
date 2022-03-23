@@ -39,6 +39,15 @@
 
     <style name="SubjectChip" parent="Widget.MaterialComponents.Chip.Entry">
         <item name="closeIconTint">@color/colorError</item>
+        <item name="chipBackgroundColor">@color/colorHint</item>
+        <item name="titleTextColor">@color/colorBackground</item>
+        <item name="android:textAppearance">@style/ChipTextAppearance.Base</item>
+    </style>
+
+    <style name="ChipTextAppearance.Base" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">@color/colorBackground</item>
     </style>
 
     <style name="AppTheme.BottomAppbar" parent="Theme.MaterialComponents.Light.NoActionBar">

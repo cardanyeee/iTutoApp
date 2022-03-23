@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:clipToPadding="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/colorBackground"
+        android:elevation="20dp"
+        app:cardCornerRadius="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:clipToPadding="false"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tutor Review"
+                android:fontFamily="@font/roboto_bold"
+                android:textSize="25sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height=".6dp"
+                android:background="@color/colorHint"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginBottom="30dp"/>
+
+            <RatingBar
+                android:id="@+id/rtbTutorRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:numStars="5"
+                android:stepSize=".5" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtLayoutDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/Button.Primary"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/custom_input"
+                    android:inputType="textImeMultiLine"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="5dp"
+                    android:hint="Additional Comments..."
+                    android:textSize="13sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+
+                android:layout_below="@+id/rtbTutorRating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".50"
+                    android:background="@drawable/btn_left"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Cancel"
+                    android:theme="@style/Button.Secondary" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryLight" />
+
+                <Button
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".50"
+                    android:background="@drawable/btn_right"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Submit"
+                    android:theme="@style/Button.Primary" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</LinearLayout>

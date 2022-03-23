@@ -45,8 +45,10 @@ public class TutorsFragment extends Fragment {
     private String TUTORS;
     private String KEYWORD_LINK = "?keyword=";
     private String SUBJECTS_LINK = "&subjects=";
+    private String DAY_LINK = "&day=";
     private String KEYWORD = "";
     private String SUBJECTS = "";
+    private String DAY = "";
 
     private EditText searchTutor;
     private ImageView btnFilters;
@@ -107,10 +109,11 @@ public class TutorsFragment extends Fragment {
         if (!(getArguments() == null)) {
             if (getArguments().getBoolean("filter")) {
                 SUBJECTS = getArguments().getString("subjects");
+                DAY = getArguments().getString("day");
             }
         }
 
-        TUTORS = Constant.TUTORS + KEYWORD_LINK + KEYWORD + SUBJECTS_LINK + SUBJECTS;
+        TUTORS = Constant.TUTORS + KEYWORD_LINK + KEYWORD + SUBJECTS_LINK + SUBJECTS + DAY_LINK + DAY;
         StringRequest request = new StringRequest(Request.Method.GET, TUTORS, response -> {
             try {
                 JSONObject object = new JSONObject(response);

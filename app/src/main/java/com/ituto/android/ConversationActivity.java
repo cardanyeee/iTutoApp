@@ -127,8 +127,6 @@ public class ConversationActivity extends AppCompatActivity {
         Picasso.get().load(getIntent().getStringExtra("avatar")).fit().centerCrop().into(imgYouHeader);
         txtConversationName.setText(getIntent().getStringExtra("name"));
 
-//        Log.d("TAGTAGTAGTAG", getIntent().getSerializableExtra("users").toString());
-
         getSignedUser();
 
         getMessages();
@@ -173,28 +171,7 @@ public class ConversationActivity extends AppCompatActivity {
 //            }
             UploadTask uploadTask = new UploadTask();
             uploadTask.execute(new String[]{all_file_path, all_file_path, all_file_path});
-//            Ion.with(this)
-//                    .load(Constant.SEND_FILES)
-//                    .setMultipartFile("file", "application/pdf", new File(all_file_path))
-//                    .asJsonObject()
-//                    .withResponse()
-//                    .setCallback((e, result) -> {
-//
-//                        if(e != null) {
-//                            Toast.makeText(this, "Error is: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }else {
-//                            switch (result.getHeaders().code()) {
-//                                case 500:
-//                                    Toast.makeText(this, "Image Uploading Failed. Unknown Server Error!", Toast.LENGTH_SHORT).show();
-//                                    break;
-//                                case 200:
-//                                    Toast.makeText(this, "Image Successfully Uploaded!", Toast.LENGTH_SHORT).show();
-//                                    all_file_path = null;
-//                                    break;
-//                            }
-//                        }
-//
-//                    });
+
         });
 
         btnCall.setOnClickListener(v -> {
@@ -225,7 +202,6 @@ public class ConversationActivity extends AppCompatActivity {
         }));
 
         socket.on("received", args -> {
-//            Log.d("TAGTAGTAGTAGTAGTAG", args.toString());
             runOnUiThread(() -> {
                 JSONObject messageObject = (JSONObject) args[0];
                 try {
@@ -256,7 +232,6 @@ public class ConversationActivity extends AppCompatActivity {
                         newMessage.setContent(messageObject.getString("content"));
                         newMessage.setConversation(conversation);
 
-//                    recyclerConversation.getAdapter().notifyItemInserted(0);
                         messageArrayList.add(newMessage);
 
                         recyclerConversation.getAdapter().notifyDataSetChanged();

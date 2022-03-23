@@ -52,6 +52,7 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
 
     class AssessmentHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
 
+        OnItemListener onItemListener;
         private TextView txtAssessmentName, txtScore, txtTotalItems;
 
         public AssessmentHolder(@NonNull View itemView, OnItemListener onItemListener) {
@@ -60,6 +61,13 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
             txtAssessmentName = itemView.findViewById(R.id.txtAssessmentName);
             txtScore = itemView.findViewById(R.id.txtScore);
             txtTotalItems = itemView.findViewById(R.id.txtTotalItems);
+
+
+            this.onItemListener = onItemListener;
+
+            itemView.setOnClickListener(this);
+
+            itemView.setClickable(true);
         }
 
         @Override

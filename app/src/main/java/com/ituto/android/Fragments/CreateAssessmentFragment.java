@@ -174,7 +174,7 @@ public class CreateAssessmentFragment extends Fragment {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("sessionID", sessionID);
                 map.put("name", txtAssessmentName.getText().toString().trim());
-                map.put("subject", sessionID);
+                map.put("subject", subjectID);
                 map.put("tutee", tuteeID);
                 map.put("questions", convertQuestions().toString());
                 return map;

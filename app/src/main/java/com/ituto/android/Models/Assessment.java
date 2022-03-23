@@ -4,9 +4,17 @@ import java.util.ArrayList;
 
 public class Assessment {
 
-    private String name, subject, tutor, tutee;
+    private String assessmentID, name, subject, tutor, tutee;
     private int score, totalItems;
     private ArrayList<Question> questions;
+
+    public String getAssessmentID() {
+        return assessmentID;
+    }
+
+    public void setAssessmentID(String assessmentID) {
+        this.assessmentID = assessmentID;
+    }
 
     public String getName() {
         return name;

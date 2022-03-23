@@ -232,35 +232,37 @@ public class ConversationActivity extends AppCompatActivity {
                     JSONObject senderObject = messageObject.getJSONObject("sender");
                     JSONObject conversationObject = messageObject.getJSONObject("conversationID");
 
-                    Message newMessage = new Message();
-                    User sender = new User();
-                    Conversation conversation = new Conversation();
-                    JSONObject avatar = senderObject.getJSONObject("avatar");
+                    if (conversationObject.getString("_id").equals(conversationID)) {
+                        Message newMessage = new Message();
+                        User sender = new User();
+                        Conversation conversation = new Conversation();
+                        JSONObject avatar = senderObject.getJSONObject("avatar");
 
-                    sender.setUserID(senderObject.getString("_id"));
-                    sender.setFirstname(senderObject.getString("firstname"));
-                    sender.setAvatar(avatar.getString("url"));
+                        sender.setUserID(senderObject.getString("_id"));
+                        sender.setFirstname(senderObject.getString("firstname"));
+                        sender.setAvatar(avatar.getString("url"));
 
-                    JSONArray userArray = conversationObject.getJSONArray("users");
-                    conversation.setConversationID(conversationObject.getString("_id"));
-                    conversation.setConversationName(conversationObject.getString("conversationName"));
-                    ArrayList<String> userIDArrayList = new ArrayList<String>();
-                    for (int a = 0; a < userArray.length(); a++) {
-                        String userID = userArray.getString(a);
-                        userIDArrayList.add(userID);
-                    }
-                    conversation.setUserIDArrayList(userIDArrayList);
+                        JSONArray userArray = conversationObject.getJSONArray("users");
+                        conversation.setConversationID(conversationObject.getString("_id"));
+                        conversation.setConversationName(conversationObject.getString("conversationName"));
+                        ArrayList<String> userIDArrayList = new ArrayList<String>();
+                        for (int a = 0; a < userArray.length(); a++) {
+                            String userID = userArray.getString(a);
+                            userIDArrayList.add(userID);
+                        }
+                        conversation.setUserIDArrayList(userIDArrayList);
 
-                    newMessage.setUser(sender);
-                    newMessage.setContent(messageObject.getString("content"));
-                    newMessage.setConversation(conversation);
+                        newMessage.setUser(sender);
+                        newMessage.setContent(messageObject.getString("content"));
+                        newMessage.setConversation(conversation);
 
 //                    recyclerConversation.getAdapter().notifyItemInserted(0);
-                    messageArrayList.add(newMessage);
+                        messageArrayList.add(newMessage);
 
-                    recyclerConversation.getAdapter().notifyDataSetChanged();
+                        recyclerConversation.getAdapter().notifyDataSetChanged();
 
-                    recyclerConversation.smoothScrollToPosition(recyclerConversation.getAdapter().getItemCount());
+                        recyclerConversation.smoothScrollToPosition(recyclerConversation.getAdapter().getItemCount());
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

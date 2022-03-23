@@ -58,7 +58,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_top"
@@ -119,8 +119,19 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerQuestions"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingBottom="50dp" />
 
-    </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSubmitAnswers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btn_round2"
+            android:text="Submit Answers"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

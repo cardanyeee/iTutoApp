@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Question {
 
-    private String question, answer;
+    private String question, answer, tuteeAnswer;
     private ArrayList<String> choices;
 
     public String getQuestion() {
@@ -29,5 +29,13 @@ public class Question {
 
     public void setChoices(ArrayList<String> choices) {
         this.choices = choices;
+    }
+
+    public String getTuteeAnswer() {
+        return tuteeAnswer;
+    }
+
+    public void setTuteeAnswer(String tuteeAnswer) {
+        this.tuteeAnswer = tuteeAnswer;
     }
 }

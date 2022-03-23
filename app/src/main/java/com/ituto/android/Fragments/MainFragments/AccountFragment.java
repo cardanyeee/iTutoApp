@@ -7,12 +7,9 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,7 +26,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
-import com.ituto.android.Fragments.RequestScheduleFragment;
 import com.ituto.android.Fragments.UpdateProfileFragment;
 import com.ituto.android.R;
 import com.squareup.picasso.Callback;
@@ -82,7 +78,7 @@ public class AccountFragment extends Fragment {
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
-        dialog.setContentView(R.layout.layout_progress_dialog);
+        dialog.setContentView(R.layout.layout_dialog_progress);
         RelativeLayout dialogLayout = dialog.findViewById(R.id.rllDialog);
         dialog.setCancelable(false);
         dialog.show();
@@ -94,7 +90,7 @@ public class AccountFragment extends Fragment {
         btnLogOut.setOnClickListener(v -> {
             dialog = new Dialog(getContext());
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            dialog.setContentView(R.layout.layout_logout_dialog);
+            dialog.setContentView(R.layout.layout_dialog_logout);
 
             Button btnYes = dialog.findViewById(R.id.btnYes);
             Button btnNo = dialog.findViewById(R.id.btnNo);

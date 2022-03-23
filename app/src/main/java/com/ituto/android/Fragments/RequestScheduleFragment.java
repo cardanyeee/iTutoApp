@@ -32,7 +32,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ituto.android.Constant;
 import com.ituto.android.Fragments.MainFragments.HomeFragment;
-import com.ituto.android.Models.Availability;
 import com.ituto.android.Models.Subject;
 import com.ituto.android.Models.Tutor;
 import com.ituto.android.R;
@@ -114,7 +113,7 @@ public class RequestScheduleFragment extends Fragment {
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
-        dialog.setContentView(R.layout.layout_progress_dialog);
+        dialog.setContentView(R.layout.layout_dialog_progress);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setCancelable(false);
         dialog.show();

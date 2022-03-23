@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -25,7 +24,6 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ituto.android.Adapters.AssessmentsAdapter;
-import com.ituto.android.Adapters.TutorsAdapter;
 import com.ituto.android.Constant;
 import com.ituto.android.Models.Assessment;
 import com.ituto.android.R;
@@ -86,7 +84,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
-        dialog.setContentView(R.layout.layout_progress_dialog);
+        dialog.setContentView(R.layout.layout_dialog_progress);
         dialog.setCancelable(false);
         dialog.show();
 

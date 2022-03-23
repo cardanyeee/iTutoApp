@@ -35,6 +35,7 @@ public class Constant {
     public static final String TUTOR_ASSESSMENTS = HOME + "/assessment/tutor";
     public static final String ALL_ASSESSMENTS = HOME + "/assessments";
     public static final String GET_ASSESSMENT = HOME + "/assessment";
+    public static final String ANSWER_ASSESSMENT = HOME + "/assessment/answer";
 
     public static final String TUTORS = HOME + "/tutors";
     public static final String ADD_TUTOR_SUBJECTS = HOME + "/tutor/subject/add";

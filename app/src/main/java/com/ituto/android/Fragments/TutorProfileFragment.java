@@ -3,8 +3,6 @@ package com.ituto.android.Fragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
-import android.opengl.Visibility;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -94,7 +92,7 @@ public class TutorProfileFragment extends Fragment {
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
-        dialog.setContentView(R.layout.layout_progress_dialog);
+        dialog.setContentView(R.layout.layout_dialog_progress);
         dialog.setCancelable(false);
         dialog.show();
 

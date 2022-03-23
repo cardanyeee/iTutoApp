@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="5dp"
-        app:cardElevation="5dp"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,6 +36,7 @@
                     android:layout_weight="1"
                     android:digits="ABCD"
                     android:gravity="center"
+                    android:inputType="textCapCharacters"
                     android:maxLength="1"
                     android:textColor="@color/black"
                     android:textSize="14sp" />

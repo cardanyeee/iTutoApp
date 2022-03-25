@@ -125,8 +125,10 @@
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_dialog_logout.xml" value="0.3087719298245614" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_dialog_review.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_header.xml" value="0.2421875" />
-        <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_holder_me.xml" value="0.30520833333333336" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_holder_me.xml" value="0.33" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_holder_me_image.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_holder_you.xml" value="0.30520833333333336" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_holder_you_image.xml" value="0.3087719298245614" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_home.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_home_course.xml" value="0.271875" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_logout_dialog.xml" value="0.5" />

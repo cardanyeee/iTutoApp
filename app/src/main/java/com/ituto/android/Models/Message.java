@@ -2,7 +2,7 @@ package com.ituto.android.Models;
 
 public class Message {
 
-    private String messageID, senderID, conversationID, content, timestamp;
+    private String messageID, senderID, conversationID, content, timestamp, attachment;
     private Conversation conversation;
     private User user;
 

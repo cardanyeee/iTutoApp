@@ -156,22 +156,8 @@ public class ConversationActivity extends AppCompatActivity {
         });
 
         btnSend.setOnClickListener(v -> {
-            sendMessage();
-//            if (gallery_file_path == null) {
-//                Toast.makeText(ConversationActivity.this, "Gallery File Empty", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-            if (all_file_path == null) {
-//                Toast.makeText(ConversationActivity.this, "ALl File File Empty", Toast.LENGTH_SHORT).show();
-                return;
-            }
-//            if (camera_file_path == null) {
-//                Toast.makeText(ConversationActivity.this, "CAmera File Empty", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
             UploadTask uploadTask = new UploadTask();
-            uploadTask.execute(new String[]{all_file_path, all_file_path, all_file_path});
-
+            uploadTask.execute(new String[]{all_file_path});
         });
 
         btnCall.setOnClickListener(v -> {
@@ -500,7 +486,6 @@ public class ConversationActivity extends AppCompatActivity {
 //                camer_file_path = destination.getPath();
 
             }
-
             if (requestCode == ALL_FILE_REQUEST) {
                 if (data == null) {
                     return;
@@ -539,20 +524,26 @@ public class ConversationActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-
-            File file1 = new File(strings[0]);
-            File file2 = new File(strings[1]);
-            File file3 = new File(strings[2]);
+            String message = txtEnterMessage.getText().toString();
+            txtEnterMessage.setText("");
 
             try {
-                RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                        .addFormDataPart("files1", file1.getName(), RequestBody.create(MediaType.parse("*/*"), file1))
-                        .addFormDataPart("files2", file2.getName(), RequestBody.create(MediaType.parse("*/*"), file2))
-                        .addFormDataPart("files3", file3.getName(), RequestBody.create(MediaType.parse("*/*"), file3))
-                        .build();
+                MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
+                if (!(strings[0] == null)) {
+                    File file1 = new File(strings[0]);
+                    body.addFormDataPart("attachment", file1.getName(), RequestBody.create(MediaType.parse("*/*"), file1));
+                }
+
+                body.addFormDataPart("content", message)
+                        .addFormDataPart("conversationID", conversationID);
+
+                RequestBody requestBody = body.build();
+
+                String token = sharedPreferences.getString("token", "");
                 okhttp3.Request request = new okhttp3.Request.Builder()
-                        .url(Constant.SEND_FILES)
+                        .url(Constant.SEND_MESSAGE)
+                        .addHeader("Authorization", "Bearer " + token)
                         .post(requestBody)
                         .build();
 
@@ -560,7 +551,51 @@ public class ConversationActivity extends AppCompatActivity {
 
                 Response response = okHttpClient.newCall(request).execute();
                 if (response != null && response.isSuccessful()) {
-                    return response.body().string();
+                    String responseData = response.body().string();
+                    runOnUiThread(() -> {
+                        try {
+                            JSONObject object = new JSONObject(responseData);
+                            if (object.getBoolean("success")) {
+                                socket.emit("new message", responseData);
+
+                                JSONObject messageObject = object.getJSONObject("message");
+                                JSONObject senderObject = messageObject.getJSONObject("sender");
+                                JSONObject conversationObject = messageObject.getJSONObject("conversationID");
+
+                                Message newMessage = new Message();
+                                User sender = new User();
+                                Conversation conversation = new Conversation();
+                                JSONObject avatar = senderObject.getJSONObject("avatar");
+
+                                sender.setUserID(senderObject.getString("_id"));
+                                sender.setFirstname(senderObject.getString("firstname"));
+                                sender.setAvatar(avatar.getString("url"));
+
+                                JSONArray userArray = conversationObject.getJSONArray("users");
+                                conversation.setConversationID(conversationObject.getString("_id"));
+                                conversation.setConversationName(conversationObject.getString("conversationName"));
+                                ArrayList<String> userIDArrayList = new ArrayList<String>();
+                                for (int a = 0; a < userArray.length(); a++) {
+                                    String userID = userArray.getString(a);
+                                    userIDArrayList.add(userID);
+                                }
+                                conversation.setUserIDArrayList(userIDArrayList);
+
+                                newMessage.setUser(sender);
+                                newMessage.setContent(messageObject.getString("content"));
+                                newMessage.setConversation(conversation);
+
+                                messageArrayList.add(newMessage);
+
+                                recyclerConversation.getAdapter().notifyDataSetChanged();
+
+                                recyclerConversation.smoothScrollToPosition(recyclerConversation.getAdapter().getItemCount());
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    });
+//                    return response.body().string();
                 } else {
                     return null;
                 }
@@ -570,42 +605,6 @@ public class ConversationActivity extends AppCompatActivity {
             }
             return null;
         }
-    }
-
-    public static Boolean uploadFile(String serverURL, File file) {
-        try {
-            RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                    .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("*/*"), file))
-                    .addFormDataPart("some-field", "some-value")
-                    .build();
-
-            okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url(serverURL)
-                    .post(requestBody)
-                    .build();
-
-            OkHttpClient okHttpClient = new OkHttpClient();
-            okHttpClient.newCall(request).enqueue(new Callback() {
-
-                @Override
-                public void onFailure(final Call call, final IOException e) {
-                    // Handle the error
-                }
-
-                @Override
-                public void onResponse(final Call call, final Response response) throws IOException {
-                    if (!response.isSuccessful()) {
-                        // Handle the error
-                    }
-                    // Upload successful
-                }
-            });
-
-            return true;
-        } catch (Exception ex) {
-            // Handle the error
-        }
-        return false;
     }
 
 }

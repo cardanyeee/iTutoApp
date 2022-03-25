@@ -47,10 +47,10 @@
                 android:id="@+id/btnCall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_call_24"
-                android:backgroundTint="@color/colorTransparent"
                 android:layout_gravity="end"
-                android:layout_marginRight="20dp"/>
+                android:layout_marginRight="20dp"
+                android:backgroundTint="@color/colorTransparent"
+                android:src="@drawable/ic_baseline_call_24" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -66,11 +66,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rl_bottom"
+        android:layout_below="@+id/rl_top"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:background="@color/colorBackground"
-        android:overScrollMode="never"
-        android:paddingTop="60dp" />
+        android:overScrollMode="never" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,7 +87,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#E9EDED"
+        android:background="@color/colorBackground"
+        android:elevation="20dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:padding="5dp">

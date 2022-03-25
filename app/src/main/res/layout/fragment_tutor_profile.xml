@@ -90,6 +90,14 @@
                     android:text="Bachelor of Science in Information Technology"
                     android:textSize="14sp" />
 
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="See reviews"-->
+<!--                    android:fontFamily="@font/roboto_bold"-->
+<!--                    android:layout_marginTop="15dp"-->
+<!--                    android:textColor="@color/colorPrimaryLight"/>-->
+
             </LinearLayout>
 
             <!--            ~~~~~~~~~~~~~~~~~~Ratings and Reviews~~~~~~~~~~~~~~~~~~ -->
@@ -199,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/bg_round2"
                     android:elevation="20dp"
                     android:orientation="vertical"
@@ -238,7 +246,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/bg_round2"
                     android:elevation="20dp"
                     android:orientation="vertical"
@@ -271,7 +279,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/bg_round2"
                     android:elevation="20dp"
                     android:orientation="vertical"
@@ -444,7 +452,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/bg_round2"
                     android:elevation="20dp"
                     android:orientation="vertical"
@@ -591,6 +599,28 @@
                 <!--                    android:background="@drawable/btn_round"-->
                 <!--                    android:text="See Reviews"-->
                 <!--                    android:textSize="14sp" />-->
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/crdSeeReviews"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    app:cardElevation="20dp"
+                    app:cardCornerRadius="40dp"
+                    android:backgroundTint="@color/colorBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="See Reviews"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_margin="20dp"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"/>
+
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 

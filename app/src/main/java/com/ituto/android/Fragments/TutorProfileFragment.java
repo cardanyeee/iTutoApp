@@ -22,6 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.card.MaterialCardView;
 import com.ituto.android.Constant;
 import com.ituto.android.R;
 import com.squareup.picasso.Callback;
@@ -44,6 +45,7 @@ public class TutorProfileFragment extends Fragment {
     private CircleImageView imgUserProfile;
     private LinearLayout llyAboutMe, llySubjects, llyContactInfo, llyEmail, llyPhone, llyMorning, llyAfternoon, llyEvening;
     private TextView txtTutorName, txtCourse, txtNumberOfStars, txtNumberOfReviews, txtAboutMe, txtSubjects, txtDays, timeMorning, timeAfternoon, timeEvening, txtEmail, txtPhone;
+    private MaterialCardView crdSeeReviews;
     private Button btnRequestSchedule;
 
     private Dialog dialog;
@@ -85,6 +87,7 @@ public class TutorProfileFragment extends Fragment {
         timeEvening = view.findViewById(R.id.timeEvening);
         txtEmail = view.findViewById(R.id.txtEmail);
         txtPhone = view.findViewById(R.id.txtPhone);
+        crdSeeReviews = view.findViewById(R.id.crdSeeReviews);
         btnRequestSchedule = view.findViewById(R.id.btnRequestSchedule);
 
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
@@ -125,6 +128,23 @@ public class TutorProfileFragment extends Fragment {
                 ).replace(R.id.fragment_container, requestScheduleFragment).commit();
             }
         });
+
+        crdSeeReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                ReviewsFragment reviewsFragment = new ReviewsFragment();
+                reviewsFragment.setArguments(bundle);
+                bundle.putString("_id", tutorID);
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.slide_in,
+                        0// popExit
+                ).replace(R.id.fragment_container, reviewsFragment).commit();
+            }
+        });
+
     }
 
     private void getTutorProfile() {
@@ -141,6 +161,9 @@ public class TutorProfileFragment extends Fragment {
                     JSONArray daysJSONArray = availabilityObject.getJSONArray("days");
                     JSONArray timeJSONArray = availabilityObject.getJSONArray("time");
                     JSONArray reviewsJSONArray = tutorObject.getJSONArray("reviews");
+
+                    txtNumberOfStars.setText(tutorObject.getString("ratings"));
+                    txtNumberOfReviews.setText(tutorObject.getString("numOfReviews"));
 
                     Picasso.get().load(avatarObject.getString("url")).placeholder(R.drawable.blank_avatar).into(imgUserProfile, new Callback() {
                         @Override

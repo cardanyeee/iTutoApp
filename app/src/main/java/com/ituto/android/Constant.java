@@ -3,7 +3,7 @@ package com.ituto.android;
 public class Constant {
 //    https://mern-ituto.herokuapp.com
 //    http://192.168.1.2:8080
-    public static final String URL = "https://mern-ituto.herokuapp.com";
+    public static final String URL = "http://192.168.1.2:8080";
     public static final String HOME = URL + "/api";
 
     public static final String LOGIN = HOME + "/auth/login";
@@ -30,6 +30,7 @@ public class Constant {
     public static final String TUTEE_SESSIONS = HOME + "/sessions/tutee";
     public static final String SESSIONS = HOME + "/sessions";
     public static final String GET_SESSION = HOME + "/session";
+    public static final String REVIEW_TUTOR = HOME + "/session/tutor/review";
 
     public static final String CREATE_ASSESSMENT  = HOME + "/assessment/create";
     public static final String TUTOR_ASSESSMENTS = HOME + "/assessment/tutor";
@@ -41,5 +42,6 @@ public class Constant {
     public static final String ADD_TUTOR_SUBJECTS = HOME + "/tutor/subject/add";
     public static final String CREATE_TUTOR_ACCOUNT = HOME + "/tutor/signup";
     public static final String TUTOR_PROFILE = HOME + "/tutor";
+    public static final String TUTOR_REVIEWS = HOME + "/tutor/reviews";
 
 }

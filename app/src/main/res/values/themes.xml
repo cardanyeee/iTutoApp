@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/colorBackground</item>
         <!-- Customize your theme here. -->
+        <item name="android:forceDarkAllowed">false</item>
         <item name="android:actionMenuTextColor">@color/colorSecondaryLight</item>
         <item name="colorAccent">@color/colorPrimaryLight</item>
         <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
@@ -125,10 +126,6 @@
     </style>
 
     <style name="DialogTheme" parent="android:Theme.Dialog">
-
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-
         <!-- No backgrounds, titles or window float -->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@color/colorTransparent</item>
@@ -144,6 +141,11 @@
         <!--        <item name="colorPrimary">@color/shrine_pink_100</item>-->
         <!--        <item name="colorSurface">@color/shrine_pink_light</item>-->
         <item name="colorOnSurface">@color/colorPrimaryLight</item>
+    </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlActivated">@color/colorRating</item>
+        <item name="colorControlNormal">@color/colorHint</item>
     </style>
 
 </resources>

@@ -2,15 +2,22 @@ package com.ituto.android.Models;
 
 public class Review {
 
-    private String tutee, comment;
-    private int Rating;
+    private String firstname, lastname, comment, subject, rating, reviewDate;
 
-    public String getTutee() {
-        return tutee;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setTutee(String tutee) {
-        this.tutee = tutee;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getComment() {
@@ -21,11 +28,27 @@ public class Review {
         this.comment = comment;
     }
 
-    public int getRating() {
-        return Rating;
+    public String getRating() {
+        return rating;
     }
 
-    public void setRating(int rating) {
-        Rating = rating;
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getReviewDate() {
+        return reviewDate;
+    }
+
+    public void setReviewDate(String reviewDate) {
+        this.reviewDate = reviewDate;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }

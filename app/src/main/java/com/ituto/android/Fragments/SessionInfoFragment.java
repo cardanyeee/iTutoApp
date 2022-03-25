@@ -4,16 +4,21 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.InsetDrawable;
+import android.media.Rating;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -25,10 +30,12 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.ituto.android.Adapters.AssessmentsAdapter;
 import com.ituto.android.Constant;
 import com.ituto.android.Models.Assessment;
 import com.ituto.android.R;
+import com.muddzdev.styleabletoast.StyleableToast;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -61,6 +68,11 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
     private SharedPreferences sharedPreferences;
     private String loggedInAs;
 
+    private RatingBar rtbTutorRating;
+    private TextInputEditText txtComment;
+    private MaterialButton btnCancel;
+    private MaterialButton btnSubmit;
+
     private String sessionID, tuteeID, tutorID, subjectID;
     
     @Override
@@ -85,6 +97,10 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         btnAddAssessment = view.findViewById(R.id.btnAddAssessment);
         imgBackButton = view.findViewById(R.id.imgBackButton);
         btnReviewTutor = view.findViewById(R.id.btnReviewTutor);
+
+        if (sharedPreferences.getString("loggedInAs", "").equals("TUTOR")) {
+            btnReviewTutor.setVisibility(View.GONE);
+        }
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
@@ -123,9 +139,36 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
             public void onClick(View view) {
                 Dialog reviewDialog = new Dialog(getContext());
 
+                reviewDialog.setContentView(R.layout.layout_dialog_review);
                 reviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 reviewDialog.getWindow().getAttributes().windowAnimations = R.style.AddQuestionDialogAnimation;
-                reviewDialog.setContentView(R.layout.layout_dialog_review);
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                int width = metrics.widthPixels;
+                reviewDialog.getWindow().setLayout((6 * width)/7, reviewDialog.getWindow().getAttributes().height);
+
+                rtbTutorRating = reviewDialog.findViewById(R.id.rtbTutorRating);
+                txtComment = reviewDialog.findViewById(R.id.txtComment);
+                btnCancel = reviewDialog.findViewById(R.id.btnCancel);
+                btnSubmit = reviewDialog.findViewById(R.id.btnSubmit);
+
+                btnSubmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (validateReview()) {
+                            submitReview();
+                            reviewDialog.dismiss();
+                        }
+                    }
+                });
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        reviewDialog.cancel();
+                    }
+                });
+
+                reviewDialog.show();
             }
         });
 
@@ -151,6 +194,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                     JSONArray days = availabilityObject.getJSONArray("days");
                     JSONArray time = availabilityObject.getJSONArray("time");
 
+                    tutorID = tutorObject.getString("_id");
                     tuteeID = tuteeObject.getString("_id");
                     subjectID = subjectObject.getString("_id");
 
@@ -202,6 +246,62 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         };
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+    }
+
+    private void submitReview() {
+        StringRequest request = new StringRequest(Request.Method.PUT, Constant.REVIEW_TUTOR, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    StyleableToast.makeText(getContext(), "Review submitted!", R.style.CustomToast).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            StyleableToast.makeText(getContext(), "Unable to submit review", R.style.CustomToast).show();
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("sessionID", sessionID);
+                map.put("tutorID", tutorID);
+                map.put("tutee", tuteeID);
+                map.put("subject", subjectID);
+                map.put("rating", String.valueOf(rtbTutorRating.getRating()));
+                map.put("comment", txtComment.getText().toString().trim());
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
+    private Boolean validateReview() {
+
+        if (rtbTutorRating.getRating() < 0) {
+            StyleableToast.makeText(getContext(), "Please select your rating", R.style.CustomToast).show();
+            return false;
+        }
+
+        if (txtComment.getText().toString().isEmpty()) {
+            StyleableToast.makeText(getContext(), "Please input your comment", R.style.CustomToast).show();
+            return false;
+        }
+
+        return true;
     }
 
     @Override

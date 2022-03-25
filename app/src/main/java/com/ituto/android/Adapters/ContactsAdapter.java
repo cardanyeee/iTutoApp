@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.ituto.android.ConversationActivity;
 import com.ituto.android.HomeActivity;
@@ -60,7 +61,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         message = messageArrayList.get(position);
         user = message.getUser();
 
-        Picasso.get().load(user.getAvatar()).resize(500, 0).into(holder.imgUserContact);
+        Glide.with(context).load(user.getAvatar()).override(500, 500).placeholder(R.drawable.blank_avatar).into(holder.imgUserContact);
         holder.txtUserName.setText(user.getFirstname() + " " + user.getLastname());
         holder.txtLastMessage.setText(message.getContent());
 

@@ -38,6 +38,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.ituto.android.Adapters.MessagesAdapter;
 import com.ituto.android.Models.Conversation;
 import com.ituto.android.Models.Message;
@@ -124,7 +125,7 @@ public class ConversationActivity extends AppCompatActivity {
         btnCall = findViewById(R.id.btnCall);
 
         conversationID = getIntent().getStringExtra("conversationID");
-        Picasso.get().load(getIntent().getStringExtra("avatar")).fit().centerCrop().into(imgYouHeader);
+        Glide.with(this).load(getIntent().getStringExtra("avatar")).placeholder(R.drawable.blank_avatar).centerCrop().into(imgYouHeader);
         txtConversationName.setText(getIntent().getStringExtra("name"));
 
         getSignedUser();
@@ -217,6 +218,11 @@ public class ConversationActivity extends AppCompatActivity {
                         newMessage.setUser(sender);
                         newMessage.setContent(messageObject.getString("content"));
                         newMessage.setConversation(conversation);
+                        if (messageObject.has("attachment")) {
+                            newMessage.setAttachment(messageObject.getString("attachment"));
+                        } else {
+                            newMessage.setAttachment("");
+                        }
 
                         messageArrayList.add(newMessage);
 
@@ -251,6 +257,11 @@ public class ConversationActivity extends AppCompatActivity {
                         Message message = new Message();
                         message.setMessageID(messageObject.getString("_id"));
                         message.setContent(messageObject.getString("content"));
+                        if (messageObject.has("attachment")) {
+                            message.setAttachment(messageObject.getString("attachment"));
+                        } else {
+                            message.setAttachment("");
+                        }
 
                         User user = new User();
                         user.setUserID(userObject.getString("_id"));
@@ -319,6 +330,11 @@ public class ConversationActivity extends AppCompatActivity {
                     newMessage.setUser(sender);
                     newMessage.setContent(messageObject.getString("content"));
                     newMessage.setConversation(conversation);
+                    if (messageObject.has("attachment")) {
+                        newMessage.setAttachment(messageObject.getString("attachment"));
+                    } else {
+                        newMessage.setAttachment("");
+                    }
 
                     messageArrayList.add(newMessage);
 
@@ -515,9 +531,9 @@ public class ConversationActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (s != null) {
-                Toast.makeText(ConversationActivity.this, "File Uploaded", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ConversationActivity.this, "File Uploaded", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(ConversationActivity.this, "File Upload Failed", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ConversationActivity.this, "File Upload Failed", Toast.LENGTH_SHORT).show();
             }
             progressBar.setVisibility(View.GONE);
         }
@@ -584,6 +600,11 @@ public class ConversationActivity extends AppCompatActivity {
                                 newMessage.setUser(sender);
                                 newMessage.setContent(messageObject.getString("content"));
                                 newMessage.setConversation(conversation);
+                                if (messageObject.has("attachment")) {
+                                    newMessage.setAttachment(messageObject.getString("attachment"));
+                                } else {
+                                    newMessage.setAttachment("");
+                                }
 
                                 messageArrayList.add(newMessage);
 
@@ -595,7 +616,7 @@ public class ConversationActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     });
-//                    return response.body().string();
+                    return response.body().string();
                 } else {
                     return null;
                 }

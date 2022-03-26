@@ -613,9 +613,9 @@ public class ConversationActivity extends AppCompatActivity {
                                     newMessage.setAttachment(messageObject.getString("attachment"));
                                     newMessage.setDownloadLink(messageObject.getString("attachment"));
                                 } else {
-                                    newMessage.setFilename("");
-                                    newMessage.setAttachment("");
-                                    newMessage.setDownloadLink("");
+                                    newMessage.setFilename(" ");
+                                    newMessage.setAttachment(" ");
+                                    newMessage.setDownloadLink(" ");
                                 }
 
                                 messageArrayList.add(newMessage);

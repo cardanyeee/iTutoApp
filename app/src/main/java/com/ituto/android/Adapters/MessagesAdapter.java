@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,8 +103,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private void configureViewHolder3(HolderMe vh1, int position) {
         vh1.getChatText().setText(messageArrayList.get(position).getContent());
-
-        if (!messageArrayList.get(position).getAttachment().isEmpty()) {
+        if (!(messageArrayList.get(position).getFilename().isEmpty())) {
             if (checkIfImage(messageArrayList.get(position).getAttachment())) {
                 vh1.getCstImage().setVisibility(View.VISIBLE);
                 Glide.with(context).load(messageArrayList.get(position).getAttachment()).placeholder(R.drawable.animated_loader).override(1000, 400).into(vh1.getImgAttachedImage());
@@ -116,6 +116,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     dialog.setCancelable(true);
                     dialog.show();
                 });
+                vh1.getLlyFile().setVisibility(View.GONE);
             } else {
                 vh1.getLlyFile().setVisibility(View.VISIBLE);
                 vh1.getTxtFilename().setText(messageArrayList.get(position).getFilename());
@@ -123,6 +124,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 vh1.getTxtFilename().setText(Html.fromHtml("<a href=\"" + messageArrayList.get(position).getDownloadLink() + "\">" + messageArrayList.get(position).getFilename() + "</a>"));
                 vh1.getTxtFilename().setClickable(true);
                 vh1.getTxtFilename().setMovementMethod(LinkMovementMethod.getInstance());
+                vh1.getCstImage().setVisibility(View.GONE);
             }
         } else {
             vh1.getCstImage().setVisibility(View.GONE);
@@ -135,7 +137,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         User user = messageArrayList.get(position).getUser();
         Glide.with(context).load(user.getAvatar()).placeholder(R.drawable.blank_avatar).centerCrop().into(vh1.getImgYou());
 
-        if (!messageArrayList.get(position).getAttachment().isEmpty()) {
+        if (!messageArrayList.get(position).getFilename().isEmpty()) {
             if (checkIfImage(messageArrayList.get(position).getAttachment())) {
                 vh1.getCstImage().setVisibility(View.VISIBLE);
                 Glide.with(context).load(messageArrayList.get(position).getAttachment()).placeholder(R.drawable.animated_loader).override(1000, 400).into(vh1.getImgAttachedImage());
@@ -148,6 +150,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     dialog.setCancelable(true);
                     dialog.show();
                 });
+                vh1.getLlyFile().setVisibility(View.GONE);
             } else {
                 vh1.getLlyFile().setVisibility(View.VISIBLE);
                 vh1.getTxtFilename().setText(messageArrayList.get(position).getFilename());
@@ -155,6 +158,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 vh1.getTxtFilename().setText(Html.fromHtml("<a href=\"" + messageArrayList.get(position).getDownloadLink() + "\">" + messageArrayList.get(position).getFilename() + "</a>"));
                 vh1.getTxtFilename().setClickable(true);
                 vh1.getTxtFilename().setMovementMethod(LinkMovementMethod.getInstance());
+                vh1.getCstImage().setVisibility(View.GONE);
             }
         } else {
             vh1.getCstImage().setVisibility(View.GONE);

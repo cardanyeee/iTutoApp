@@ -184,10 +184,12 @@ public class SignInFragment extends Fragment {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
                     JSONObject user = object.getJSONObject("user");
+                    JSONObject avatar = user.getJSONObject("avatar");
                     SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user", getContext().MODE_PRIVATE);
                     SharedPreferences.Editor editor = userPref.edit();
                     editor.putString("token", object.getString("token"));
                     editor.putString("_id", user.getString("_id"));
+                    editor.putString("avatar", avatar.getString("url"));
                     editor.putString("firstname", user.getString("firstname"));
                     editor.putString("lastname", user.getString("lastname"));
                     editor.putString("isTutor", user.getString("isTutor"));

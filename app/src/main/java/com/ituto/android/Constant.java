@@ -8,6 +8,7 @@ public class Constant {
 
     public static final String LOGIN = HOME + "/auth/login";
     public static final String LOGOUT = HOME + "/auth/logout";
+    public static final String CHECK_EMAIL = HOME + "/auth/check/email";
     public static final String REGISTER = HOME + "/auth/register";
     public static final String USER_PROFILE = HOME + "/profile/me";
     public static final String UPDATE_PROFILE = HOME + "/profile/update";

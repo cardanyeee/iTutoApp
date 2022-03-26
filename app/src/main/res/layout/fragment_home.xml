@@ -64,6 +64,7 @@
         </LinearLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgUserProfile"
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_gravity="center_vertical"
@@ -98,6 +99,7 @@
             android:drawableStart="@drawable/ic_baseline_search_24"
             android:drawablePadding="5dp"
             android:elevation="5dp"
+            android:textSize="14sp"
             android:fontFamily="@font/roboto_regular"
             android:hint="@string/searchMain"
             android:inputType="text"
@@ -108,7 +110,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
             android:paddingTop="10dp"
-            android:text="Your schedule for today's month.."
+            android:text="Your schedule for today's month..."
             android:textFontWeight="900"
             android:textSize="20sp" />
 
@@ -117,9 +119,29 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
             android:paddingTop="1dp"
-            android:text="Take a look at the sessions that you have on the following days."
+            android:text="Look at the sessions that you have on the following days."
             android:textColor="@color/colorHint"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
+
+        <com.applandeo.materialcalendarview.CalendarView
+            android:id="@+id/userSchedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="15dp"
+            app:abbreviationsBarColor="@color/colorBackground"
+            app:abbreviationsLabelsColor="@color/black"
+            app:firstDayOfWeek="sunday"
+            app:forwardButtonSrc="@drawable/ic_baseline_arrow_forward_ios_15"
+            app:headerColor="@color/colorBackground"
+            app:headerLabelColor="@color/colorPrimary"
+            app:pagesColor="@color/colorBackground"
+            app:previousButtonSrc="@drawable/ic_baseline_arrow_back_ios_15"
+            app:selectionColor="@color/colorPrimaryLight"
+            app:todayLabelColor="@color/colorPrimary"
+            app:todayTypeface="@font/roboto_black"
+            app:type="one_day_picker"
+            app:typeface="@font/roboto_medium" />
 
         <!--            <GridLayout-->
         <!--                android:layout_width="match_parent"-->

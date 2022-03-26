@@ -1,5 +1,7 @@
 package com.ituto.android.Fragments.AuthFragments;
 
+import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,15 +23,30 @@ import androidx.fragment.app.Fragment;
 //import com.example.movieapp.AuthActivity;
 //import com.example.movieapp.Constant;
 //import com.example.movieapp.HomeActivity;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.ituto.android.Constant;
 import com.ituto.android.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.muddzdev.styleabletoast.StyleableToast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 //import com.muddzdev.styleabletoast.StyleableToast;
 
 
@@ -105,22 +122,7 @@ public class SignUpFragment extends Fragment {
         });
 
         btnSignUp.setOnClickListener(v -> {
-            if (validate()) {
-                Bundle args = new Bundle();
-                UserInfoFragment userInfoFragment = new UserInfoFragment();
-                args.putBoolean("isTutor", isTutor);
-                args.putBoolean("googleRegister", googleRegister);
-                args.putString("email", txtEmail.getText().toString().trim());
-                args.putString("password", txtPassword.getText().toString());
-                args.putString("password_confirmation", txtConfirm.getText().toString());
-                userInfoFragment.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                        R.anim.slide_in,  // enter
-                        R.anim.fade_out,  // exit
-                        R.anim.fade_in,   // popEnter
-                        R.anim.slide_out  // popExit
-                ).replace(R.id.frameAuthContainer, userInfoFragment).addToBackStack(null).commit();
-            }
+            checkEmail();
         });
 
         txtEmail.addTextChangedListener(new TextWatcher() {
@@ -202,6 +204,75 @@ public class SignUpFragment extends Fragment {
         }
 
         return true;
+    }
+
+    private void checkEmail() {
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.CHECK_EMAIL, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if(object.getBoolean("success")){
+                    if (validate()) {
+                        Bundle args = new Bundle();
+                        UserInfoFragment userInfoFragment = new UserInfoFragment();
+                        args.putBoolean("isTutor", isTutor);
+                        args.putBoolean("googleRegister", googleRegister);
+                        args.putString("email", txtEmail.getText().toString().trim());
+                        args.putString("password", txtPassword.getText().toString());
+                        args.putString("password_confirmation", txtConfirm.getText().toString());
+                        userInfoFragment.setArguments(args);
+                        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                                R.anim.slide_in,  // enter
+                                R.anim.fade_out,  // exit
+                                R.anim.fade_in,   // popEnter
+                                R.anim.slide_out  // popExit
+                        ).replace(R.id.frameAuthContainer, userInfoFragment).addToBackStack(null).commit();
+                    }
+                }
+                dialog.dismiss();
+            } catch (JSONException e) {
+                dialog.dismiss();
+                e.printStackTrace();
+            }
+
+        }, error -> {
+            dialog.dismiss();
+            error.printStackTrace();
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String,String> map = new HashMap<>();
+                map.put("Authorization", "Bearer "+token);
+                return map;
+            }
+
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("email", txtEmail.getText().toString().trim());
+                return map;
+            }
+
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError) {
+                runOnUiThread(() -> {
+                    try {
+                        String body;
+                        body = new String(volleyError.networkResponse.data,"UTF-8");
+                        JSONObject error = new JSONObject(body);
+                        StyleableToast.makeText(getContext(), error.getString("message"), R.style.CustomToast).show();
+                    } catch (UnsupportedEncodingException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                });
+                return super.parseNetworkError(volleyError);
+            }
+        };
+
+        Log.d("TAG", String.valueOf(request.getBodyContentType()));
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
     }
 
     private void signInWithGoogle() {

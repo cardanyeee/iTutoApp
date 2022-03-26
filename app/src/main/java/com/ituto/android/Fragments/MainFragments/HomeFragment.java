@@ -26,6 +26,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.ituto.android.Constant;
 import com.ituto.android.HomeActivity;
@@ -45,16 +46,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class HomeFragment extends Fragment {
     private static final String TAG = "MovieFragment";
     private View view;
-    public static RecyclerView recyclerView, movieCasts;
+    public static RecyclerView recyclerView;
     public static ArrayList<Course> arrayList;
 
-    public static SwipeRefreshLayout refreshLayout;
+    private CircleImageView imgUserProfile;
     private Toolbar toolbar;
     private SharedPreferences sharedPreferences;
-    private FloatingActionButton btnAddMovie;
     private static final int GALLERY_ADD_POST = 2;
     private Dialog dialog;
     private TextView txtFirstname, txtLoggedInAs;
@@ -76,7 +78,9 @@ public class HomeFragment extends Fragment {
 
         txtFirstname = view.findViewById(R.id.txtFirstname);
         txtLoggedInAs = view.findViewById(R.id.txtLoggedInAs);
+        imgUserProfile = view.findViewById(R.id.imgUserProfile);
 
+        Glide.with(getContext()).load(sharedPreferences.getString("avatar", "")).into(imgUserProfile);
         txtFirstname.setText(sharedPreferences.getString("firstname", ""));
         txtLoggedInAs.setText(sharedPreferences.getString("loggedInAs", "").substring(0, 1).toUpperCase() + sharedPreferences.getString("loggedInAs", "").substring(1).toLowerCase());
 
@@ -100,8 +104,6 @@ public class HomeFragment extends Fragment {
                     JSONObject user = object.getJSONObject("user");
                     JSONObject avatar = user.getJSONObject("avatar");
                     JSONObject course = user.getJSONObject("course");
-
-
 
                 }
                 dialog.dismiss();

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -49,6 +50,7 @@ public class SessionsFragment extends Fragment implements SessionsAdapter.OnItem
 
     private SwipeRefreshLayout swipeSession;
     private RecyclerView recyclerSession;
+    private LinearLayout llyPlaceholder;
 
     private FloatingActionButton btnAddSession;
 
@@ -67,6 +69,7 @@ public class SessionsFragment extends Fragment implements SessionsAdapter.OnItem
 
         swipeSession = view.findViewById(R.id.swipeSession);
         recyclerSession = view.findViewById(R.id.recyclerSession);
+        llyPlaceholder = view.findViewById(R.id.llyPlaceholder);
         recyclerSession.setLayoutManager(new LinearLayoutManager(getContext()));
 
 //        btnAddSession = view.findViewById(R.id.btnAddSession);
@@ -128,6 +131,15 @@ public class SessionsFragment extends Fragment implements SessionsAdapter.OnItem
                         session.setTutee(user);
                         sessionArrayList.add(session);
                     }
+
+                    if (sessionArrayList.isEmpty()) {
+                        recyclerSession.setVisibility(View.GONE);
+                        llyPlaceholder.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerSession.setVisibility(View.VISIBLE);
+                        llyPlaceholder.setVisibility(View.GONE);
+                    }
+
                     sessionsAdapter = new SessionsAdapter(getContext(), sessionArrayList, this);
                     recyclerSession.setAdapter(sessionsAdapter);
                 }

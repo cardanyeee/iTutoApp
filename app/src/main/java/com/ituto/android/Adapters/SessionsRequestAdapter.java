@@ -23,13 +23,13 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.ituto.android.Models.Session;
 import com.ituto.android.Models.Subject;
 import com.ituto.android.Models.Tutor;
 import com.ituto.android.Models.User;
 import com.ituto.android.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -65,8 +65,7 @@ public class SessionsRequestAdapter extends RecyclerView.Adapter<SessionsRequest
         Tutor tutor = session.getTutor();
         User user = session.getTutee();
         Subject subject = session.getSubject();
-
-        Picasso.get().load(user.getAvatar()).resize(500, 0).placeholder(R.drawable.blank_avatar).into(holder.imgTutee);
+        Glide.with(context).load(user.getAvatar()).override(500, 500).placeholder(R.drawable.blank_avatar).into(holder.imgTutee);
         String name = user.getFirstname() + " " + user.getLastname();
         String s1 = " has sent you a request on tutoring the subject ";
         String subjectName = subject.getName();

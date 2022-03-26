@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
@@ -22,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.ituto.android.Constant;
 import com.ituto.android.ConversationActivity;
 import com.ituto.android.Fragments.TutorProfileFragment;
@@ -31,7 +31,6 @@ import com.ituto.android.Models.Time;
 import com.ituto.android.Models.Tutor;
 import com.ituto.android.Models.User;
 import com.ituto.android.R;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,7 +68,7 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
         ArrayList<String> days = tutor.getDaysArrayList();
         ArrayList<Time> timeArrayList = tutor.getTimeArrayList();
         ArrayList<String> subjects = tutor.getSubjects();
-        Picasso.get().load(tutor.getAvatar()).resize(500, 0).placeholder(R.drawable.blank_avatar).into(holder.imgTutor);
+        Glide.with(context).load(tutor.getAvatar()).override(500, 500).placeholder(R.drawable.blank_avatar).into(holder.imgTutor);
         holder.txtName.setText(tutor.getFirstname() + " " + tutor.getLastname());
         holder.btnMessage.setOnClickListener(v -> message(holder, position));
 

@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,11 +16,9 @@ import com.bumptech.glide.Glide;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.ituto.android.ConversationActivity;
 import com.ituto.android.HomeActivity;
-import com.ituto.android.Models.Conversation;
 import com.ituto.android.Models.Message;
 import com.ituto.android.Models.User;
 import com.ituto.android.R;
-import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

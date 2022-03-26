@@ -23,13 +23,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
 import com.ituto.android.Fragments.UpdateProfileFragment;
 import com.ituto.android.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -168,7 +167,7 @@ public class AccountFragment extends Fragment {
 
             try {
                 JSONObject object = new JSONObject(response);
-                if(object.getBoolean("success")){
+                if (object.getBoolean("success")) {
                     JSONObject user = object.getJSONObject("user");
                     JSONObject avatar = user.getJSONObject("avatar");
                     JSONObject course = user.getJSONObject("course");
@@ -184,17 +183,7 @@ public class AccountFragment extends Fragment {
                     txtGender.setText(user.getString("gender"));
                     txtCourse.setText(course.getString("name"));
                     txtPhone.setText(user.has("phone") ? user.getString("phone") : "");
-                    Picasso.get().load(avatar.getString("url")).placeholder(R.drawable.blank_avatar).into(imgUserInfo, new Callback() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
+                    Glide.with(getContext()).load(avatar.getString("url")).placeholder(R.drawable.blank_avatar).into(imgUserInfo);
                 }
                 dialog.dismiss();
             } catch (JSONException | ParseException e) {
@@ -206,12 +195,12 @@ public class AccountFragment extends Fragment {
         }, error -> {
             dialog.dismiss();
             error.printStackTrace();
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 String token = sharedPreferences.getString("token", "");
-                HashMap<String,String> map = new HashMap<>();
-                map.put("Authorization", "Bearer "+token);
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
                 return map;
             }
         };

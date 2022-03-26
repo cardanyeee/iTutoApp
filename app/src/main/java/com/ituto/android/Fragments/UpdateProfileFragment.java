@@ -36,25 +36,21 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ituto.android.Constant;
-import com.ituto.android.ConversationActivity;
 import com.ituto.android.Models.Course;
 import com.ituto.android.R;
 import com.ituto.android.Utils.FilePath;
 import com.muddzdev.styleabletoast.StyleableToast;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -211,7 +207,7 @@ public class UpdateProfileFragment extends Fragment {
                     txtCourse.setText(course.getString("name"));
                     courseID = course.getString("_id");
                     txtPhone.setText(user.has("phone") ? user.getString("phone") : "");
-                    Picasso.get().load(avatar.getString("url")).into(imgUserInfo);
+                    Glide.with(getContext()).load(avatar.getString("url")).placeholder(R.drawable.blank_avatar).into(imgUserInfo);
                 }
             } catch (JSONException | ParseException e) {
                 e.printStackTrace();

@@ -23,7 +23,6 @@ import com.ituto.android.Models.Message;
 import com.ituto.android.Models.User;
 import com.ituto.android.R;
 import com.ortiz.touchview.TouchImageView;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

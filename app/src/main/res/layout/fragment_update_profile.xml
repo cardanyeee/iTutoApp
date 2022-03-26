@@ -27,10 +27,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none"
         android:clipToPadding="false"
-        android:paddingBottom="70dp">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +52,7 @@
 
             </LinearLayout>
 
-<!--            Upload Image~~~~~~~~~~~~~~~-->
+            <!--            Upload Image~~~~~~~~~~~~~~~-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,9 +62,9 @@
                 <RelativeLayout
                     android:layout_width="140dp"
                     android:layout_height="140dp"
+                    android:layout_gravity="center"
                     android:clipToPadding="false"
-                    android:padding="10dp"
-                    android:layout_gravity="center">
+                    android:padding="10dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/imgUserInfo"
@@ -211,8 +210,8 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_input"
                         android:hint="@string/course"
-                        android:textSize="13sp"
-                        android:maxHeight="300dp" />
+                        android:maxHeight="300dp"
+                        android:textSize="13sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -232,8 +231,8 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_input"
                         android:hint="Year"
-                        android:textSize="13sp"
-                        android:maxHeight="300dp" />
+                        android:maxHeight="300dp"
+                        android:textSize="13sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

@@ -1,43 +1,30 @@
 package com.ituto.android.Adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
+import android.net.Uri;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.ituto.android.Components.HolderMe;
 import com.ituto.android.Components.HolderYou;
-import com.ituto.android.Constant;
-import com.ituto.android.ConversationActivity;
-import com.ituto.android.HomeActivity;
 import com.ituto.android.Models.Message;
 import com.ituto.android.Models.User;
 import com.ituto.android.R;
+import com.ortiz.touchview.TouchImageView;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -120,9 +107,26 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (checkIfImage(messageArrayList.get(position).getAttachment())) {
                 vh1.getCstImage().setVisibility(View.VISIBLE);
                 Glide.with(context).load(messageArrayList.get(position).getAttachment()).placeholder(R.drawable.animated_loader).override(1000, 400).into(vh1.getImgAttachedImage());
+                vh1.getCstImage().setOnClickListener(view -> {
+                    Dialog dialog = new Dialog(vh1.itemView.getContext(), R.style.DialogTheme);
+                    dialog.setContentView(R.layout.layout_dialog_image);
+                    TouchImageView imgPreview = dialog.findViewById(R.id.imgPreview);
+                    Glide.with(context).load(messageArrayList.get(position).getAttachment()).placeholder(R.drawable.animated_loader2).into(imgPreview);
+//                        dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
+                    dialog.setCancelable(true);
+                    dialog.show();
+                });
+            } else {
+                vh1.getLlyFile().setVisibility(View.VISIBLE);
+                vh1.getTxtFilename().setText(messageArrayList.get(position).getFilename());
+//                vh1.getTxtFilename().setLayoutParams(textOutLayoutParams);
+                vh1.getTxtFilename().setText(Html.fromHtml("<a href=\"" + messageArrayList.get(position).getDownloadLink() + "\">" + messageArrayList.get(position).getFilename() + "</a>"));
+                vh1.getTxtFilename().setClickable(true);
+                vh1.getTxtFilename().setMovementMethod(LinkMovementMethod.getInstance());
             }
         } else {
             vh1.getCstImage().setVisibility(View.GONE);
+            vh1.getLlyFile().setVisibility(View.GONE);
         }
     }
 
@@ -135,15 +139,32 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (checkIfImage(messageArrayList.get(position).getAttachment())) {
                 vh1.getCstImage().setVisibility(View.VISIBLE);
                 Glide.with(context).load(messageArrayList.get(position).getAttachment()).placeholder(R.drawable.animated_loader).override(1000, 400).into(vh1.getImgAttachedImage());
+                vh1.getCstImage().setOnClickListener(view -> {
+                    Dialog dialog = new Dialog(vh1.itemView.getContext(), R.style.DialogTheme);
+                    dialog.setContentView(R.layout.layout_dialog_image);
+                    TouchImageView imgPreview = dialog.findViewById(R.id.imgPreview);
+                    Glide.with(context).load(messageArrayList.get(position).getAttachment()).placeholder(R.drawable.animated_loader2).into(imgPreview);
+//                        dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
+                    dialog.setCancelable(true);
+                    dialog.show();
+                });
+            } else {
+                vh1.getLlyFile().setVisibility(View.VISIBLE);
+                vh1.getTxtFilename().setText(messageArrayList.get(position).getFilename());
+//                vh1.getTxtFilename().setLayoutParams(textOutLayoutParams);
+                vh1.getTxtFilename().setText(Html.fromHtml("<a href=\"" + messageArrayList.get(position).getDownloadLink() + "\">" + messageArrayList.get(position).getFilename() + "</a>"));
+                vh1.getTxtFilename().setClickable(true);
+                vh1.getTxtFilename().setMovementMethod(LinkMovementMethod.getInstance());
             }
         } else {
             vh1.getCstImage().setVisibility(View.GONE);
+            vh1.getLlyFile().setVisibility(View.GONE);
         }
     }
 
     private Boolean checkIfImage(String filename) {
         String filenameArray[] = filename.split("\\.");
-        String extension = filenameArray[filenameArray.length-1];
+        String extension = filenameArray[filenameArray.length - 1];
 
         if (extension.equals("jpg") || extension.equals("png") || extension.equals("jpeg")) {
             return true;

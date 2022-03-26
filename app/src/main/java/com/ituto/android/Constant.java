@@ -21,7 +21,8 @@ public class Constant {
     public static final String SEND_MESSAGE = HOME + "/message/send";
     public static final String CONVERSATIONS = HOME + "/conversations";
     public static final String CONVERSATION = HOME + "/conversation";
-    public static final String SEND_FILES = HOME + "/file/send";
+    public static final String ACCESS_IMAGE = HOME + "/file/";
+    public static final String DOWNLOAD_FILE = HOME + "/download/";
 
     public static final String REQUEST_SESSION = HOME + "/session/request";
     public static final String DECLINE_SESSION = HOME + "/session/decline";

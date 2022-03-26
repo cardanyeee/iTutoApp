@@ -219,9 +219,13 @@ public class ConversationActivity extends AppCompatActivity {
                         newMessage.setContent(messageObject.getString("content"));
                         newMessage.setConversation(conversation);
                         if (messageObject.has("attachment")) {
+                            newMessage.setFilename(messageObject.getString("attachment"));
                             newMessage.setAttachment(messageObject.getString("attachment"));
+                            newMessage.setDownloadLink(messageObject.getString("attachment"));
                         } else {
+                            newMessage.setFilename("");
                             newMessage.setAttachment("");
+                            newMessage.setDownloadLink("");
                         }
 
                         messageArrayList.add(newMessage);
@@ -258,9 +262,13 @@ public class ConversationActivity extends AppCompatActivity {
                         message.setMessageID(messageObject.getString("_id"));
                         message.setContent(messageObject.getString("content"));
                         if (messageObject.has("attachment")) {
+                            message.setFilename(messageObject.getString("attachment"));
                             message.setAttachment(messageObject.getString("attachment"));
+                            message.setDownloadLink(messageObject.getString("attachment"));
                         } else {
+                            message.setFilename("");
                             message.setAttachment("");
+                            message.setDownloadLink("");
                         }
 
                         User user = new User();
@@ -601,9 +609,13 @@ public class ConversationActivity extends AppCompatActivity {
                                 newMessage.setContent(messageObject.getString("content"));
                                 newMessage.setConversation(conversation);
                                 if (messageObject.has("attachment")) {
+                                    newMessage.setFilename(messageObject.getString("attachment"));
                                     newMessage.setAttachment(messageObject.getString("attachment"));
+                                    newMessage.setDownloadLink(messageObject.getString("attachment"));
                                 } else {
+                                    newMessage.setFilename("");
                                     newMessage.setAttachment("");
+                                    newMessage.setDownloadLink("");
                                 }
 
                                 messageArrayList.add(newMessage);
@@ -616,7 +628,7 @@ public class ConversationActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     });
-                    return response.body().string();
+                    return "Success";
                 } else {
                     return null;
                 }

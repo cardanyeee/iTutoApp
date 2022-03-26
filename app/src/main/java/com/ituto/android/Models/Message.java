@@ -1,8 +1,10 @@
 package com.ituto.android.Models;
 
+import com.ituto.android.Constant;
+
 public class Message {
 
-    private String messageID, senderID, conversationID, content, timestamp, attachment;
+    private String messageID, senderID, conversationID, content, timestamp, filename, attachment, downloadLink;
     private Conversation conversation;
     private User user;
 
@@ -62,11 +64,27 @@ public class Message {
         this.timestamp = timestamp;
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     public String getAttachment() {
         return attachment;
     }
 
     public void setAttachment(String attachment) {
-        this.attachment = attachment;
+        this.attachment = Constant.ACCESS_IMAGE + attachment;
+    }
+
+    public String getDownloadLink() {
+        return downloadLink;
+    }
+
+    public void setDownloadLink(String downloadLink) {
+        this.downloadLink = Constant.DOWNLOAD_FILE + downloadLink;
     }
 }

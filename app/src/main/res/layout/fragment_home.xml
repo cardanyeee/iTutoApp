@@ -8,261 +8,263 @@
     android:orientation="vertical">
 
 
+    <LinearLayout
+        android:id="@+id/llyHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="20dp"
+        android:weightSum="10">
+
         <LinearLayout
-            android:id="@+id/llyHeader"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="20dp"
-            android:weightSum="10"
-            android:paddingTop="20dp">
+            android:layout_weight="8.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="Welcome back,"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtFirstname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_black"
+                android:text="Juan"
+                android:textColor="@color/colorPrimary"
+                android:textSize="30sp" />
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="8.5"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Welcome back,"
                     android:fontFamily="@font/roboto"
-                    android:textSize="14sp"/>
+                    android:text="You are logged in as a "
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/txtFirstname"
-                    android:layout_width="match_parent"
+                    android:id="@+id/txtLoggedInAs"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Juan"
-                    android:textColor="@color/colorPrimary"
-                    android:fontFamily="@font/roboto_black"
-                    android:textSize="30sp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="You are logged in as a "
-                        android:fontFamily="@font/roboto"
-                        android:textSize="14sp"/>
-                    <TextView
-                        android:id="@+id/txtLoggedInAs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tutor"
-                        android:fontFamily="@font/roboto_medium"
-                        android:textSize="14sp"/>
-
-                </LinearLayout>
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Tutor"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="0dp"
-                android:layout_weight="1.5"
-                android:layout_height="55dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/blank_avatar"/>
-
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_below="@+id/llyHeader"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.5"
+            android:src="@drawable/blank_avatar" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llyHeader"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="20dp">
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="20dp">
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/looking_for"
+            android:textFontWeight="900"
+            android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/looking_for"
-                android:textFontWeight="900"
-                android:textSize="20sp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/input_background"
+            android:drawableStart="@drawable/ic_baseline_search_24"
+            android:drawablePadding="5dp"
+            android:elevation="5dp"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="@string/searchMain"
+            android:inputType="text"
+            android:padding="10dp" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/input_background"
-                android:drawableStart="@drawable/ic_baseline_search_24"
-                android:drawablePadding="5dp"
-                android:elevation="5dp"
-                android:fontFamily="@font/roboto_regular"
-                android:hint="@string/searchMain"
-                android:inputType="text"
-                android:padding="10dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:paddingTop="10dp"
+            android:text="Your schedule for today's month.."
+            android:textFontWeight="900"
+            android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:paddingTop="10dp"
-                android:text="@string/take_a_look_at_these_categories"
-                android:textFontWeight="900"
-                android:textSize="20sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:paddingTop="1dp"
+            android:text="Take a look at the sessions that you have on the following days."
+            android:textColor="@color/colorHint"
+            android:textSize="12sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:paddingTop="1dp"
-                android:text="Choose a category to start looking for your tutor."
-                android:textColor="@color/colorHint"
-                android:textSize="12sp" />
+        <!--            <GridLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:columnCount="2"-->
+        <!--                android:minHeight="360dp"-->
+        <!--                android:padding="5dp"-->
+        <!--                android:rowCount="2">-->
 
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:minHeight="360dp"
-                android:padding="5dp"
-                android:rowCount="2">
+        <!--                <androidx.cardview.widget.CardView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_row="0"-->
+        <!--                    android:layout_rowWeight="1"-->
+        <!--                    android:layout_column="0"-->
+        <!--                    android:layout_columnWeight="1"-->
+        <!--                    android:layout_gravity="fill"-->
+        <!--                    android:layout_margin="5dp"-->
+        <!--                    android:elevation="5dp"-->
+        <!--                    app:cardCornerRadius="10dp">-->
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_row="0"
-                    android:layout_rowWeight="1"
-                    android:layout_column="0"
-                    android:layout_columnWeight="1"
-                    android:layout_gravity="fill"
-                    android:layout_margin="5dp"
-                    android:elevation="5dp"
-                    app:cardCornerRadius="10dp">
+        <!--                    <LinearLayout-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_gravity="center_vertical|center_horizontal"-->
+        <!--                        android:gravity="center"-->
+        <!--                        android:orientation="vertical">-->
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center"
-                        android:orientation="vertical">
+        <!--                        <ImageView-->
+        <!--                            android:layout_width="100dp"-->
+        <!--                            android:layout_height="100dp"-->
+        <!--                            android:src="@drawable/undraw_community" />-->
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:src="@drawable/undraw_community" />
+        <!--                        <TextView-->
+        <!--                            android:layout_width="wrap_content"-->
+        <!--                            android:layout_height="wrap_content"-->
+        <!--                            android:text="Science"-->
+        <!--                            android:textAlignment="center" />-->
+        <!--                    </LinearLayout>-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Science"
-                            android:textAlignment="center" />
-                    </LinearLayout>
+        <!--                </androidx.cardview.widget.CardView>-->
 
-                </androidx.cardview.widget.CardView>
+        <!--                <androidx.cardview.widget.CardView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_row="0"-->
+        <!--                    android:layout_rowWeight="1"-->
+        <!--                    android:layout_column="1"-->
+        <!--                    android:layout_columnWeight="1"-->
+        <!--                    android:layout_gravity="fill"-->
+        <!--                    android:layout_margin="5dp"-->
+        <!--                    android:elevation="5dp"-->
+        <!--                    app:cardCornerRadius="10dp">-->
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_row="0"
-                    android:layout_rowWeight="1"
-                    android:layout_column="1"
-                    android:layout_columnWeight="1"
-                    android:layout_gravity="fill"
-                    android:layout_margin="5dp"
-                    android:elevation="5dp"
-                    app:cardCornerRadius="10dp">
+        <!--                    <LinearLayout-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_gravity="center_vertical|center_horizontal"-->
+        <!--                        android:gravity="center"-->
+        <!--                        android:orientation="vertical">-->
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center"
-                        android:orientation="vertical">
+        <!--                        <ImageView-->
+        <!--                            android:layout_width="100dp"-->
+        <!--                            android:layout_height="100dp"-->
+        <!--                            android:src="@drawable/undraw_community" />-->
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:src="@drawable/undraw_community" />
+        <!--                        <TextView-->
+        <!--                            android:layout_width="wrap_content"-->
+        <!--                            android:layout_height="wrap_content"-->
+        <!--                            android:text="Science"-->
+        <!--                            android:textAlignment="center" />-->
+        <!--                    </LinearLayout>-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Science"
-                            android:textAlignment="center" />
-                    </LinearLayout>
+        <!--                </androidx.cardview.widget.CardView>-->
 
-                </androidx.cardview.widget.CardView>
+        <!--                <androidx.cardview.widget.CardView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_row="1"-->
+        <!--                    android:layout_rowWeight="1"-->
+        <!--                    android:layout_column="0"-->
+        <!--                    android:layout_columnWeight="1"-->
+        <!--                    android:layout_gravity="fill"-->
+        <!--                    android:layout_margin="5dp"-->
+        <!--                    android:elevation="5dp"-->
+        <!--                    app:cardCornerRadius="10dp">-->
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_row="1"
-                    android:layout_rowWeight="1"
-                    android:layout_column="0"
-                    android:layout_columnWeight="1"
-                    android:layout_gravity="fill"
-                    android:layout_margin="5dp"
-                    android:elevation="5dp"
-                    app:cardCornerRadius="10dp">
+        <!--                    <LinearLayout-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_gravity="center_vertical|center_horizontal"-->
+        <!--                        android:gravity="center"-->
+        <!--                        android:orientation="vertical">-->
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center"
-                        android:orientation="vertical">
+        <!--                        <ImageView-->
+        <!--                            android:layout_width="100dp"-->
+        <!--                            android:layout_height="100dp"-->
+        <!--                            android:src="@drawable/undraw_community" />-->
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:src="@drawable/undraw_community" />
+        <!--                        <TextView-->
+        <!--                            android:layout_width="wrap_content"-->
+        <!--                            android:layout_height="wrap_content"-->
+        <!--                            android:text="Science"-->
+        <!--                            android:textAlignment="center" />-->
+        <!--                    </LinearLayout>-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Science"
-                            android:textAlignment="center" />
-                    </LinearLayout>
+        <!--                </androidx.cardview.widget.CardView>-->
 
-                </androidx.cardview.widget.CardView>
+        <!--                <androidx.cardview.widget.CardView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_row="1"-->
+        <!--                    android:layout_rowWeight="1"-->
+        <!--                    android:layout_column="1"-->
+        <!--                    android:layout_columnWeight="1"-->
+        <!--                    android:layout_gravity="fill"-->
+        <!--                    android:layout_margin="5dp"-->
+        <!--                    android:elevation="5dp"-->
+        <!--                    app:cardCornerRadius="10dp">-->
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_row="1"
-                    android:layout_rowWeight="1"
-                    android:layout_column="1"
-                    android:layout_columnWeight="1"
-                    android:layout_gravity="fill"
-                    android:layout_margin="5dp"
-                    android:elevation="5dp"
-                    app:cardCornerRadius="10dp">
+        <!--                    <LinearLayout-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_gravity="center_vertical|center_horizontal"-->
+        <!--                        android:gravity="center"-->
+        <!--                        android:orientation="vertical">-->
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center"
-                        android:orientation="vertical">
+        <!--                        <ImageView-->
+        <!--                            android:layout_width="100dp"-->
+        <!--                            android:layout_height="100dp"-->
+        <!--                            android:src="@drawable/undraw_community" />-->
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:src="@drawable/undraw_community" />
+        <!--                        <TextView-->
+        <!--                            android:layout_width="wrap_content"-->
+        <!--                            android:layout_height="wrap_content"-->
+        <!--                            android:text="Science"-->
+        <!--                            android:textAlignment="center" />-->
+        <!--                    </LinearLayout>-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Science"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
+        <!--                </androidx.cardview.widget.CardView>-->
 
 
-            </GridLayout>
+        <!--            </GridLayout>-->
 
 
-        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

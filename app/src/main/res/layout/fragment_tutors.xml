@@ -6,6 +6,7 @@
     android:fitsSystemWindows="true">
 
     <LinearLayout
+        android:id="@+id/llySearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -55,6 +56,45 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <LinearLayout
+        android:id="@+id/llyPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/llySearch"
+        android:layout_marginBottom="150dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imgPlaceholder"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:gravity="center"
+            android:src="@drawable/ic_undraw_void" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="No results found"
+            android:textColor="@color/colorTextColor"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:text="Try adjusting your search or filter to find what you're looking for."
+            android:textColor="@color/colorHint"
+            android:textSize="14sp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

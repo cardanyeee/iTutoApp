@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -50,6 +51,7 @@ public class TutorsFragment extends Fragment {
     private String SUBJECTS = "";
     private String DAY = "";
 
+    private LinearLayout llyPlaceholder;
     private EditText searchTutor;
     private ImageView btnFilters;
     public static SwipeRefreshLayout swipeTutor;
@@ -75,6 +77,7 @@ public class TutorsFragment extends Fragment {
         recyclerTutor = view.findViewById(R.id.recyclerTutor);
         recyclerTutor.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeTutor = view.findViewById(R.id.swipeTutor);
+        llyPlaceholder = view.findViewById(R.id.llyPlaceholder);
 
         getTutors();
 
@@ -82,7 +85,7 @@ public class TutorsFragment extends Fragment {
 
         searchTutor.setOnEditorActionListener((v, actionId, event) -> {
             KEYWORD = searchTutor.getText().toString();
-            StyleableToast.makeText(getContext(), TUTORS, R.style.CustomToast).show();
+//            StyleableToast.makeText(getContext(), TUTORS, R.style.CustomToast).show();
             getTutors();
             return true;
         });
@@ -166,6 +169,14 @@ public class TutorsFragment extends Fragment {
                         tutor.setSubjects(subjectArrayList);
 
                         tutorArrayList.add(tutor);
+                    }
+
+                    if (tutorArrayList.isEmpty()) {
+                        recyclerTutor.setVisibility(View.GONE);
+                        llyPlaceholder.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerTutor.setVisibility(View.VISIBLE);
+                        llyPlaceholder.setVisibility(View.GONE);
                     }
 
                     tutorsAdapter = new TutorsAdapter(getContext(), tutorArrayList);

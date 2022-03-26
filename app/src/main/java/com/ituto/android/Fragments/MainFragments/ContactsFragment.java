@@ -13,12 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.textfield.TextInputEditText;
 import com.ituto.android.Adapters.ContactsAdapter;
 import com.ituto.android.Constant;
 import com.ituto.android.Models.Conversation;
@@ -37,10 +39,12 @@ import java.util.Map;
 public class ContactsFragment extends Fragment implements ContactsAdapter.OnItemListener {
     private View view;
 
+    private EditText searchContacts;
     public static SwipeRefreshLayout swipeContacts;
     public static RecyclerView recyclerContacts;
     public static ArrayList<Message> messageArrayList;
     private User signedUser, contactUser;
+    private String KEYWORD = "";
 
     private SharedPreferences sharedPreferences;
     private ContactsAdapter contactsAdapter;
@@ -54,6 +58,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
 
     private void init() {
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        searchContacts = view.findViewById(R.id.searchContacts);
         recyclerContacts = view.findViewById(R.id.recyclerContacts);
         recyclerContacts.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeContacts = view.findViewById(R.id.swipeContacts);
@@ -64,12 +69,19 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
 
         swipeContacts.setOnRefreshListener(() -> getContacts());
 
+        searchContacts.setOnEditorActionListener((v, actionId, event) -> {
+            KEYWORD = searchContacts.getText().toString().trim();
+//            StyleableToast.makeText(getContext(), TUTORS, R.style.CustomToast).show();
+            getContacts();
+            return true;
+        });
+
     }
 
     private void getContacts() {
         messageArrayList = new ArrayList<>();
         swipeContacts.setRefreshing(true);
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.CONVERSATIONS, response -> {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.CONVERSATIONS + "?keyword=" + KEYWORD, response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {

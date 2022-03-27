@@ -7,10 +7,10 @@
 
     <string name="btnTextSignIn">Login</string>
     <string name="btnTextSignUp">Register</string>
-    <string name="txtTextSignIn">Log in</string>
+    <string name="txtTextSignIn"><u>Log in</u></string>
     <string name="txtTextAlready">Already have an account?</string>
     <string name="txtTextDont">Don\'t have an account?</string>
-    <string name="txtTextRegister">Create an account</string>
+    <string name="txtTextRegister"><u>Create an account</u></string>
 
     <string name="searchMain">Search for Subject, Subject Code or your Tutor\'s Name...</string>
 

@@ -117,13 +117,12 @@ public class ConversationActivity extends AppCompatActivity {
         imgYouHeader = findViewById(R.id.imgConversationAvatar);
         txtConversationName = findViewById(R.id.txtConversationName);
         txtEnterMessage = findViewById(R.id.txtEnterMessage);
-        btnCamera = findViewById(R.id.btnCamera);
-        btnImage = findViewById(R.id.btnImage);
+//        btnCamera = findViewById(R.id.btnCamera);
+//        btnImage = findViewById(R.id.btnImage);
         btnAttachment = findViewById(R.id.btnAttachment);
         btnSend = findViewById(R.id.btnSend);
         recyclerConversation = findViewById(R.id.recyclerConversation);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.getStackFromEnd();
         linearLayoutManager.setReverseLayout(true);
         recyclerConversation.setLayoutManager(linearLayoutManager);
         progressBar = findViewById(R.id.progressbar);
@@ -627,11 +626,12 @@ public class ConversationActivity extends AppCompatActivity {
                                     newMessage.setDownloadLink(" ");
                                 }
 
-                                messageArrayList.add(newMessage);
+                                messageArrayList.add(0, newMessage);
 
                                 recyclerConversation.getAdapter().notifyDataSetChanged();
+                                recyclerConversation.getAdapter().notifyItemInserted(0);
 
-                                recyclerConversation.smoothScrollToPosition(recyclerConversation.getAdapter().getItemCount());
+                                recyclerConversation.smoothScrollToPosition(0);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -55,7 +55,7 @@
                     android:id="@+id/txtLoggedInAs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/roboto_bold"
                     android:text="Tutor"
                     android:textSize="14sp" />
 

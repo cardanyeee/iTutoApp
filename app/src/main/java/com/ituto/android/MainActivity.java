@@ -1,12 +1,19 @@
 package com.ituto.android;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import android.content.SharedPreferences;
 import android.content.Context;
 import android.content.Intent;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.View;
+
+import com.ituto.android.Services.SocketIOService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,19 +23,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        handler.postDelayed(() -> {
+            SharedPreferences userPref = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+            boolean isLoggedIn = userPref.getBoolean("isLoggedIn",false);
 
-                SharedPreferences userPref = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
-                boolean isLoggedIn = userPref.getBoolean("isLoggedIn",false);
-
-                if (isLoggedIn){
-                    startActivity(new Intent(MainActivity.this,HomeActivity.class));
-                    finish();
-                } else {
-                    isFirstTime();
-                }
+            if (isLoggedIn){
+                startActivity(new Intent(MainActivity.this,HomeActivity.class));
+                finish();
+            } else {
+                isFirstTime();
             }
         }, 1500);
     }

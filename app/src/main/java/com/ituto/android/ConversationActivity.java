@@ -43,6 +43,7 @@ import com.ituto.android.Adapters.MessagesAdapter;
 import com.ituto.android.Models.Conversation;
 import com.ituto.android.Models.Message;
 import com.ituto.android.Models.User;
+import com.ituto.android.Services.SocketIOService;
 import com.ituto.android.Utils.FilePath;
 import com.koushikdutta.ion.Ion;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -106,6 +107,7 @@ public class ConversationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        stopService(new Intent(getBaseContext(), SocketIOService.class));
         setContentView(R.layout.activity_conversation);
         init();
     }
@@ -120,11 +122,15 @@ public class ConversationActivity extends AppCompatActivity {
         btnAttachment = findViewById(R.id.btnAttachment);
         btnSend = findViewById(R.id.btnSend);
         recyclerConversation = findViewById(R.id.recyclerConversation);
-        recyclerConversation.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.getStackFromEnd();
+        linearLayoutManager.setReverseLayout(true);
+        recyclerConversation.setLayoutManager(linearLayoutManager);
         progressBar = findViewById(R.id.progressbar);
         btnCall = findViewById(R.id.btnCall);
 
         conversationID = getIntent().getStringExtra("conversationID");
+
         Glide.with(this).load(getIntent().getStringExtra("avatar")).placeholder(R.drawable.blank_avatar).centerCrop().into(imgYouHeader);
         txtConversationName.setText(getIntent().getStringExtra("name"));
 
@@ -232,7 +238,7 @@ public class ConversationActivity extends AppCompatActivity {
 
                         recyclerConversation.getAdapter().notifyDataSetChanged();
 
-                        recyclerConversation.smoothScrollToPosition(recyclerConversation.getAdapter().getItemCount());
+//                        recyclerConversation.smoothScrollToPosition(recyclerConversation.getAdapter().getItemCount());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -281,7 +287,7 @@ public class ConversationActivity extends AppCompatActivity {
                     }
                     messagesAdapter = new MessagesAdapter(getApplicationContext(), messageArrayList, sharedPreferences.getString("_id", ""));
                     recyclerConversation.setAdapter(messagesAdapter);
-                    recyclerConversation.smoothScrollToPosition(messagesAdapter.getItemCount());
+//                    recyclerConversation.smoothScrollToPosition(messagesAdapter.getItemCount());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -310,7 +316,7 @@ public class ConversationActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
-                    socket.emit("new message", response);
+                    socket.emit("new message", response, sharedPreferences.getString("firstname", ""));
 
                     JSONObject messageObject = object.getJSONObject("message");
                     JSONObject senderObject = messageObject.getJSONObject("sender");
@@ -580,7 +586,10 @@ public class ConversationActivity extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject(responseData);
                             if (object.getBoolean("success")) {
-                                socket.emit("new message", responseData);
+                                JSONObject options = new JSONObject();
+                                options.put("firstname", sharedPreferences.getString("firstname", ""));
+                                options.put("lastname", sharedPreferences.getString("lastname", ""));
+                                socket.emit("new message", responseData, options);
 
                                 JSONObject messageObject = object.getJSONObject("message");
                                 JSONObject senderObject = messageObject.getJSONObject("sender");
@@ -613,7 +622,7 @@ public class ConversationActivity extends AppCompatActivity {
                                     newMessage.setAttachment(messageObject.getString("attachment"));
                                     newMessage.setDownloadLink(messageObject.getString("attachment"));
                                 } else {
-                                    newMessage.setFilename(" ");
+                                    newMessage.setFilename("");
                                     newMessage.setAttachment(" ");
                                     newMessage.setDownloadLink(" ");
                                 }

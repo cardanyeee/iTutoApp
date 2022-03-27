@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -14,6 +15,7 @@ import com.ituto.android.Fragments.MainFragments.ContactsFragment;
 import com.ituto.android.Fragments.MainFragments.HomeFragment;
 import com.ituto.android.Fragments.MainFragments.MainSessionsFragment;
 import com.ituto.android.Fragments.MainFragments.TutorsFragment;
+import com.ituto.android.Services.SocketIOService;
 
 import io.socket.client.Socket;
 
@@ -23,14 +25,13 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     private BottomNavigationView bottomNavigation;
     private static final int GALLERY_ADD_POST = 2;
 
-    public Socket socket;
     private Boolean fromBack = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        startService(new Intent(getBaseContext(), SocketIOService.class));
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 
 //        setSupportActionBar(toolbar);
@@ -60,42 +61,13 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             else if (current instanceof AccountFragment)
                 bottomNavigation.setSelectedItemId(R.id.item_account);
         });
-
-//        getUser();
     }
 
-//    private void getUser() {
-//        StringRequest request = new StringRequest(Request.Method.GET, Constant.USER_PROFILE, response -> {
-//
-//            try {
-//                JSONObject object = new JSONObject(response);
-//                if (object.getBoolean("success")) {
-//                    JSONObject user = object.getJSONObject("user");
-//
-//                    navUserName.setText(user.getString("name"));
-//                    navUserEmail.setText(user.getString("email"));
-////                    Picasso.get().load(Constant.URL+"storage/profiles/" + user.getString("photo")).fit().centerCrop().into(navUserPhoto);
-//
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//
-//        }, error -> {
-//            error.printStackTrace();
-//        }){
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                String token = userPref.getString("access_token", "");
-//                HashMap<String, String> map = new HashMap<>();
-//                map.put("Authorization", "Bearer" + token);
-//                return map;
-//            }
-//        };
-//        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-//        queue.add(request);
-//    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        startService(new Intent(getBaseContext(), SocketIOService.class));
+    }
 
     @Override
     public void onBackPressed() {

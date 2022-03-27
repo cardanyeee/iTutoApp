@@ -102,7 +102,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private void configureViewHolder3(HolderMe vh1, int position) {
         vh1.getChatText().setText(messageArrayList.get(position).getContent());
-        if (!(messageArrayList.get(position).getFilename().isEmpty())) {
+        if (!messageArrayList.get(position).getFilename().isEmpty()) {
             if (checkIfImage(messageArrayList.get(position).getAttachment())) {
                 vh1.getCstImage().setVisibility(View.VISIBLE);
                 Glide.with(context).load(messageArrayList.get(position).getAttachment()).placeholder(R.drawable.animated_loader).override(1000, 400).into(vh1.getImgAttachedImage());
@@ -135,7 +135,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         vh1.getChatText().setText(messageArrayList.get(position).getContent());
         User user = messageArrayList.get(position).getUser();
         Glide.with(context).load(user.getAvatar()).placeholder(R.drawable.blank_avatar).centerCrop().into(vh1.getImgYou());
-
         if (!messageArrayList.get(position).getFilename().isEmpty()) {
             if (checkIfImage(messageArrayList.get(position).getAttachment())) {
                 vh1.getCstImage().setVisibility(View.VISIBLE);

@@ -233,11 +233,12 @@ public class ConversationActivity extends AppCompatActivity {
                             newMessage.setDownloadLink("");
                         }
 
-                        messageArrayList.add(newMessage);
+                        messageArrayList.add(0, newMessage);
 
                         recyclerConversation.getAdapter().notifyDataSetChanged();
+                        recyclerConversation.getAdapter().notifyItemInserted(0);
 
-//                        recyclerConversation.smoothScrollToPosition(recyclerConversation.getAdapter().getItemCount());
+                        recyclerConversation.smoothScrollToPosition(0);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -562,6 +563,7 @@ public class ConversationActivity extends AppCompatActivity {
                 if (!(strings[0] == null)) {
                     File file1 = new File(strings[0]);
                     body.addFormDataPart("attachment", file1.getName(), RequestBody.create(MediaType.parse("*/*"), file1));
+                    strings[0] = null;
                 }
 
                 body.addFormDataPart("content", message)

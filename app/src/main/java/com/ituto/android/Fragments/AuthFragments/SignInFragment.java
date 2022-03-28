@@ -81,14 +81,14 @@ public class SignInFragment extends Fragment {
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity().getApplicationContext());
 
-        btnSignInWithGoogle = view.findViewById(R.id.btnSignInWithGoogle);
-
-        btnSignInWithGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signInWithGoogle();
-            }
-        });
+//        btnSignInWithGoogle = view.findViewById(R.id.btnSignInWithGoogle);
+//
+//        btnSignInWithGoogle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                signInWithGoogle();
+//            }
+//        });
 
         layoutPassword = view.findViewById(R.id.txtLayoutPasswordSignIn);
         layoutEmail = view.findViewById(R.id.txtLayoutEmailSignIn);

@@ -40,11 +40,11 @@ public class NotificationUtils {
         this.mContext = mContext;
     }
 
-    public void showNotificationMessage(String title, String message, String timeStamp, Intent intent) {
-        showNotificationMessage(title, message, timeStamp, intent, null);
+    public void showNotificationMessage(String title, String group, String message, String timeStamp, Intent intent) {
+        showNotificationMessage(title, group, message, timeStamp, intent, null);
     }
 
-    public void showNotificationMessage(final String title, final String message, final String timeStamp, Intent intent, String imageUrl) {
+    public void showNotificationMessage(final String title, String group, final String message, final String timeStamp, Intent intent, String imageUrl) {
         // Check for empty push message
         if (TextUtils.isEmpty(message))
             return;
@@ -68,15 +68,15 @@ public class NotificationUtils {
         if (!TextUtils.isEmpty(imageUrl)) {
 
             if (imageUrl != null && imageUrl.length() > 4 && Patterns.WEB_URL.matcher(imageUrl).matches()) {
-                showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent);
+                showSmallNotification(mBuilder, icon, title, group, message, timeStamp, resultPendingIntent);
             }
         } else {
-            showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent);
+            showSmallNotification(mBuilder, icon, title, group, message, timeStamp, resultPendingIntent);
         }
     }
 
 
-    private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent) {
+    private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, String title, String group, String message, String timeStamp, PendingIntent resultPendingIntent) {
         if (timeStamp.equals(""))
             timeStamp = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) + "";
 
@@ -98,6 +98,8 @@ public class NotificationUtils {
                 .setContentTitle(title)
                 .setContentIntent(resultPendingIntent)
                 .setStyle(inboxStyle)
+//                .setGroup(group)
+//                .setGroupSummary(true)
                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setWhen(Calendar.getInstance().getTimeInMillis())

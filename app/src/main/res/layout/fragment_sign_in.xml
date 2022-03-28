@@ -116,50 +116,50 @@
         android:text="@string/btnTextSignIn"
         android:theme="@style/Button.Primary" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="20dp">
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:layout_marginBottom="20dp">-->
 
-        <TextView
-            android:id="@+id/tvText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="or" />
+<!--        <TextView-->
+<!--            android:id="@+id/tvText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:text="or" />-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toLeftOf="@id/tvText"
-            android:background="@android:color/darker_gray" />
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginLeft="16dp"-->
+<!--            android:layout_toLeftOf="@id/tvText"-->
+<!--            android:background="@android:color/darker_gray" />-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:layout_toRightOf="@id/tvText"
-            android:background="@android:color/darker_gray" />
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginRight="16dp"-->
+<!--            android:layout_toRightOf="@id/tvText"-->
+<!--            android:background="@android:color/darker_gray" />-->
 
-    </RelativeLayout>
+<!--    </RelativeLayout>-->
 
-    <Button
-        android:id="@+id/btnSignInWithGoogle"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginBottom="60dp"
-        android:background="@drawable/btn_transparent_with_border"
-        android:drawableLeft="@drawable/ic_google_logo"
-        android:text="@string/continue_with_google"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
-        android:theme="@style/Button.Primary" />
+<!--    <Button-->
+<!--        android:id="@+id/btnSignInWithGoogle"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="42dp"-->
+<!--        android:layout_marginBottom="60dp"-->
+<!--        android:background="@drawable/btn_transparent_with_border"-->
+<!--        android:drawableLeft="@drawable/ic_google_logo"-->
+<!--        android:text="@string/continue_with_google"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textColor="@color/colorPrimary"-->
+<!--        android:theme="@style/Button.Primary" />-->
 
     <LinearLayout
         android:layout_width="match_parent"

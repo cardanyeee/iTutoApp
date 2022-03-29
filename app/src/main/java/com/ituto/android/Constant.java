@@ -5,7 +5,7 @@ public class Constant {
     private static final String PUBLIC_URL = "https://mern-ituto.herokuapp.com";
 //    https://mern-ituto.herokuapp.com
 //    http://192.168.1.2:8080
-    public static final String URL = PUBLIC_URL;
+    public static final String URL = LOCAL_URL;
     public static final String HOME = URL + "/api";
 
     public static final String LOGIN = HOME + "/auth/login";

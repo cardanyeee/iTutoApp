@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_input"
                 android:hint="@string/firstname"
-                android:inputType="textEmailAddress"
+                android:inputType="textCapWords"
                 android:textSize="13sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_input"
                 android:hint="@string/lastname"
-                android:inputType="textEmailAddress"
+                android:inputType="textCapWords"
                 android:textSize="13sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -97,6 +97,7 @@
             android:background="@drawable/custom_input"
             android:focusable="false"
             android:hint="@string/gender"
+            android:inputType="textCapWords"
             android:textSize="13sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -138,8 +139,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/custom_input"
             android:hint="@string/course"
-            android:textSize="13sp"
-            android:maxHeight="300dp" />
+            android:inputType="textCapWords"
+            android:maxHeight="300dp"
+            android:textSize="13sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,8 +161,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/custom_input"
             android:hint="Year"
-            android:textSize="13sp"
-            android:maxHeight="300dp" />
+            android:inputType="textCapWords"
+            android:maxHeight="300dp"
+            android:textSize="13sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

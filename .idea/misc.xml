@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable-v24/checkbox_custom2.xml" value="0.2835" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable-v24/checkbox_normal2.xml" value="0.2835" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable-v24/checkbox_text2.xml" value="0.2835" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/animate_loader2.xml" value="0.132" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/animated_loader.xml" value="0.22" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/applogo_transparent.xml" value="0.2075" />
@@ -47,6 +50,7 @@
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_baseline_arrow_drop_down_24.xml" value="0.21822916666666667" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_15.xml" value="0.22239583333333332" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_24.xml" value="0.35833333333333334" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_baseline_assignment_24.xml" value="0.2705" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_baseline_attach_file_24.xml" value="0.3828125" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_baseline_camera_alt_24.xml" value="0.3828125" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_baseline_exit_to_app_24.xml" value="0.3828125" />
@@ -91,7 +95,7 @@
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_conversations.xml" value="0.20520833333333333" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_create_assessment.xml" value="0.3009833262077811" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_filter.xml" value="0.33" />
-        <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_home.xml" value="0.29724770642201837" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_main_auth.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_main_sessions.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_request_schedule.xml" value="0.33" />

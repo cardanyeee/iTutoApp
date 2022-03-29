@@ -47,6 +47,9 @@ public class AnswerQuestionsAdapter extends RecyclerView.Adapter<AnswerQuestions
         ArrayList<String> choices = question.getChoices();
 
         holder.txtAnswer.setText(questionArrayList.get(position).getTuteeAnswer());
+        if (sharedPreferences.getString("loggedInAs", "").equals("TUTOR")) {
+            holder.txtAnswer.setEnabled(false);
+        }
         holder.txtItemNum.setText(String.valueOf(position + 1) + ".");
         holder.txtQuestion.setText(question.getQuestion());
         holder.txtChoiceA.setText("A. " + choices.get(0));

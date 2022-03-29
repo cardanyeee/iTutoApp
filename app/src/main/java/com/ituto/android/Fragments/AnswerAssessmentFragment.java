@@ -51,6 +51,7 @@ public class AnswerAssessmentFragment extends Fragment {
     private RecyclerView recyclerQuestions;
     private MaterialButton btnSubmitAnswers;
     private ImageView imgBackButton;
+    private String loggedInAs;
 
     private ArrayList<Question> questionArrayList;
     private AnswerQuestionsAdapter answerQuestionsAdapter;
@@ -85,7 +86,13 @@ public class AnswerAssessmentFragment extends Fragment {
         recyclerQuestions = view.findViewById(R.id.recyclerQuestions);
         recyclerQuestions.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        loggedInAs = sharedPreferences.getString("loggedInAs", "");
+
         btnSubmitAnswers = view.findViewById(R.id.btnSubmitAnswers);
+
+        if (!loggedInAs.equals("TUTOR")) {
+            btnSubmitAnswers.setVisibility(View.GONE);
+        }
 
         imgBackButton.setOnClickListener(view -> {
             getActivity().getSupportFragmentManager().popBackStack();

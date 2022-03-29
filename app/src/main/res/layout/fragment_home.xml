@@ -99,11 +99,11 @@
             android:drawableStart="@drawable/ic_baseline_search_24"
             android:drawablePadding="5dp"
             android:elevation="5dp"
-            android:textSize="14sp"
             android:fontFamily="@font/roboto_regular"
             android:hint="@string/searchMain"
             android:inputType="text"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -131,6 +131,7 @@
             android:layout_marginTop="15dp"
             app:abbreviationsBarColor="@color/colorBackground"
             app:abbreviationsLabelsColor="@color/black"
+            app:eventsEnabled="true"
             app:firstDayOfWeek="sunday"
             app:forwardButtonSrc="@drawable/ic_baseline_arrow_forward_ios_15"
             app:headerColor="@color/colorBackground"

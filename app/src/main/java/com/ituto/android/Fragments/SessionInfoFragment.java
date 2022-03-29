@@ -56,7 +56,6 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
     private View view;
     private ImageView imgBackButton;
     private MaterialCardView crdTutee, crdDescription;
-    private CircleImageView imgTutee;
     private TextView txtSubjectName, txtName, txtCourse, txtYearLevel, txtDescription;
     private RecyclerView recyclerAssessments;
     private FloatingActionButton btnAddAssessment;
@@ -88,9 +87,6 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         bottomAppBar.setVisibility(View.GONE);
         sessionID = getArguments().getString("_id");
 
-        imgTutee = view.findViewById(R.id.imgTutee);
-        txtName = view.findViewById(R.id.txtName);
-        txtCourse = view.findViewById(R.id.txtCourse);
         txtDescription = view.findViewById(R.id.txtDescription);
         recyclerAssessments = view.findViewById(R.id.recyclerAssessments);
         recyclerAssessments.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -203,9 +199,6 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                     String outputPattern = "yyyy-MM-dd";
                     SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
 
-                    Picasso.get().load(avatarObject.getString("url")).resize(500, 0).into(imgTutee);
-                    txtName.setText(tuteeObject.getString("firstname") + " " + tuteeObject.getString("lastname"));
-                    txtCourse.setText(courseObject.getString("name"));
                     txtDescription.setText(sessionObject.getString("description"));
 
                     for (int i = 0; i < assessments.length(); i++) {

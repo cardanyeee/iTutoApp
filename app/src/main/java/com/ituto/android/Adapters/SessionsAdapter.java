@@ -19,7 +19,10 @@ import com.ituto.android.Models.Tutor;
 import com.ituto.android.Models.User;
 import com.ituto.android.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -52,14 +55,24 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
         Tutor tutor = session.getTutor();
         User user = session.getTutee();
 
-        holder.txtSubjectName.setText(session.getSubject().getName());
-        holder.txtTutorTutee.setText(loggedInAs.equals("TUTEE") ? tutor.getFirstname() + " " + tutor.getLastname() : user.getFirstname() + " " + user.getLastname());
+        try {
+            holder.txtSubjectName.setText(session.getSubject().getName());
+            holder.txtTime.setText(session.getMinTime() + " - " + session.getMaxTime());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            Date date = format.parse(session.getStartDate());
+            String outputPattern = "MMMM dd, yyyy";
+            SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+            holder.txtStartDate.setText(outputFormat.format(date));
+            holder.txtTutorTutee.setText(loggedInAs.equals("TUTEE") ? tutor.getFirstname() + " " + tutor.getLastname() : user.getFirstname() + " " + user.getLastname());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     class SessionHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
 
         OnItemListener onItemListener;
-        private TextView txtSubjectName, txtSessionDays, txtSessionTime, txtTutorTutee;
+        private TextView txtSubjectName, txtStartDate, txtTime, txtTutorTutee;
         private ImageView imgMore;
         private MaterialCardView sessionCardView;
 
@@ -67,8 +80,8 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             super(itemView);
             sessionCardView = itemView.findViewById(R.id.sessionCardView);
             txtSubjectName = itemView.findViewById(R.id.txtSubjectName);
-            txtSessionDays = itemView.findViewById(R.id.txtDays);
-            txtSessionTime = itemView.findViewById(R.id.txtTime);
+            txtStartDate = itemView.findViewById(R.id.txtStartDate);
+            txtTime = itemView.findViewById(R.id.txtTime);
             txtTutorTutee = itemView.findViewById(R.id.txtTutorTutee);
 
             this.onItemListener = onItemListener;

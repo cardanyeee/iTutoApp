@@ -131,6 +131,7 @@
 
                 <!--         Main Body ~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <LinearLayout
+                    android:id="@+id/llyBody"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/llyHeader"
@@ -280,6 +281,50 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/crdUpdateSubjects"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/llyBody"
+                    android:layout_marginTop="15dp"
+                    android:backgroundTint="@color/colorBackground"
+                    android:clickable="true"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="15dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Update Subjects"
+                        android:textColor="@color/colorPrimary" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/crdUpdateAvailability"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/crdUpdateSubjects"
+                    android:layout_marginTop="15dp"
+                    android:backgroundTint="@color/colorBackground"
+                    android:clickable="true"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="15dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Update Availability"
+                        android:textColor="@color/colorPrimary" />
+
+                </com.google.android.material.card.MaterialCardView>
 
 
                 <!--                <Button-->

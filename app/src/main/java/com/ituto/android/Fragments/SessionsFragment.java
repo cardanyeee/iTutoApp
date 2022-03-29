@@ -20,6 +20,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.applandeo.materialcalendarview.EventDay;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ituto.android.Adapters.SessionsAdapter;
@@ -39,6 +40,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SessionsFragment extends Fragment implements SessionsAdapter.OnItemListener {
@@ -47,7 +49,6 @@ public class SessionsFragment extends Fragment implements SessionsAdapter.OnItem
     private SharedPreferences sharedPreferences;
     private ArrayList<Session> sessionArrayList;
     private SessionsAdapter sessionsAdapter;
-
     private SwipeRefreshLayout swipeSession;
     private RecyclerView recyclerSession;
     private LinearLayout llyPlaceholder;
@@ -91,6 +92,7 @@ public class SessionsFragment extends Fragment implements SessionsAdapter.OnItem
                     JSONArray resultArray = new JSONArray(object.getString("sessions"));
                     for (int i = 0; i < resultArray.length(); i++) {
                         JSONObject sessionObject = resultArray.getJSONObject(i);
+                        JSONObject timeObject = sessionObject.getJSONObject("time");
                         JSONObject subjectObject = sessionObject.getJSONObject("subject");
                         Session session = new Session();
                         Tutor tutor = new Tutor();
@@ -98,34 +100,36 @@ public class SessionsFragment extends Fragment implements SessionsAdapter.OnItem
                         Subject subject = new Subject();
 
                         session.setSessionID(sessionObject.getString("_id"));
-
+                        session.setStartDate(sessionObject.getString("startDate"));
+                        session.setTimeOfDay(timeObject.getString("timeOfDay"));
+                        session.setMinTime(timeObject.getString("min"));
+                        session.setMaxTime(timeObject.getString("max"));
                         subject.setName(subjectObject.getString("name"));
 
                         session.setSubject(subject);
 
-                        if (loggedInAs.equals("TUTOR")) {
-                            JSONObject tuteeObject = sessionObject.getJSONObject("tutee");
-                            JSONObject avatarObject = tuteeObject.getJSONObject("avatar");
 
-                            tutor.setUserID(sessionObject.getString("tutor"));
+                        JSONObject tuteeObject = sessionObject.getJSONObject("tutee");
+                        JSONObject avatarObject = tuteeObject.getJSONObject("avatar");
 
-                            user.setUserID(tuteeObject.getString("_id"));
-                            user.setFirstname(tuteeObject.getString("firstname"));
-                            user.setLastname(tuteeObject.getString("lastname"));
-                            user.setAvatar(avatarObject.getString("url"));
+                        tutor.setUserID(sessionObject.getString("tutor"));
 
-                        } else if (loggedInAs.equals("TUTEE")) {
-                            JSONObject tutorObject = sessionObject.getJSONObject("tutor");
-                            JSONObject avatarObject = tutorObject.getJSONObject("avatar");
+                        user.setUserID(tuteeObject.getString("_id"));
+                        user.setFirstname(tuteeObject.getString("firstname"));
+                        user.setLastname(tuteeObject.getString("lastname"));
+                        user.setAvatar(avatarObject.getString("url"));
 
-                            user.setUserID(sessionObject.getString("tutee"));
 
-                            tutor.setUserID(tutorObject.getString("_id"));
-                            tutor.setFirstname(tutorObject.getString("firstname"));
-                            tutor.setLastname(tutorObject.getString("lastname"));
-                            tutor.setAvatar(avatarObject.getString("url"));
+                        JSONObject tutorObject = sessionObject.getJSONObject("tutor");
+                        JSONObject avatarObjectTutor = tutorObject.getJSONObject("avatar");
 
-                        }
+                        user.setUserID(sessionObject.getString("tutee"));
+
+                        tutor.setUserID(tutorObject.getString("_id"));
+                        tutor.setFirstname(tutorObject.getString("firstname"));
+                        tutor.setLastname(tutorObject.getString("lastname"));
+                        tutor.setAvatar(avatarObjectTutor.getString("url"));
+
 
                         session.setTutor(tutor);
                         session.setTutee(user);

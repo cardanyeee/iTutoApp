@@ -3,15 +3,9 @@ package com.ituto.android.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.text.Html;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +48,7 @@ public class SessionsRequestAdapter extends RecyclerView.Adapter<SessionsRequest
     @NonNull
     @Override
     public SessionsRequestAdapter.RequestSessionHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_session_requests, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_session_request, parent, false);
         return new SessionsRequestAdapter.RequestSessionHolder(view, onItemListener);
     }
 

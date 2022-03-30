@@ -56,7 +56,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
     private View view;
     private ImageView imgBackButton;
     private MaterialCardView crdTutee, crdDescription;
-    private TextView txtSubjectName, txtName, txtCourse, txtYearLevel, txtDescription;
+    private TextView txtSubjectName, txtTime, txtName, txtCourse, txtYearLevel, txtDescription;
     private RecyclerView recyclerAssessments;
     private FloatingActionButton btnAddAssessment;
     private MaterialButton btnReviewTutor;
@@ -87,6 +87,8 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         bottomAppBar.setVisibility(View.GONE);
         sessionID = getArguments().getString("_id");
 
+        txtSubjectName = view.findViewById(R.id.txtSubjectName);
+        txtTime = view.findViewById(R.id.txtTime);
         txtDescription = view.findViewById(R.id.txtDescription);
         recyclerAssessments = view.findViewById(R.id.recyclerAssessments);
         recyclerAssessments.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -199,6 +201,8 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                     String outputPattern = "yyyy-MM-dd";
                     SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
 
+                    txtSubjectName.setText(subjectObject.getString("name"));
+                    txtTime.setText(timeObject.getString("min") + " - " + timeObject.getString("max"));
                     txtDescription.setText(sessionObject.getString("description"));
 
                     for (int i = 0; i < assessments.length(); i++) {

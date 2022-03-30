@@ -65,18 +65,31 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_round2"
                     android:backgroundTint="@color/colorTransparent"
-                    android:gravity="bottom"
-                    android:padding="20dp">
+                    android:gravity="center"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp">
 
                     <TextView
                         android:id="@+id/txtSubjectName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:fontFamily="@font/roboto_black"
                         android:text="Computer Programming"
                         android:textColor="@color/colorBackground"
                         android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/txtTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtSubjectName"
+                        android:drawableStart="@drawable/ic_clock"
+                        android:drawablePadding="5dp"
+                        android:drawableTint="@color/colorSecondaryLight"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="9:00am - 11:00am"
+                        android:textColor="@color/colorSecondaryLight"
+                        android:textSize="15sp" />
 
                 </RelativeLayout>
 

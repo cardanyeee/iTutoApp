@@ -52,6 +52,7 @@ public class AnswerAssessmentFragment extends Fragment {
     private MaterialButton btnSubmitAnswers;
     private ImageView imgBackButton;
     private String loggedInAs;
+    private TextView txtAssessmentName, txtSubject;
 
     private ArrayList<Question> questionArrayList;
     private AnswerQuestionsAdapter answerQuestionsAdapter;
@@ -74,6 +75,9 @@ public class AnswerAssessmentFragment extends Fragment {
         bottomAppBar.setVisibility(View.GONE);
         assessmentID = getArguments().getString("_id");
 
+        txtAssessmentName = view.findViewById(R.id.txtAssessmentName);
+        txtSubject = view.findViewById(R.id.txtSubject);
+
         imgBackButton = view.findViewById(R.id.imgBackButton);
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
@@ -90,7 +94,7 @@ public class AnswerAssessmentFragment extends Fragment {
 
         btnSubmitAnswers = view.findViewById(R.id.btnSubmitAnswers);
 
-        if (!loggedInAs.equals("TUTOR")) {
+        if (loggedInAs.equals("TUTOR")) {
             btnSubmitAnswers.setVisibility(View.GONE);
         }
 
@@ -119,6 +123,9 @@ public class AnswerAssessmentFragment extends Fragment {
                     JSONObject subjectObject = assessmentObject.getJSONObject("subject");
                     JSONObject tutorObject = assessmentObject.getJSONObject("tutor");
                     JSONObject tuteeObject = assessmentObject.getJSONObject("tutee");
+
+                    txtAssessmentName.setText(assessmentObject.getString("name"));
+                    txtSubject.setText(subjectObject.getString("name"));
 
                     for (int q = 0; q < questionsArray.length(); q++) {
                         Question question = new Question();

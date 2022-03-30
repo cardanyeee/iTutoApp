@@ -23,21 +23,21 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     private int images[] = {
-            R.drawable.undraw_collaborators,
             R.drawable.undraw_community,
+            R.drawable.undraw_collaborators,
             R.drawable.undraw_social_interaction
     };
 
     private  String titles[] = {
-            "Collaborate",
             "Find",
+            "Collaborate",
             "Learn"
     };
 
     private  String desc[] = {
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            "Use the app's search and filter features to find other students who are willing to offer their knowledge on the specified subject.",
+            "iTuto creates an environment that creates a learning approach that involves students to collaborate and learn from each other.",
+            "Learn and gain knowledge academically from other students who are willing to share their knowledge and experiences in the subject."
     };
 
     @Override

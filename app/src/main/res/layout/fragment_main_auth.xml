@@ -9,15 +9,32 @@
     android:paddingLeft="30dp"
     android:paddingRight="30dp">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginTop="70dp"
-        android:fontFamily="@font/roboto_regular"
-        android:text="@string/iTuto"
-        android:textColor="@color/colorPrimary"
-        android:textFontWeight="900"
-        android:textSize="32sp" />
+        android:layout_centerInParent="true"
+        android:gravity="center_vertical">
+
+        <!--        <ImageView-->
+        <!--            android:layout_width="30dp"-->
+        <!--            android:layout_height="30dp"-->
+        <!--            android:layout_centerInParent="true"-->
+        <!--            android:gravity="center_horizontal"-->
+        <!--            android:src="@drawable/applogo"-->
+        <!--            android:layout_marginEnd="5dp"/>-->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/iTuto"
+            android:textColor="@color/colorPrimary"
+            android:textFontWeight="900"
+            android:textSize="32sp" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"

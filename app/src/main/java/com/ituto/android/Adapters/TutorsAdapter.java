@@ -45,12 +45,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolder> {
     private Context context;
     private ArrayList<Tutor> tutorArrayList;
+    private OnItemListener onItemListener;
     private SharedPreferences sharedPreferences;
     private Tutor tutor;
 
-    public TutorsAdapter(Context context, ArrayList<Tutor> tutorArrayList) {
+    public TutorsAdapter(Context context, ArrayList<Tutor> tutorArrayList, OnItemListener onItemListener) {
         this.context = context;
         this.tutorArrayList = tutorArrayList;
+        this.onItemListener = onItemListener;
         sharedPreferences = context.getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
     }
 
@@ -58,7 +60,7 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
     @Override
     public TutorHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_tutor, parent, false);
-        return new TutorHolder(view);
+        return new TutorHolder(view, onItemListener);
     }
 
     @SuppressLint("SetTextI18n")
@@ -103,21 +105,12 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
             holder.txtSubjects.setText(holder.txtSubjects.getText() + ", " + subjects.get(s));
         }
 
-        holder.btnProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                TutorProfileFragment tutorProfileFragment = new TutorProfileFragment();
-                bundle.putString("_id", tutor.getTutorID());
-                tutorProfileFragment.setArguments(bundle);
-                ((HomeActivity)context).getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                        R.anim.slide_in,  // enter
-                        R.anim.fade_out,  // exit
-                        R.anim.fade_in,   // popEnter
-                        R.anim.slide_out  // popExit
-                ).replace(R.id.fragment_container, tutorProfileFragment).addToBackStack(null).commit();
-            }
-        });
+//        holder.btnProfile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
     }
 
@@ -163,13 +156,13 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
         queue.add(request);
     }
 
-    class TutorHolder extends RecyclerView.ViewHolder {
+    class TutorHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView txtName, txtCourse, txtDays, txtTime, txtSubjects;
         private CircleImageView imgTutor;
         private Button btnProfile, btnMessage;
 
-        public TutorHolder(@NonNull View itemView) {
+        public TutorHolder(@NonNull View itemView, OnItemListener onItemListener) {
             super(itemView);
             txtName = itemView.findViewById(R.id.txtName);
             txtCourse = itemView.findViewById(R.id.txtCourse);
@@ -180,14 +173,23 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
             btnProfile = itemView.findViewById(R.id.btnProfile);
             btnMessage = itemView.findViewById(R.id.btnMessage);
 
+            btnProfile.setOnClickListener(this);
+
             itemView.setClickable(true);
         }
 
+        @Override
+        public void onClick(View view) {
+            onItemListener.onItemClick(getAdapterPosition());
+        }
     }
-
 
     @Override
     public int getItemCount() {
         return tutorArrayList.size();
+    }
+
+    public interface OnItemListener {
+        void onItemClick(int position);
     }
 }

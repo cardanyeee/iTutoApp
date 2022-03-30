@@ -61,6 +61,7 @@
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_clock.xml" value="0.32135416666666666" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_radio.xml" value="0.3072916666666667" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_radio_checked.xml" value="0.3072916666666667" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_undraw_social_interaction.xml" value="0.2835" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/ic_undraw_welcome_re_h3d9.xml" value="0.3828125" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/input_shadow.xml" value="0.3769230769230769" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/outline_assignment_24.xml" value="0.21302083333333333" />
@@ -73,6 +74,7 @@
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/radiobutton_normal.xml" value="0.23645833333333333" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/undraw_collaborating.xml" value="0.3769230769230769" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/undraw_collaborators.xml" value="0.318" />
+        <entry key="..\:/iTutoApp/app/src/main/res/drawable/undraw_community.xml" value="0.2835" />
         <entry key="..\:/iTutoApp/app/src/main/res/drawable/undraw_social_interaction.xml" value="0.3769230769230769" />
         <entry key="..\:/iTutoApp/app/src/main/res/font/roboto.xml" value="0.39076923076923076" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout-v28/layout_sign_in.xml" value="0.2421875" />
@@ -105,7 +107,7 @@
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_session_request_info.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_session_requests.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sessions.xml" value="0.25" />
-        <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_in.xml" value="0.33" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_in.xml" value="0.5" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_up.xml" value="0.33" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_up_availability.xml" value="0.5" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/fragment_sign_up_subjects.xml" value="0.33" />

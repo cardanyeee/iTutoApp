@@ -26,6 +26,8 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.ituto.android.Adapters.TutorsAdapter;
 import com.ituto.android.Constant;
 import com.ituto.android.Fragments.FilterFragment;
+import com.ituto.android.Fragments.TutorProfileFragment;
+import com.ituto.android.HomeActivity;
 import com.ituto.android.Models.Availability;
 import com.ituto.android.Models.Time;
 import com.ituto.android.Models.Tutor;
@@ -40,7 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TutorsFragment extends Fragment {
+public class TutorsFragment extends Fragment implements TutorsAdapter.OnItemListener {
 
     private View view;
     private String TUTORS;
@@ -179,7 +181,7 @@ public class TutorsFragment extends Fragment {
                         llyPlaceholder.setVisibility(View.GONE);
                     }
 
-                    tutorsAdapter = new TutorsAdapter(getContext(), tutorArrayList);
+                    tutorsAdapter = new TutorsAdapter(getContext(), tutorArrayList, this);
                     recyclerTutor.setAdapter(tutorsAdapter);
                 }
 
@@ -203,5 +205,20 @@ public class TutorsFragment extends Fragment {
         };
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Bundle bundle = new Bundle();
+        TutorProfileFragment tutorProfileFragment = new TutorProfileFragment();
+        Tutor tutor = tutorArrayList.get(position);
+        bundle.putString("_id", tutor.getTutorID());
+        tutorProfileFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                R.anim.slide_in,  // enter
+                R.anim.fade_out,  // exit
+                R.anim.fade_in,   // popEnter
+                R.anim.slide_out  // popExit
+        ).replace(R.id.fragment_container, tutorProfileFragment).addToBackStack(null).commit();
     }
 }

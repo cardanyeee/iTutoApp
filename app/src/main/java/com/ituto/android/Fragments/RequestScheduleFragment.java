@@ -283,7 +283,7 @@ public class RequestScheduleFragment extends Fragment {
                             R.anim.fade_out,  // exit
                             R.anim.fade_in,   // popEnter
                             R.anim.slide_out  // popExit
-                    ).replace(R.id.fragment_container, new HomeFragment()).addToBackStack(null).commit();
+                    ).replace(R.id.fragment_container, new HomeFragment()).commit();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

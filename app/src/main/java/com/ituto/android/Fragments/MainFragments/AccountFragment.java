@@ -2,6 +2,7 @@ package com.ituto.android.Fragments.MainFragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -79,12 +80,14 @@ public class AccountFragment extends Fragment {
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
         dialog.setContentView(R.layout.layout_dialog_progress);
         RelativeLayout dialogLayout = dialog.findViewById(R.id.rllDialog);
-        dialog.setCancelable(false);
         dialog.show();
-//        Window window = dialog.getWindow();
-//        WindowManager.LayoutParams wlp = window.getAttributes();
-//        wlp.height = getActivity().getResources().getDisplayMetrics().heightPixels - bottomAppBar.getHeight();
-//        window.setAttributes(wlp);
+
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
 
         btnLogOut.setOnClickListener(v -> {
             dialog = new Dialog(getContext());

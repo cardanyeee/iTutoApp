@@ -86,15 +86,15 @@ public class SignUpFragment extends Fragment {
         googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity().getApplicationContext());
-
-        btnSignInWithGoogle = view.findViewById(R.id.btnSignInWithGoogle);
-
-        btnSignInWithGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signInWithGoogle();
-            }
-        });
+//
+//        btnSignInWithGoogle = view.findViewById(R.id.btnSignInWithGoogle);
+//
+//        btnSignInWithGoogle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                signInWithGoogle();
+//            }
+//        });
 
         sharedPreferences = getContext().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         isTutor = getArguments().getBoolean("isTutor");

@@ -125,24 +125,21 @@ public class TutorProfileFragment extends Fragment {
                         R.anim.fade_out,  // exit
                         R.anim.slide_in,
                         0// popExit
-                ).replace(R.id.fragment_container, requestScheduleFragment).commit();
+                ).replace(R.id.fragment_container, requestScheduleFragment).addToBackStack(null).commit();
             }
         });
 
-        crdSeeReviews.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                ReviewsFragment reviewsFragment = new ReviewsFragment();
-                reviewsFragment.setArguments(bundle);
-                bundle.putString("_id", tutorID);
-                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                        R.anim.slide_in,  // enter
-                        R.anim.fade_out,  // exit
-                        R.anim.slide_in,
-                        0// popExit
-                ).replace(R.id.fragment_container, reviewsFragment).commit();
-            }
+        crdSeeReviews.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            ReviewsFragment reviewsFragment = new ReviewsFragment();
+            reviewsFragment.setArguments(bundle);
+            bundle.putString("_id", tutorID);
+            getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.slide_in,
+                    0// popExit
+            ).replace(R.id.fragment_container, reviewsFragment).commit();
         });
 
     }

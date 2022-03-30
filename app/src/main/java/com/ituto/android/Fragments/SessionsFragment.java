@@ -53,8 +53,6 @@ public class SessionsFragment extends Fragment implements SessionsAdapter.OnItem
     private RecyclerView recyclerSession;
     private LinearLayout llyPlaceholder;
 
-    private FloatingActionButton btnAddSession;
-
     private String loggedInAs;
 
     @Override

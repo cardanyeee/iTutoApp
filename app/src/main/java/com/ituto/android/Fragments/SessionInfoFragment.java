@@ -17,6 +17,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -57,7 +58,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
     private View view;
     private ImageView imgBackButton;
     private MaterialCardView crdTutee, crdDescription;
-    private TextView txtSubjectName, txtTime, txtName, txtCourse, txtYearLevel, txtDescription;
+    private TextView txtSubjectName, txtTime, txtName, txtCourse, txtYearLevel, txtDescription, txtTutor, txtTutee;
     private RecyclerView recyclerAssessments;
     private ImageButton btnAddAssessment;
     private MaterialButton btnReviewTutor, btnSessionDone;
@@ -91,20 +92,14 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         txtSubjectName = view.findViewById(R.id.txtSubjectName);
         txtTime = view.findViewById(R.id.txtTime);
         txtDescription = view.findViewById(R.id.txtDescription);
+        txtTutor = view.findViewById(R.id.txtTutor);
+        txtTutee = view.findViewById(R.id.txtTutee);
         recyclerAssessments = view.findViewById(R.id.recyclerAssessments);
         recyclerAssessments.setLayoutManager(new LinearLayoutManager(getContext()));
         btnAddAssessment = view.findViewById(R.id.btnAddAssessment);
         imgBackButton = view.findViewById(R.id.imgBackButton);
         btnSessionDone = view.findViewById(R.id.btnSessionDone);
         btnReviewTutor = view.findViewById(R.id.btnReviewTutor);
-
-        if (sharedPreferences.getString("loggedInAs", "").equals("TUTOR")) {
-            btnReviewTutor.setVisibility(View.GONE);
-            btnSessionDone.setVisibility(View.VISIBLE);
-        } else {
-            btnReviewTutor.setVisibility(View.VISIBLE);
-            btnSessionDone.setVisibility(View.GONE);
-        }
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
@@ -117,11 +112,39 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
 
         imgBackButton.setOnClickListener(view -> getActivity().getSupportFragmentManager().popBackStack());
 
-        if (!loggedInAs.equals("TUTOR")) {
+        if (loggedInAs.equals("TUTOR")) {
+            btnAddAssessment.setVisibility(View.VISIBLE);
+            btnReviewTutor.setVisibility(View.GONE);
+            btnSessionDone.setVisibility(View.VISIBLE);
+        } else {
             btnAddAssessment.setVisibility(View.GONE);
+            btnReviewTutor.setVisibility(View.VISIBLE);
+            btnSessionDone.setVisibility(View.GONE);
         }
 
+
         getSession();
+
+        btnSessionDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialog doneDialog = new Dialog(getContext());
+                doneDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                doneDialog.setContentView(R.layout.layout_dialog_done);
+
+                Button btnYes = doneDialog.findViewById(R.id.btnYes);
+                Button btnNo = doneDialog.findViewById(R.id.btnNo);
+
+                doneDialog.show();
+
+                btnYes.setOnClickListener(v -> {
+                    doneDialog.dismiss();
+                    doneSession();
+                });
+
+                btnNo.setOnClickListener(v -> doneDialog.cancel());
+            }
+        });
 
         btnAddAssessment.setOnClickListener(view -> {
             Bundle bundle = new Bundle();
@@ -138,42 +161,39 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
             ).replace(R.id.fragment_container, createAssessmentFragment).addToBackStack(null).commit();
         });
 
-        btnReviewTutor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Dialog reviewDialog = new Dialog(getContext());
+        btnReviewTutor.setOnClickListener(view -> {
+            Dialog reviewDialog = new Dialog(getContext());
 
-                reviewDialog.setContentView(R.layout.layout_dialog_review);
-                reviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                reviewDialog.getWindow().getAttributes().windowAnimations = R.style.AddQuestionDialogAnimation;
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
-                int width = metrics.widthPixels;
-                reviewDialog.getWindow().setLayout((6 * width) / 7, reviewDialog.getWindow().getAttributes().height);
+            reviewDialog.setContentView(R.layout.layout_dialog_review);
+            reviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            reviewDialog.getWindow().getAttributes().windowAnimations = R.style.AddQuestionDialogAnimation;
+            DisplayMetrics metrics = getResources().getDisplayMetrics();
+            int width = metrics.widthPixels;
+            reviewDialog.getWindow().setLayout((6 * width) / 7, reviewDialog.getWindow().getAttributes().height);
 
-                rtbTutorRating = reviewDialog.findViewById(R.id.rtbTutorRating);
-                txtComment = reviewDialog.findViewById(R.id.txtComment);
-                btnCancel = reviewDialog.findViewById(R.id.btnCancel);
-                btnSubmit = reviewDialog.findViewById(R.id.btnSubmit);
+            rtbTutorRating = reviewDialog.findViewById(R.id.rtbTutorRating);
+            txtComment = reviewDialog.findViewById(R.id.txtComment);
+            btnCancel = reviewDialog.findViewById(R.id.btnCancel);
+            btnSubmit = reviewDialog.findViewById(R.id.btnSubmit);
 
-                btnSubmit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (validateReview()) {
-                            submitReview();
-                            reviewDialog.dismiss();
-                        }
+            btnSubmit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (validateReview()) {
+                        submitReview();
+                        reviewDialog.dismiss();
                     }
-                });
+                }
+            });
 
-                btnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        reviewDialog.cancel();
-                    }
-                });
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    reviewDialog.cancel();
+                }
+            });
 
-                reviewDialog.show();
-            }
+            reviewDialog.show();
         });
 
     }
@@ -194,6 +214,13 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                     JSONObject timeObject = sessionObject.getJSONObject("time");
                     JSONArray assessments = sessionObject.getJSONArray("assessments");
 
+                    if (sessionObject.getString("status").equals("Done")) {
+                        btnAddAssessment.setVisibility(View.GONE);
+                        btnSessionDone.setVisibility(View.GONE);
+                        btnReviewTutor.setVisibility(View.GONE);
+                    }
+
+
                     JSONObject availabilityObject = object.getJSONObject("availability");
                     JSONArray days = availabilityObject.getJSONArray("days");
                     JSONArray time = availabilityObject.getJSONArray("time");
@@ -210,6 +237,8 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                     txtSubjectName.setText(subjectObject.getString("name"));
                     txtTime.setText(timeObject.getString("min") + " - " + timeObject.getString("max"));
                     txtDescription.setText(sessionObject.getString("description"));
+                    txtTutor.setText(tutorObject.getString("firstname") + " " + tutorObject.getString("lastname"));
+                    txtTutee.setText(tuteeObject.getString("firstname") + " " + tuteeObject.getString("lastname"));
 
                     for (int i = 0; i < assessments.length(); i++) {
                         JSONObject assessmentObject = assessments.getJSONObject(i);
@@ -288,6 +317,39 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
             }
         };
 
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
+    private void doneSession() {
+        StringRequest request = new StringRequest(Request.Method.PUT, Constant.DONE_SESSION + "/" + sessionID, response -> {
+
+            try {
+                JSONObject object = new JSONObject(response);
+
+                if (object.getBoolean("success")) {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    StyleableToast.makeText(getContext(), "Session Done", R.style.CustomToast).show();
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                StyleableToast.makeText(getContext(), "There was a problem completing the session", R.style.CustomToast).show();
+            }
+
+        }, error -> {
+            error.printStackTrace();
+            error.getMessage();
+            StyleableToast.makeText(getContext(), "There was a problem completing the session", R.style.CustomToast).show();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+        };
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
     }

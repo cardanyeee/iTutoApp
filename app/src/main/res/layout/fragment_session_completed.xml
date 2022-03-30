@@ -37,14 +37,15 @@
             android:id="@+id/imgPlaceholder"
             android:layout_width="300dp"
             android:layout_height="225dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:src="@drawable/ic_undraw_relaxing_at_home_re_mror" />
+            android:src="@drawable/ic_undraw_studying" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
-            android:text="No scheduled sessions"
+            android:text="No completed sessions"
             android:textColor="@color/colorTextColor"
             android:textSize="25sp" />
 
@@ -54,7 +55,7 @@
             android:layout_marginHorizontal="40dp"
             android:fontFamily="@font/roboto_medium"
             android:gravity="center"
-            android:text="Take a break! Give your mind and body some time to rest."
+            android:text="You have not yet completed any sessions."
             android:textColor="@color/colorHint"
             android:textSize="14sp" />
 

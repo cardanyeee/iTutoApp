@@ -131,8 +131,10 @@
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_availability_profile.xml" value="0.36666666666666664" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_btn_left.xml" value="0.36666666666666664" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_decline_dialog.xml" value="0.3009833262077811" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_dialog_accept.xml" value="0.3087719298245614" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_dialog_add_question.xml" value="0.5" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_dialog_cancel.xml" value="0.3087719298245614" />
+        <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_dialog_done.xml" value="0.3087719298245614" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_dialog_finish.xml" value="0.3087719298245614" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_dialog_image.xml" value="0.3087719298245614" />
         <entry key="..\:/iTutoApp/app/src/main/res/layout/layout_dialog_logout.xml" value="0.3087719298245614" />

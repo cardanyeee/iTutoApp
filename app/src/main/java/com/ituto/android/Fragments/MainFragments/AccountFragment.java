@@ -26,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.card.MaterialCardView;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
 import com.ituto.android.Fragments.UpdateProfileFragment;
@@ -45,13 +46,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 @SuppressWarnings("ALL")
 public class AccountFragment extends Fragment {
     private View view;
+    private MaterialCardView crdAboutMe, crdUpdateSubjects, crdUpdateAvailability;
     private TextView txtName, txtBirthdate, txtEmail, txtUsername, txtPhone, txtGender, txtCourse;
     private ImageView imgUpdateProfile;
     private Button btnLogOut;
     private SharedPreferences sharedPreferences;
     private Dialog dialog;
     private CircleImageView imgUserInfo;
-
+    private String loggedInAs;
 
     @Nullable
     @Override
@@ -65,7 +67,11 @@ public class AccountFragment extends Fragment {
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.VISIBLE);
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        loggedInAs = sharedPreferences.getString("loggedInAs", "");
         btnLogOut = view.findViewById(R.id.btnLogOut);
+        crdAboutMe = view.findViewById(R.id.crdAboutMe);
+        crdUpdateSubjects = view.findViewById(R.id.crdUpdateSubjects);
+        crdUpdateAvailability = view.findViewById(R.id.crdUpdateAvailability);
         txtName = view.findViewById(R.id.txtName);
         imgUpdateProfile = view.findViewById(R.id.imgUpdateProfile);
         txtBirthdate = view.findViewById(R.id.txtBirthdate);
@@ -75,6 +81,12 @@ public class AccountFragment extends Fragment {
         txtGender = view.findViewById(R.id.txtGender);
         txtCourse = view.findViewById(R.id.txtCourse);
         imgUserInfo = view.findViewById(R.id.imgUserInfo);
+
+        if (loggedInAs.equals("TUTOR")) {
+            crdAboutMe.setVisibility(View.VISIBLE);
+            crdUpdateAvailability.setVisibility(View.VISIBLE);
+            crdUpdateSubjects.setVisibility(View.VISIBLE);
+        }
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;

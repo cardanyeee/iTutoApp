@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 public class AnswerAssessmentFragment extends Fragment {
 
     private View view;

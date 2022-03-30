@@ -51,7 +51,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-
+@SuppressWarnings("ALL")
 public class RequestScheduleFragment extends Fragment {
 
     private View view;

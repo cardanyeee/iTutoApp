@@ -23,6 +23,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.ituto.android.R;
 
+@SuppressWarnings("ALL")
 public class MainAuthFragment extends Fragment {
     private View view;
     private TextView txtSignIn;

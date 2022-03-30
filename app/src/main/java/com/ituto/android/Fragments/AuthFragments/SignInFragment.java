@@ -50,6 +50,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 public class SignInFragment extends Fragment {
     private View view;
     private TextInputLayout layoutEmail, layoutPassword;

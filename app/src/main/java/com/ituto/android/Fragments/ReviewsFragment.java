@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 public class ReviewsFragment extends Fragment {
 
     private View view;

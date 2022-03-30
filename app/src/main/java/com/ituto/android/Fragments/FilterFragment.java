@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+@SuppressWarnings("ALL")
 public class FilterFragment extends Fragment {
 
     private View view;

@@ -53,6 +53,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+@SuppressWarnings("ALL")
 public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.OnItemListener {
 
     private View view;

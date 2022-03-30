@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@SuppressWarnings("ALL")
 public class SessionCompletedFragment extends Fragment implements SessionsAdapter.OnItemListener {
 
     private View view;

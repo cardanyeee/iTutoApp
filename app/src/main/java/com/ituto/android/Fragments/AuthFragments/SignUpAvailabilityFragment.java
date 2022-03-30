@@ -98,7 +98,6 @@ public class SignUpAvailabilityFragment extends Fragment {
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(date);
                     TimePickerDialog timePickerDialog;
-                    Log.d("terteert", String.valueOf(cal.get(Calendar.HOUR_OF_DAY) + cal.get(Calendar.MINUTE)));
                     timePickerDialog = TimePickerDialog.newInstance(onTimeSetListener, 11, 55, false);
                     timePickerDialog.setMinTime(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), 0);
                     timePickerDialog.setMaxTime(11, 55, 0);

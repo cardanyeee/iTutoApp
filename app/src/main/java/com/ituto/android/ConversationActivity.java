@@ -558,91 +558,110 @@ public class ConversationActivity extends AppCompatActivity {
             txtEnterMessage.setText("");
 
             try {
+                long fileSizeInMB = 0;
                 MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
                 if (!(strings[0] == null)) {
                     File file1 = new File(strings[0]);
+                    // Get length of file in bytes
+                    long fileSizeInBytes = file1.length();
+                    // Convert the bytes to Kilobytes (1 KB = 1024 Bytes)
+                    long fileSizeInKB = fileSizeInBytes / 1024;
+                    //  Convert the KB to MegaBytes (1 MB = 1024 KBytes)
+                    fileSizeInMB = fileSizeInKB / 1024;
+
                     body.addFormDataPart("attachment", file1.getName(), RequestBody.create(MediaType.parse("*/*"), file1));
                     strings[0] = null;
                 }
 
-                body.addFormDataPart("content", message)
-                        .addFormDataPart("conversationID", conversationID);
 
-                RequestBody requestBody = body.build();
+                if (fileSizeInMB < 25) {
+                    body.addFormDataPart("content", message)
+                            .addFormDataPart("conversationID", conversationID);
 
-                String token = sharedPreferences.getString("token", "");
-                okhttp3.Request request = new okhttp3.Request.Builder()
-                        .url(Constant.SEND_MESSAGE)
-                        .addHeader("Authorization", "Bearer " + token)
-                        .post(requestBody)
-                        .build();
+                    RequestBody requestBody = body.build();
 
-                OkHttpClient okHttpClient = new OkHttpClient();
+                    String token = sharedPreferences.getString("token", "");
+                    okhttp3.Request request = new okhttp3.Request.Builder()
+                            .url(Constant.SEND_MESSAGE)
+                            .addHeader("Authorization", "Bearer " + token)
+                            .post(requestBody)
+                            .build();
 
-                Response response = okHttpClient.newCall(request).execute();
-                if (response != null && response.isSuccessful()) {
-                    String responseData = response.body().string();
-                    runOnUiThread(() -> {
-                        try {
-                            JSONObject object = new JSONObject(responseData);
-                            if (object.getBoolean("success")) {
-                                JSONObject options = new JSONObject();
-                                options.put("firstname", sharedPreferences.getString("firstname", ""));
-                                options.put("lastname", sharedPreferences.getString("lastname", ""));
-                                socket.emit("new message", responseData, options);
+                    OkHttpClient okHttpClient = new OkHttpClient();
 
-                                JSONObject messageObject = object.getJSONObject("message");
-                                JSONObject senderObject = messageObject.getJSONObject("sender");
-                                JSONObject conversationObject = messageObject.getJSONObject("conversationID");
+                    Response response = okHttpClient.newCall(request).execute();
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        runOnUiThread(() -> {
+                            try {
+                                JSONObject object = new JSONObject(responseData);
+                                if (object.getBoolean("success")) {
+                                    JSONObject options = new JSONObject();
+                                    options.put("firstname", sharedPreferences.getString("firstname", ""));
+                                    options.put("lastname", sharedPreferences.getString("lastname", ""));
+                                    socket.emit("new message", responseData, options);
 
-                                Message newMessage = new Message();
-                                User sender = new User();
-                                Conversation conversation = new Conversation();
-                                JSONObject avatar = senderObject.getJSONObject("avatar");
+                                    JSONObject messageObject = object.getJSONObject("message");
+                                    JSONObject senderObject = messageObject.getJSONObject("sender");
+                                    JSONObject conversationObject = messageObject.getJSONObject("conversationID");
 
-                                sender.setUserID(senderObject.getString("_id"));
-                                sender.setFirstname(senderObject.getString("firstname"));
-                                sender.setAvatar(avatar.getString("url"));
+                                    Message newMessage = new Message();
+                                    User sender = new User();
+                                    Conversation conversation = new Conversation();
+                                    JSONObject avatar = senderObject.getJSONObject("avatar");
 
-                                JSONArray userArray = conversationObject.getJSONArray("users");
-                                conversation.setConversationID(conversationObject.getString("_id"));
-                                conversation.setConversationName(conversationObject.getString("conversationName"));
-                                ArrayList<String> userIDArrayList = new ArrayList<String>();
-                                for (int a = 0; a < userArray.length(); a++) {
-                                    String userID = userArray.getString(a);
-                                    userIDArrayList.add(userID);
+                                    sender.setUserID(senderObject.getString("_id"));
+                                    sender.setFirstname(senderObject.getString("firstname"));
+                                    sender.setAvatar(avatar.getString("url"));
+
+                                    JSONArray userArray = conversationObject.getJSONArray("users");
+                                    conversation.setConversationID(conversationObject.getString("_id"));
+                                    conversation.setConversationName(conversationObject.getString("conversationName"));
+                                    ArrayList<String> userIDArrayList = new ArrayList<String>();
+                                    for (int a = 0; a < userArray.length(); a++) {
+                                        String userID = userArray.getString(a);
+                                        userIDArrayList.add(userID);
+                                    }
+                                    conversation.setUserIDArrayList(userIDArrayList);
+
+                                    newMessage.setUser(sender);
+                                    newMessage.setContent(messageObject.getString("content"));
+                                    newMessage.setConversation(conversation);
+                                    if (messageObject.has("attachment")) {
+                                        newMessage.setFilename(messageObject.getString("attachment"));
+                                        newMessage.setAttachment(messageObject.getString("attachment"));
+                                        newMessage.setDownloadLink(messageObject.getString("attachment"));
+                                    } else {
+                                        newMessage.setFilename("");
+                                        newMessage.setAttachment(" ");
+                                        newMessage.setDownloadLink(" ");
+                                    }
+
+                                    messageArrayList.add(0, newMessage);
+
+                                    recyclerConversation.getAdapter().notifyDataSetChanged();
+                                    recyclerConversation.getAdapter().notifyItemInserted(0);
+
+                                    recyclerConversation.smoothScrollToPosition(0);
                                 }
-                                conversation.setUserIDArrayList(userIDArrayList);
-
-                                newMessage.setUser(sender);
-                                newMessage.setContent(messageObject.getString("content"));
-                                newMessage.setConversation(conversation);
-                                if (messageObject.has("attachment")) {
-                                    newMessage.setFilename(messageObject.getString("attachment"));
-                                    newMessage.setAttachment(messageObject.getString("attachment"));
-                                    newMessage.setDownloadLink(messageObject.getString("attachment"));
-                                } else {
-                                    newMessage.setFilename("");
-                                    newMessage.setAttachment(" ");
-                                    newMessage.setDownloadLink(" ");
-                                }
-
-                                messageArrayList.add(0, newMessage);
-
-                                recyclerConversation.getAdapter().notifyDataSetChanged();
-                                recyclerConversation.getAdapter().notifyItemInserted(0);
-
-                                recyclerConversation.smoothScrollToPosition(0);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        });
+                        return "Success";
+                    } else {
+                        return null;
+                    }
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            StyleableToast.makeText(getApplicationContext(), "You are trying to send a file that exceeds 25mb. Unable to send file.", R.style.CustomToast).show();
                         }
                     });
-                    return "Success";
-                } else {
-                    return null;
                 }
+
 
             } catch (Exception e) {
                 e.printStackTrace();

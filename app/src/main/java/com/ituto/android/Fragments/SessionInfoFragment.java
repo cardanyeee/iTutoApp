@@ -17,6 +17,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -51,15 +52,15 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.OnItemListener{
-    
+public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.OnItemListener {
+
     private View view;
     private ImageView imgBackButton;
     private MaterialCardView crdTutee, crdDescription;
     private TextView txtSubjectName, txtTime, txtName, txtCourse, txtYearLevel, txtDescription;
     private RecyclerView recyclerAssessments;
-    private FloatingActionButton btnAddAssessment;
-    private MaterialButton btnReviewTutor;
+    private ImageButton btnAddAssessment;
+    private MaterialButton btnReviewTutor, btnSessionDone;
     private Dialog dialog;
 
     private AssessmentsAdapter assessmentsAdapter;
@@ -73,7 +74,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
     private MaterialButton btnSubmit;
 
     private String sessionID, tuteeID, tutorID, subjectID;
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_session_info, container, false);
@@ -94,10 +95,15 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         recyclerAssessments.setLayoutManager(new LinearLayoutManager(getContext()));
         btnAddAssessment = view.findViewById(R.id.btnAddAssessment);
         imgBackButton = view.findViewById(R.id.imgBackButton);
+        btnSessionDone = view.findViewById(R.id.btnSessionDone);
         btnReviewTutor = view.findViewById(R.id.btnReviewTutor);
 
         if (sharedPreferences.getString("loggedInAs", "").equals("TUTOR")) {
             btnReviewTutor.setVisibility(View.GONE);
+            btnSessionDone.setVisibility(View.VISIBLE);
+        } else {
+            btnReviewTutor.setVisibility(View.VISIBLE);
+            btnSessionDone.setVisibility(View.GONE);
         }
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
@@ -142,7 +148,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                 reviewDialog.getWindow().getAttributes().windowAnimations = R.style.AddQuestionDialogAnimation;
                 DisplayMetrics metrics = getResources().getDisplayMetrics();
                 int width = metrics.widthPixels;
-                reviewDialog.getWindow().setLayout((6 * width)/7, reviewDialog.getWindow().getAttributes().height);
+                reviewDialog.getWindow().setLayout((6 * width) / 7, reviewDialog.getWindow().getAttributes().height);
 
                 rtbTutorRating = reviewDialog.findViewById(R.id.rtbTutorRating);
                 txtComment = reviewDialog.findViewById(R.id.txtComment);

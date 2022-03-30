@@ -27,7 +27,7 @@ import com.ituto.android.R;
 
 import java.util.ArrayList;
 
-public class SessionsRequestAdapter extends RecyclerView.Adapter<SessionsRequestAdapter.RequestSessionHolder>  {
+public class SessionsRequestAdapter extends RecyclerView.Adapter<SessionsRequestAdapter.RequestSessionHolder> {
 
     private Context context;
     private OnItemListener onItemListener;
@@ -59,20 +59,42 @@ public class SessionsRequestAdapter extends RecyclerView.Adapter<SessionsRequest
         Tutor tutor = session.getTutor();
         User user = session.getTutee();
         Subject subject = session.getSubject();
-        Glide.with(context).load(user.getAvatar()).override(500, 500).placeholder(R.drawable.blank_avatar).into(holder.imgTutee);
-        String name = user.getFirstname() + " " + user.getLastname();
-        String s1 = " has sent you a request on tutoring the subject ";
         String subjectName = subject.getName();
 
-        SpannableString request =  new SpannableString(name + s1 + subjectName);
-        request.setSpan(new StyleSpan(Typeface.BOLD), 0,name.length(), 0);
-        request.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorSecondary)), 0,name.length(), 0);
+        if (loggedInAs.equals("TUTOR")) {
+            String name = user.getFirstname() + " " + user.getLastname();
+            String s1 = " has sent you a request on tutoring the subject ";
+            Glide.with(context).load(user.getAvatar()).override(500, 500).placeholder(R.drawable.blank_avatar).into(holder.imgTutee);
+            SpannableString request = new SpannableString(name + s1 + subjectName);
+            request.setSpan(new StyleSpan(Typeface.BOLD), 0, name.length(), 0);
+            request.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorSecondary)), 0, name.length(), 0);
 
-        request.setSpan(new StyleSpan(Typeface.NORMAL), name.length(), name.length() + s1.length(), 0);
+            request.setSpan(new StyleSpan(Typeface.NORMAL), name.length(), name.length() + s1.length(), 0);
 
-        request.setSpan(new StyleSpan(Typeface.BOLD), name.length() + s1.length(), name.length() + s1.length() + subjectName.length(), 0);
-        request.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorSecondary)), name.length() + s1.length(), name.length() + s1.length() + subjectName.length(), 0);
-        holder.txtRequest.setText(request);
+            request.setSpan(new StyleSpan(Typeface.BOLD), name.length() + s1.length(), name.length() + s1.length() + subjectName.length(), 0);
+            request.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorSecondary)), name.length() + s1.length(), name.length() + s1.length() + subjectName.length(), 0);
+            holder.txtRequest.setText(request);
+        } else {
+            String name = tutor.getFirstname() + " " + tutor.getLastname();
+            String s1 = "You have a sent a request to ";
+            String s2 = " on tutoring ";
+            Glide.with(context).load(tutor.getAvatar()).override(500, 500).placeholder(R.drawable.blank_avatar).into(holder.imgTutee);
+
+            SpannableString request = new SpannableString(s1 + name + s2 + subjectName);
+
+            request.setSpan(new StyleSpan(Typeface.NORMAL), 0, s1.length(), 0);
+
+            request.setSpan(new StyleSpan(Typeface.BOLD), s1.length(), name.length() + s1.length(), 0);
+            request.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorSecondary)), s1.length(), name.length() + s1.length(), 0);
+
+            request.setSpan(new StyleSpan(Typeface.NORMAL), name.length() + s1.length(), name.length() + s1.length() + s2.length(), 0);
+
+            request.setSpan(new StyleSpan(Typeface.BOLD), name.length() + s1.length() + s2.length(), name.length() + s1.length() + s2.length() + subjectName.length(), 0);
+            request.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorSecondary)), name.length() + s1.length() + s2.length(), name.length() + s1.length() + s2.length() + subjectName.length(), 0);
+
+            holder.txtRequest.setText(request);
+        }
+
 //
 //        int flag = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 //        SpannableString name = new SpannableString(user.getFirstname() + " " + user.getLastname());
@@ -86,7 +108,7 @@ public class SessionsRequestAdapter extends RecyclerView.Adapter<SessionsRequest
 
     }
 
-    class RequestSessionHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
+    class RequestSessionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         OnItemListener onItemListener;
         private TextView txtRequest;

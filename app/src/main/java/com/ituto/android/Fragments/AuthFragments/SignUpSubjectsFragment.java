@@ -86,13 +86,12 @@ public class SignUpSubjectsFragment extends Fragment {
             courseID = courseArrayList.get(stringCourseArrayList.indexOf(selected)).getId();
             SUBJECT_COURSES = Constant.SUBJECT_COURSES + "/" + courseID;
             getSubjects();
-            txtSubject.setEnabled(true);
         });
 
         txtSubject.setOnItemClickListener((parent, view, position, id) -> {
             String selected = (String) parent.getItemAtPosition(position);
             subjectID = subjectArrayList.get(stringSubjectArrayList.indexOf(selected)).getId();
-            StyleableToast.makeText(getContext(), String.valueOf(subjectID), R.style.CustomToast).show();
+//            StyleableToast.makeText(getContext(), String.valueOf(subjectID), R.style.CustomToast).show();
         });
 
         btnAddSubject.setOnClickListener(v -> {
@@ -220,7 +219,7 @@ public class SignUpSubjectsFragment extends Fragment {
                         }
 
                     }
-
+                    txtSubject.setEnabled(true);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -5,19 +5,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,16 +23,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ituto.android.Adapters.SessionsRequestAdapter;
 import com.ituto.android.Constant;
-import com.ituto.android.Models.Session;
-import com.ituto.android.Models.Subject;
 import com.ituto.android.R;
 import com.muddzdev.styleabletoast.StyleableToast;
-import com.squareup.picasso.Picasso;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.json.JSONArray;
@@ -64,6 +57,7 @@ public class SessionRequestInfo extends Fragment {
     private TextView txtName, txtCourse, txtStartDate, txtDescription, txtSubject;
     private Chip chpMorning, chpAfternoon, chpEvening;
     private Button btnAcceptSchedule, btnDeclineSchedule;
+    private MaterialButton btnCancelRequest;
 
     private DatePickerDialog datePickerDialog;
     private String sessionID;
@@ -79,12 +73,17 @@ public class SessionRequestInfo extends Fragment {
     }
 
     private void init() {
-        dialog = new ProgressDialog(getContext());
+        dialog = new Dialog(getContext(), R.style.DialogTheme);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
+        dialog.setContentView(R.layout.layout_dialog_progress);
         dialog.setCancelable(false);
+        dialog.show();
+
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.GONE);
         sessionID = getArguments().getString("_id");
+        loggedInAs = sharedPreferences.getString("loggedInAs", "");
 
         imgBackButton = view.findViewById(R.id.imgBackButton);
         imgUser = view.findViewById(R.id.imgUser);
@@ -95,50 +94,77 @@ public class SessionRequestInfo extends Fragment {
         txtStartDate = view.findViewById(R.id.txtStartDate);
         btnDeclineSchedule = view.findViewById(R.id.btnDeclineSchedule);
         btnAcceptSchedule = view.findViewById(R.id.btnAcceptSchedule);
+        btnCancelRequest = view.findViewById(R.id.btnCancelRequest);
+
+        if (loggedInAs.equals("TUTOR")) {
+            btnAcceptSchedule.setVisibility(View.VISIBLE);
+            btnDeclineSchedule.setVisibility(View.VISIBLE);
+            btnCancelRequest.setVisibility(View.GONE);
+
+            btnDeclineSchedule.setOnClickListener(view -> {
+                Dialog declinedDialog = new Dialog(getContext());
+                declinedDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                declinedDialog.setContentView(R.layout.layout_dialog_decline);
+
+                Button btnYes = declinedDialog.findViewById(R.id.btnYes);
+                Button btnNo = declinedDialog.findViewById(R.id.btnNo);
+
+                declinedDialog.show();
+
+                btnYes.setOnClickListener(v -> {
+                    declinedDialog.dismiss();
+                    declineSession();
+                });
+
+                btnNo.setOnClickListener(v -> declinedDialog.cancel());
+            });
+
+            btnAcceptSchedule.setOnClickListener(view -> {
+                Dialog acceptDialog = new Dialog(getContext());
+                acceptDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                acceptDialog.setContentView(R.layout.layout_dialog_accept);
+
+                Button btnYes = acceptDialog.findViewById(R.id.btnYes);
+                Button btnNo = acceptDialog.findViewById(R.id.btnNo);
+
+                acceptDialog.show();
+
+                btnYes.setOnClickListener(v -> {
+                    acceptDialog.dismiss();
+                    acceptSession();
+                });
+
+                btnNo.setOnClickListener(v -> acceptDialog.cancel());
+            });
+        } else {
+            btnAcceptSchedule.setVisibility(View.GONE);
+            btnDeclineSchedule.setVisibility(View.GONE);
+            btnCancelRequest.setVisibility(View.VISIBLE);
+
+            btnCancelRequest.setOnClickListener(view -> {
+                Dialog cancelDialog = new Dialog(getContext());
+                cancelDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                cancelDialog.setContentView(R.layout.layout_dialog_cancel);
+
+                Button btnYes = cancelDialog.findViewById(R.id.btnYes);
+                Button btnNo = cancelDialog.findViewById(R.id.btnNo);
+
+                cancelDialog.show();
+
+                btnYes.setOnClickListener(v -> {
+                    cancelDialog.dismiss();
+                    cancelSession();
+                });
+
+                btnNo.setOnClickListener(v -> cancelDialog.cancel());
+            });
+        }
 
         chpMorning = view.findViewById(R.id.chpMorning);
         chpAfternoon = view.findViewById(R.id.chpAfternoon);
         chpEvening = view.findViewById(R.id.chpEvening);
 
-        StyleableToast.makeText(getContext(), sessionID, R.style.CustomToast).show();
-
         imgBackButton.setOnClickListener(view -> getActivity().getSupportFragmentManager().popBackStack());
-
-        btnDeclineSchedule.setOnClickListener(view -> {
-            Dialog declinedDialog = new Dialog(getContext());
-            declinedDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            declinedDialog.setContentView(R.layout.layout_decline_dialog);
-
-            Button btnYes = declinedDialog.findViewById(R.id.btnYes);
-            Button btnNo = declinedDialog.findViewById(R.id.btnNo);
-
-            declinedDialog.show();
-
-            btnYes.setOnClickListener(v -> {
-                declinedDialog.dismiss();
-                declineSession();
-            });
-
-            btnNo.setOnClickListener(v -> declinedDialog.cancel());
-        });
-
-        btnAcceptSchedule.setOnClickListener(view -> {
-            Dialog acceptDialog = new Dialog(getContext());
-            acceptDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            acceptDialog.setContentView(R.layout.layout_accept_dialog);
-
-            Button btnYes = acceptDialog.findViewById(R.id.btnYes);
-            Button btnNo = acceptDialog.findViewById(R.id.btnNo);
-
-            acceptDialog.show();
-
-            btnYes.setOnClickListener(v -> {
-                acceptDialog.dismiss();
-                acceptSession();
-            });
-
-            btnNo.setOnClickListener(v -> acceptDialog.cancel());
-        });
 
         getSession();
     }
@@ -154,7 +180,9 @@ public class SessionRequestInfo extends Fragment {
                     JSONObject tutorObject = sessionObject.getJSONObject("tutor");
                     JSONObject tuteeObject = sessionObject.getJSONObject("tutee");
                     JSONObject courseObject = tuteeObject.getJSONObject("course");
+                    JSONObject courseTutorObject = tutorObject.getJSONObject("course");
                     JSONObject avatarObject = tuteeObject.getJSONObject("avatar");
+                    JSONObject avatarTutorObject = tutorObject.getJSONObject("avatar");
                     JSONObject subjectObject = sessionObject.getJSONObject("subject");
                     JSONObject timeObject = sessionObject.getJSONObject("time");
 
@@ -203,9 +231,20 @@ public class SessionRequestInfo extends Fragment {
                     String outputPattern = "yyyy-MM-dd";
                     SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
 
-                    Picasso.get().load(avatarObject.getString("url")).resize(500, 0).into(imgUser);
-                    txtName.setText(tuteeObject.getString("firstname") + " " + tuteeObject.getString("lastname"));
-                    txtCourse.setText(courseObject.getString("name"));
+                    if (loggedInAs.equals("TUTOR")) {
+                        Glide.with(getContext()).load(avatarObject.getString("url")).override(500, 500).placeholder(R.drawable.blank_avatar).into(imgUser);
+                        txtName.setText(tuteeObject.getString("firstname") + " " + tuteeObject.getString("lastname"));
+                        txtCourse.setText(courseObject.getString("name"));
+                    } else {
+                        Glide.with(getContext()).load(avatarTutorObject.getString("url")).override(500, 500).placeholder(R.drawable.blank_avatar).into(imgUser);
+                        txtName.setText(tutorObject.getString("firstname") + " " + tutorObject.getString("lastname"));
+                        txtCourse.setText(courseTutorObject.getString("name"));
+                        txtStartDate.setClickable(false);
+                        chpMorning.setClickable(false);
+                        chpAfternoon.setClickable(false);
+                        chpEvening.setClickable(false);
+                    }
+
                     txtStartDate.setText(outputFormat.format(date));
                     txtDescription.setText(sessionObject.getString("description"));
                     txtSubject.setText(subjectObject.getString("name"));
@@ -251,13 +290,13 @@ public class SessionRequestInfo extends Fragment {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                StyleableToast.makeText(getContext(), "There was a problem declining session", R.style.CustomToast).show();
+                StyleableToast.makeText(getContext(), "There was a problem declining the session", R.style.CustomToast).show();
             }
 
         }, error -> {
             error.printStackTrace();
             error.getMessage();
-            StyleableToast.makeText(getContext(), "There was a problem declining session", R.style.CustomToast).show();
+            StyleableToast.makeText(getContext(), "There was a problem declining the session", R.style.CustomToast).show();
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -284,13 +323,13 @@ public class SessionRequestInfo extends Fragment {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                StyleableToast.makeText(getContext(), "There was a problem declining session", R.style.CustomToast).show();
+                StyleableToast.makeText(getContext(), "There was a problem accepting the session", R.style.CustomToast).show();
             }
 
         }, error -> {
             error.printStackTrace();
             error.getMessage();
-            StyleableToast.makeText(getContext(), "There was a problem declining session", R.style.CustomToast).show();
+            StyleableToast.makeText(getContext(), "There was a problem accepting the session", R.style.CustomToast).show();
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -306,6 +345,39 @@ public class SessionRequestInfo extends Fragment {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("startDate", txtStartDate.getText().toString().trim());
                 map.put("time", checkWhatTime().toString());
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
+    private void cancelSession() {
+        StringRequest request = new StringRequest(Request.Method.PUT, Constant.CANCEL_SESSION + "/" + sessionID, response -> {
+
+            try {
+                JSONObject object = new JSONObject(response);
+
+                if (object.getBoolean("success")) {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    StyleableToast.makeText(getContext(), "Session Cancelled", R.style.CustomToast).show();
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                StyleableToast.makeText(getContext(), "There was a problem canceling the session", R.style.CustomToast).show();
+            }
+
+        }, error -> {
+            error.printStackTrace();
+            error.getMessage();
+            StyleableToast.makeText(getContext(), "There was a problem canceling the session", R.style.CustomToast).show();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
                 return map;
             }
         };
@@ -353,12 +425,15 @@ public class SessionRequestInfo extends Fragment {
         datePickerDialog.setMinDate(minDate);
         datePickerDialog.setMaxDate(maxDate);
 
-        txtStartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                datePickerDialog.show(getChildFragmentManager(), "");
-            }
-        });
+        if (loggedInAs.equals("TUTOR")) {
+            txtStartDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    datePickerDialog.show(getChildFragmentManager(), "");
+                }
+            });
+        }
+
 //        calendarTutorSchedule.setDisabledDays(disabledDays);
     }
 

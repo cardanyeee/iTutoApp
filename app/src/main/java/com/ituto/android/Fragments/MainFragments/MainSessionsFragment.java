@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.tabs.TabLayout;
+import com.ituto.android.Fragments.SessionCompletedFragment;
 import com.ituto.android.Fragments.SessionRequestsFragment;
 import com.ituto.android.Fragments.SessionsFragment;
 import com.ituto.android.R;
@@ -34,6 +35,7 @@ public class MainSessionsFragment extends Fragment {
 
     private SessionsFragment sessionsFragment;
     private SessionRequestsFragment sessionRequestsFragment;
+    private SessionCompletedFragment sessionCompletedFragment;
     private String loggedInAs;
 
     @Override
@@ -54,16 +56,17 @@ public class MainSessionsFragment extends Fragment {
 
         sessionsFragment = new SessionsFragment();
         sessionRequestsFragment = new SessionRequestsFragment();
+        sessionCompletedFragment = new SessionCompletedFragment();
 
         tabLayout.setupWithViewPager(viewPager);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPagerAdapter.addFragment(sessionsFragment, "Sessions");
-        if (loggedInAs.equals("TUTOR")) {
-            viewPagerAdapter.addFragment(sessionRequestsFragment, "Requests");
-        }
+        viewPagerAdapter.addFragment(sessionRequestsFragment, loggedInAs.equals("TUTOR") ? "Requests" : "Pending");
+        viewPagerAdapter.addFragment(sessionCompletedFragment, "Completed");
+
         viewPager.setAdapter(viewPagerAdapter);
-//
+
 //        tabLayout.getTabAt(0).setIcon(R.drawable.ic_baseline_explore_24);
 //        tabLayout.getTabAt(1).setIcon(R.drawable.ic_baseline_flight_24);
 //        tabLayout.getTabAt(2).setIcon(R.drawable.ic_baseline_card_travel_24);

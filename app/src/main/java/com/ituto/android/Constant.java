@@ -14,7 +14,6 @@ public class Constant {
     public static final String REGISTER = HOME + "/auth/register";
     public static final String USER_PROFILE = HOME + "/profile/me";
     public static final String UPDATE_PROFILE = HOME + "/profile/update";
-    public static final String SAVE_USER_INFO = HOME + "/save_user_info ";
     public static final String GOOGLE_LOGIN = HOME + "/auth/google/login";
 
     public static final String COURSES = HOME + "/courses";
@@ -30,6 +29,9 @@ public class Constant {
     public static final String REQUEST_SESSION = HOME + "/session/request";
     public static final String DECLINE_SESSION = HOME + "/session/decline";
     public static final String ACCEPT_SESSION = HOME + "/session/accept";
+    public static final String CANCEL_SESSION = HOME + "/session/cancel";
+    public static final String DONE_SESSION = HOME + "/session/done";
+
     public static final String TUTOR_SESSIONS = HOME + "/sessions/tutor";
     public static final String TUTEE_SESSIONS = HOME + "/sessions/tutee";
     public static final String SESSIONS = HOME + "/sessions";

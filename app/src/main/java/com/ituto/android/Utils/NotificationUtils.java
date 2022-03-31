@@ -32,9 +32,8 @@ public class NotificationUtils {
 
     private Context mContext;
 
-
     public static final String PUSH_NOTIFICATION = "pushNotification";
-    public static final int NOTIFICATION_ID = 100;
+    public static int NOTIFICATION_ID = 100;
 
     public NotificationUtils(Context mContext) {
         this.mContext = mContext;
@@ -112,7 +111,7 @@ public class NotificationUtils {
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(channel);
-        notificationManager.notify(NOTIFICATION_ID, notification);
+        notificationManager.notify(NOTIFICATION_ID += 1, notification);
         Log.d(TAG, "showSmallNotification: ");
     }
 

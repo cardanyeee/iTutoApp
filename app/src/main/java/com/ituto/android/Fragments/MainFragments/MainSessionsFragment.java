@@ -16,9 +16,9 @@ import android.view.ViewGroup;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.tabs.TabLayout;
-import com.ituto.android.Fragments.SessionCompletedFragment;
-import com.ituto.android.Fragments.SessionRequestsFragment;
-import com.ituto.android.Fragments.SessionsFragment;
+import com.ituto.android.Fragments.SessionFragments.SessionCompletedFragment;
+import com.ituto.android.Fragments.SessionFragments.SessionRequestsFragment;
+import com.ituto.android.Fragments.SessionFragments.SessionsFragment;
 import com.ituto.android.R;
 
 import java.util.ArrayList;

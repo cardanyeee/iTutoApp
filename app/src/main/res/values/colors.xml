@@ -19,7 +19,9 @@
     <color name="colorTextColor">#6F7174</color>
     <color name="colorBackground">#F3F7FD</color>
     <color name="colorError">#CF5A3A</color>
+    <color name="colorErrorTransparent">#50CF5A3A</color>
     <color name="colorPrimaryLight">#4FBD95</color>
+    <color name="colorPrimaryLightTransparent">#504FBD95</color>
     <color name="colorPrimary">#0A8B5C</color>
     <color name="colorSecondary">#2F4858</color>
     <color name="colorSecondaryLight">#3C5363</color>

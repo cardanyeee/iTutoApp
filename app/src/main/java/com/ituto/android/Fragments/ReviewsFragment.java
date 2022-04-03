@@ -13,18 +13,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.button.MaterialButton;
-import com.ituto.android.Adapters.AnswerQuestionsAdapter;
 import com.ituto.android.Adapters.ReviewsAdapter;
 import com.ituto.android.Constant;
-import com.ituto.android.Models.Question;
 import com.ituto.android.Models.Review;
 import com.ituto.android.R;
 
@@ -39,6 +38,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 @SuppressWarnings("ALL")
 public class ReviewsFragment extends Fragment {
 
@@ -50,6 +51,8 @@ public class ReviewsFragment extends Fragment {
     private ArrayList<Review> reviewArrayList;
     private ReviewsAdapter reviewsAdapter;
     private SharedPreferences sharedPreferences;
+    private CircleImageView imgTutorProfile;
+    private TextView txtName, txtCourse;
     private String tutorID;
 
     private Dialog dialog;
@@ -65,6 +68,9 @@ public class ReviewsFragment extends Fragment {
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.GONE);
+        imgTutorProfile = view.findViewById(R.id.imgTutorProfile);
+        txtName = view.findViewById(R.id.txtName);
+        txtCourse = view.findViewById(R.id.txtCourse);
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
@@ -73,6 +79,9 @@ public class ReviewsFragment extends Fragment {
         dialog.show();
 
         tutorID = getArguments().getString("_id");
+        Glide.with(getContext()).load(getArguments().getString("tutorProfile")).placeholder(R.drawable.blank_avatar).into(imgTutorProfile);
+        txtName.setText(getArguments().getString("tutorName"));
+        txtCourse.setText(getArguments().getString("tutorCourse"));
 
         imgBackButton = view.findViewById(R.id.imgBackButton);
         recyclerReviews = view.findViewById(R.id.recyclerReviews);

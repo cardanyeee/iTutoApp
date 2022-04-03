@@ -39,7 +39,6 @@ public class Constant {
     public static final String REVIEW_TUTOR = HOME + "/session/tutor/review";
 
     public static final String CREATE_ASSESSMENT  = HOME + "/assessment/create";
-    public static final String TUTOR_ASSESSMENTS = HOME + "/assessment/tutor";
     public static final String ALL_ASSESSMENTS = HOME + "/assessments";
     public static final String GET_ASSESSMENT = HOME + "/assessment";
     public static final String ANSWER_ASSESSMENT = HOME + "/assessment/answer";

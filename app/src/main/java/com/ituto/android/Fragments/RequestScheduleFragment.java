@@ -1,6 +1,7 @@
 package com.ituto.android.Fragments;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -32,6 +33,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ituto.android.Constant;
 import com.ituto.android.Fragments.MainFragments.HomeFragment;
+import com.ituto.android.Fragments.MainFragments.TutorsFragment;
 import com.ituto.android.Models.Subject;
 import com.ituto.android.Models.Tutor;
 import com.ituto.android.R;
@@ -69,6 +71,7 @@ public class RequestScheduleFragment extends Fragment {
     private String tutorID;
     private String subjectID;
     private String startDate;
+    private ProgressDialog progressDialog;
 
     private ArrayList<Subject> subjectArrayList;
     private ArrayList<String> stringSubjectArrayList;
@@ -117,6 +120,9 @@ public class RequestScheduleFragment extends Fragment {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setCancelable(false);
         dialog.show();
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setCancelable(false);
 
         tutorID = getArguments().getString("_id");
 
@@ -273,23 +279,29 @@ public class RequestScheduleFragment extends Fragment {
     }
 
     private void confirmSchedule() {
+        btnConfirmSchedule.setClickable(false);
+        progressDialog.setMessage("Creating Scedule");
+        progressDialog.show();
         StringRequest request = new StringRequest(Request.Method.POST, Constant.REQUEST_SESSION, response -> {
-
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
+                    progressDialog.dismiss();
+                    btnConfirmSchedule.setClickable(true);
                     getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                             R.anim.slide_in,  // enter
                             R.anim.fade_out,  // exit
                             R.anim.fade_in,   // popEnter
                             R.anim.slide_out  // popExit
-                    ).replace(R.id.fragment_container, new HomeFragment()).commit();
+                    ).replace(R.id.fragment_container, new TutorsFragment()).commit();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         }, error -> {
+            progressDialog.dismiss();
+            btnConfirmSchedule.setClickable(true);
             StyleableToast.makeText(getContext(), "Unable to request schedule", R.style.CustomToast).show();
             error.printStackTrace();
         }) {

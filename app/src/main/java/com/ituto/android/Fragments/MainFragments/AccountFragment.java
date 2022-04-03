@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +27,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
 import com.ituto.android.Fragments.UpdateProfileFragment;
+import com.ituto.android.Fragments.UpdateTutorAvailabilityFragment;
+import com.ituto.android.Fragments.UpdateTutorSubjectsFragment;
 import com.ituto.android.R;
 
 import org.json.JSONException;
@@ -48,7 +52,7 @@ public class AccountFragment extends Fragment {
     private View view;
     private MaterialCardView crdAboutMe, crdUpdateSubjects, crdUpdateAvailability;
     private TextView txtName, txtBirthdate, txtEmail, txtUsername, txtPhone, txtGender, txtCourse;
-    private ImageView imgUpdateProfile;
+    private ImageView imgUpdateProfile, imgEditAboutMe;
     private Button btnLogOut;
     private SharedPreferences sharedPreferences;
     private Dialog dialog;
@@ -74,6 +78,7 @@ public class AccountFragment extends Fragment {
         crdUpdateAvailability = view.findViewById(R.id.crdUpdateAvailability);
         txtName = view.findViewById(R.id.txtName);
         imgUpdateProfile = view.findViewById(R.id.imgUpdateProfile);
+        imgEditAboutMe = view.findViewById(R.id.imgEditAboutMe);
         txtBirthdate = view.findViewById(R.id.txtBirthdate);
         txtEmail = view.findViewById(R.id.txtEmail);
         txtUsername = view.findViewById(R.id.txtUsername);
@@ -84,8 +89,78 @@ public class AccountFragment extends Fragment {
 
         if (loggedInAs.equals("TUTOR")) {
             crdAboutMe.setVisibility(View.VISIBLE);
-            crdUpdateAvailability.setVisibility(View.VISIBLE);
             crdUpdateSubjects.setVisibility(View.VISIBLE);
+            crdUpdateAvailability.setVisibility(View.VISIBLE);
+
+            imgEditAboutMe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Dialog reviewDialog = new Dialog(getContext());
+
+                    reviewDialog.setContentView(R.layout.layout_dialog_aboutme);
+                    reviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    reviewDialog.getWindow().getAttributes().windowAnimations = R.style.AddQuestionDialogAnimation;
+                    DisplayMetrics metrics = getResources().getDisplayMetrics();
+                    int width = metrics.widthPixels;
+                    reviewDialog.getWindow().setLayout((6 * width) / 7, reviewDialog.getWindow().getAttributes().height);
+
+                    MaterialButton btnSubmit, btnCancel;
+
+//                    rtbTutorRating = reviewDialog.findViewById(R.id.rtbTutorRating);
+//                    txtComment = reviewDialog.findViewById(R.id.txtComment);
+                    btnCancel = reviewDialog.findViewById(R.id.btnCancel);
+                    btnSubmit = reviewDialog.findViewById(R.id.btnSubmit);
+
+                    btnSubmit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            if (validateReview()) {
+//                                submitReview();
+//                                reviewDialog.dismiss();
+//                            }
+                        }
+                    });
+
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            reviewDialog.cancel();
+                        }
+                    });
+
+                    reviewDialog.show();
+                }
+            });
+
+            crdUpdateSubjects.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    UpdateTutorSubjectsFragment updateTutorSubjectsFragment = new UpdateTutorSubjectsFragment();
+                    updateTutorSubjectsFragment.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                            R.anim.slide_in,  // enter
+                            R.anim.fade_out,  // exit
+                            R.anim.slide_in,
+                            0// popExit
+                    ).replace(R.id.fragment_container, updateTutorSubjectsFragment).addToBackStack(null).commit();
+                }
+            });
+
+            crdUpdateAvailability.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    UpdateTutorAvailabilityFragment updateTutorAvailabilityFragment = new UpdateTutorAvailabilityFragment();
+                    updateTutorAvailabilityFragment.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                            R.anim.slide_in,  // enter
+                            R.anim.fade_out,  // exit
+                            R.anim.slide_in,
+                            0// popExit
+                    ).replace(R.id.fragment_container, updateTutorAvailabilityFragment).addToBackStack(null).commit();
+                }
+            });
         }
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);

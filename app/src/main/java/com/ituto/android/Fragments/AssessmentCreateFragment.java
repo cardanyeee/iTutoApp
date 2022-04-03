@@ -44,7 +44,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("ALL")
-public class CreateAssessmentFragment extends Fragment {
+public class AssessmentCreateFragment extends Fragment {
 
     private View view;
     private ExtendedFloatingActionButton btnAddQuestion;

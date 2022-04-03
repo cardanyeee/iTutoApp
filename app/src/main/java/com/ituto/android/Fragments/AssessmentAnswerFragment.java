@@ -29,7 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.button.MaterialButton;
-import com.ituto.android.Adapters.AnswerQuestionsAdapter;
+import com.ituto.android.Adapters.QuestionsAnswerAdapter;
 import com.ituto.android.Constant;
 import com.ituto.android.Models.Question;
 import com.ituto.android.R;
@@ -45,7 +45,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("ALL")
-public class AnswerAssessmentFragment extends Fragment {
+public class AssessmentAnswerFragment extends Fragment {
 
     private View view;
 
@@ -56,7 +56,7 @@ public class AnswerAssessmentFragment extends Fragment {
     private TextView txtAssessmentName, txtSubject;
 
     private ArrayList<Question> questionArrayList;
-    private AnswerQuestionsAdapter answerQuestionsAdapter;
+    private QuestionsAnswerAdapter questionsAnswerAdapter;
     private SharedPreferences sharedPreferences;
     private String assessmentID;
     private Dialog dialog;
@@ -87,7 +87,6 @@ public class AnswerAssessmentFragment extends Fragment {
         dialog.setCancelable(false);
         dialog.show();
 
-        StyleableToast.makeText(getContext(), assessmentID, R.style.CustomToast).show();
         recyclerQuestions = view.findViewById(R.id.recyclerQuestions);
         recyclerQuestions.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -147,8 +146,8 @@ public class AnswerAssessmentFragment extends Fragment {
                         questionArrayList.add(question);
                     }
 
-                    answerQuestionsAdapter = new AnswerQuestionsAdapter(getContext(), questionArrayList);
-                    recyclerQuestions.setAdapter(answerQuestionsAdapter);
+                    questionsAnswerAdapter = new QuestionsAnswerAdapter(getContext(), questionArrayList);
+                    recyclerQuestions.setAdapter(questionsAnswerAdapter);
                 }
 
                 dialog.dismiss();

@@ -1,4 +1,4 @@
-package com.ituto.android.Fragments;
+package com.ituto.android.Fragments.SessionFragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +19,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.applandeo.materialcalendarview.EventDay;
-import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ituto.android.Adapters.SessionsAdapter;
-import com.ituto.android.Adapters.TutorsAdapter;
 import com.ituto.android.Constant;
-import com.ituto.android.Fragments.SessionInfoFragment;
-import com.ituto.android.Fragments.TutorProfileFragment;
 import com.ituto.android.Models.Session;
 import com.ituto.android.Models.Subject;
 import com.ituto.android.Models.Tutor;
@@ -40,10 +33,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class SessionsFragment extends Fragment implements SessionsAdapter.OnItemListener {
+@SuppressWarnings("ALL")
+public class SessionCompletedFragment extends Fragment implements SessionsAdapter.OnItemListener {
 
     private View view;
     private SharedPreferences sharedPreferences;
@@ -55,9 +48,10 @@ public class SessionsFragment extends Fragment implements SessionsAdapter.OnItem
 
     private String loggedInAs;
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_sessions, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,   Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_session_completed, container, false);
         init();
         return view;
     }
@@ -73,17 +67,17 @@ public class SessionsFragment extends Fragment implements SessionsAdapter.OnItem
 
 //        btnAddSession = view.findViewById(R.id.btnAddSession);
 
-        swipeSession.setOnRefreshListener(() -> getSessions());
+        swipeSession.setOnRefreshListener(() -> getCompletedSessions());
 
-        getSessions();
+        getCompletedSessions();
     }
 
-    private void getSessions() {
+    private void getCompletedSessions() {
         sessionArrayList = new ArrayList<>();
 
         String sessionsLink = loggedInAs.equals("TUTOR") ? Constant.TUTOR_SESSIONS : Constant.TUTEE_SESSIONS;
 
-        StringRequest request = new StringRequest(Request.Method.GET, sessionsLink + "?status=Ongoing", response -> {
+        StringRequest request = new StringRequest(Request.Method.GET, sessionsLink + "?status=Done", response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
@@ -170,15 +164,15 @@ public class SessionsFragment extends Fragment implements SessionsAdapter.OnItem
     @Override
     public void onItemClick(int position) {
         Bundle bundle = new Bundle();
-        SessionInfoFragment sessionInfoFragment = new SessionInfoFragment();
+        SessionCompletedInfoFragment sessionCompletedInfoFragment = new SessionCompletedInfoFragment();
         Session session = sessionArrayList.get(position);
         bundle.putString("_id", session.getSessionID());
-        sessionInfoFragment.setArguments(bundle);
+        sessionCompletedInfoFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                 R.anim.slide_in,  // enter
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter
                 R.anim.slide_out  // popExit
-        ).replace(R.id.fragment_container, sessionInfoFragment).addToBackStack(null).commit();
+        ).replace(R.id.fragment_container, sessionCompletedInfoFragment).addToBackStack(null).commit();
     }
 }

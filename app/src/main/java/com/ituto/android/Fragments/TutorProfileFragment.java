@@ -52,7 +52,7 @@ public class TutorProfileFragment extends Fragment {
     private String tutorID;
 
     private SharedPreferences sharedPreferences;
-    private String loggedInAs;
+    private String loggedInAs, tutorProfile, tutorName, tutorCourse;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -134,12 +134,15 @@ public class TutorProfileFragment extends Fragment {
             ReviewsFragment reviewsFragment = new ReviewsFragment();
             reviewsFragment.setArguments(bundle);
             bundle.putString("_id", tutorID);
+            bundle.putString("tutorProfile", tutorProfile);
+            bundle.putString("tutorName", tutorName);
+            bundle.putString("tutorCourse", tutorCourse);
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                     R.anim.slide_in,  // enter
                     R.anim.fade_out,  // exit
                     R.anim.slide_in,
                     0// popExit
-            ).replace(R.id.fragment_container, reviewsFragment).commit();
+            ).replace(R.id.fragment_container, reviewsFragment).addToBackStack(null).commit();
         });
 
     }
@@ -161,6 +164,10 @@ public class TutorProfileFragment extends Fragment {
 
                     txtNumberOfStars.setText(tutorObject.getString("ratings"));
                     txtNumberOfReviews.setText(tutorObject.getString("numOfReviews"));
+
+                    tutorProfile = avatarObject.getString("url");
+                    tutorName = userObject.getString("firstname") + " " + userObject.getString("lastname");
+                    tutorCourse = courseObject.getString("name");
 
                     Picasso.get().load(avatarObject.getString("url")).placeholder(R.drawable.blank_avatar).into(imgUserProfile, new Callback() {
                         @Override

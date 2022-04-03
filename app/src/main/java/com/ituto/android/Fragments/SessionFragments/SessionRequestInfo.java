@@ -1,4 +1,4 @@
-package com.ituto.android.Fragments;
+package com.ituto.android.Fragments.SessionFragments;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;

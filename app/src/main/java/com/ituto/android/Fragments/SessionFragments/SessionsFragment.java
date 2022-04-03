@@ -1,4 +1,4 @@
-package com.ituto.android.Fragments;
+package com.ituto.android.Fragments.SessionFragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,16 +12,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ituto.android.Adapters.SessionsRequestAdapter;
+import com.ituto.android.Adapters.SessionsAdapter;
 import com.ituto.android.Constant;
-import com.ituto.android.HomeActivity;
+import com.ituto.android.Fragments.SessionFragments.SessionInfoFragment;
 import com.ituto.android.Models.Session;
 import com.ituto.android.Models.Subject;
 import com.ituto.android.Models.Tutor;
@@ -36,23 +36,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SessionRequestsFragment extends Fragment implements SessionsRequestAdapter.OnItemListener {
+public class SessionsFragment extends Fragment implements SessionsAdapter.OnItemListener {
 
     private View view;
     private SharedPreferences sharedPreferences;
     private ArrayList<Session> sessionArrayList;
-    private SessionsRequestAdapter sessionsRequestAdapter;
-
+    private SessionsAdapter sessionsAdapter;
     private SwipeRefreshLayout swipeSession;
     private RecyclerView recyclerSession;
-
-    private FloatingActionButton btnAddSession;
+    private LinearLayout llyPlaceholder;
 
     private String loggedInAs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_session_requests, container, false);
+        view = inflater.inflate(R.layout.fragment_sessions, container, false);
         init();
         return view;
     }
@@ -63,6 +61,7 @@ public class SessionRequestsFragment extends Fragment implements SessionsRequest
 
         swipeSession = view.findViewById(R.id.swipeSession);
         recyclerSession = view.findViewById(R.id.recyclerSession);
+        llyPlaceholder = view.findViewById(R.id.llyPlaceholder);
         recyclerSession.setLayoutManager(new LinearLayoutManager(getContext()));
 
 //        btnAddSession = view.findViewById(R.id.btnAddSession);
@@ -77,13 +76,14 @@ public class SessionRequestsFragment extends Fragment implements SessionsRequest
 
         String sessionsLink = loggedInAs.equals("TUTOR") ? Constant.TUTOR_SESSIONS : Constant.TUTEE_SESSIONS;
 
-        StringRequest request = new StringRequest(Request.Method.GET, sessionsLink + "?status=Request", response -> {
+        StringRequest request = new StringRequest(Request.Method.GET, sessionsLink + "?status=Ongoing", response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
                     JSONArray resultArray = new JSONArray(object.getString("sessions"));
                     for (int i = 0; i < resultArray.length(); i++) {
                         JSONObject sessionObject = resultArray.getJSONObject(i);
+                        JSONObject timeObject = sessionObject.getJSONObject("time");
                         JSONObject subjectObject = sessionObject.getJSONObject("subject");
                         Session session = new Session();
                         Tutor tutor = new Tutor();
@@ -91,41 +91,52 @@ public class SessionRequestsFragment extends Fragment implements SessionsRequest
                         Subject subject = new Subject();
 
                         session.setSessionID(sessionObject.getString("_id"));
-
+                        session.setStartDate(sessionObject.getString("startDate"));
+                        session.setTimeOfDay(timeObject.getString("timeOfDay"));
+                        session.setMinTime(timeObject.getString("min"));
+                        session.setMaxTime(timeObject.getString("max"));
                         subject.setName(subjectObject.getString("name"));
 
                         session.setSubject(subject);
 
-                        if (loggedInAs.equals("TUTOR")) {
-                            JSONObject tuteeObject = sessionObject.getJSONObject("tutee");
-                            JSONObject avatarObject = tuteeObject.getJSONObject("avatar");
 
-                            tutor.setUserID(sessionObject.getString("tutor"));
+                        JSONObject tuteeObject = sessionObject.getJSONObject("tutee");
+                        JSONObject avatarObject = tuteeObject.getJSONObject("avatar");
 
-                            user.setUserID(tuteeObject.getString("_id"));
-                            user.setFirstname(tuteeObject.getString("firstname"));
-                            user.setLastname(tuteeObject.getString("lastname"));
-                            user.setAvatar(avatarObject.getString("url"));
+                        tutor.setUserID(sessionObject.getString("tutor"));
 
-                        } else if (loggedInAs.equals("TUTEE")) {
-                            JSONObject tutorObject = sessionObject.getJSONObject("tutor");
-                            JSONObject avatarObject = tutorObject.getJSONObject("avatar");
+                        user.setUserID(tuteeObject.getString("_id"));
+                        user.setFirstname(tuteeObject.getString("firstname"));
+                        user.setLastname(tuteeObject.getString("lastname"));
+                        user.setAvatar(avatarObject.getString("url"));
 
-                            user.setUserID(sessionObject.getString("tutee"));
 
-                            tutor.setUserID(tutorObject.getString("_id"));
-                            tutor.setFirstname(tutorObject.getString("firstname"));
-                            tutor.setLastname(tutorObject.getString("lastname"));
-                            tutor.setAvatar(avatarObject.getString("url"));
+                        JSONObject tutorObject = sessionObject.getJSONObject("tutor");
+                        JSONObject avatarObjectTutor = tutorObject.getJSONObject("avatar");
 
-                        }
+                        user.setUserID(sessionObject.getString("tutee"));
+
+                        tutor.setUserID(tutorObject.getString("_id"));
+                        tutor.setFirstname(tutorObject.getString("firstname"));
+                        tutor.setLastname(tutorObject.getString("lastname"));
+                        tutor.setAvatar(avatarObjectTutor.getString("url"));
+
 
                         session.setTutor(tutor);
                         session.setTutee(user);
                         sessionArrayList.add(session);
                     }
-                    sessionsRequestAdapter = new SessionsRequestAdapter(getContext(), sessionArrayList, this);
-                    recyclerSession.setAdapter(sessionsRequestAdapter);
+
+                    if (sessionArrayList.isEmpty()) {
+                        recyclerSession.setVisibility(View.GONE);
+                        llyPlaceholder.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerSession.setVisibility(View.VISIBLE);
+                        llyPlaceholder.setVisibility(View.GONE);
+                    }
+
+                    sessionsAdapter = new SessionsAdapter(getContext(), sessionArrayList, this);
+                    recyclerSession.setAdapter(sessionsAdapter);
                 }
                 swipeSession.setRefreshing(false);
 
@@ -152,15 +163,15 @@ public class SessionRequestsFragment extends Fragment implements SessionsRequest
     @Override
     public void onItemClick(int position) {
         Bundle bundle = new Bundle();
-        SessionRequestInfo sessionRequestInfo = new SessionRequestInfo();
+        SessionInfoFragment sessionInfoFragment = new SessionInfoFragment();
         Session session = sessionArrayList.get(position);
         bundle.putString("_id", session.getSessionID());
-        sessionRequestInfo.setArguments(bundle);
+        sessionInfoFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                 R.anim.slide_in,  // enter
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter
                 R.anim.slide_out  // popExit
-        ).replace(R.id.fragment_container, sessionRequestInfo).addToBackStack(null).commit();
+        ).replace(R.id.fragment_container, sessionInfoFragment).addToBackStack(null).commit();
     }
 }

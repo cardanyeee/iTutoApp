@@ -16,19 +16,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
-import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.ituto.android.Models.Question;
 import com.ituto.android.R;
 
 import java.util.ArrayList;
 
-public class AnswerQuestionsAdapter extends RecyclerView.Adapter<AnswerQuestionsAdapter.AnswerQuestionHolder>{
+public class QuestionsAnswerAdapter extends RecyclerView.Adapter<QuestionsAnswerAdapter.AnswerQuestionHolder>{
 
     private Context context;
     private ArrayList<Question> questionArrayList;
     private SharedPreferences sharedPreferences;
 
-    public AnswerQuestionsAdapter(Context context, ArrayList<Question> questionArrayList) {
+    public QuestionsAnswerAdapter(Context context, ArrayList<Question> questionArrayList) {
         this.context = context;
         this.questionArrayList = questionArrayList;
         this.sharedPreferences = context.getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);

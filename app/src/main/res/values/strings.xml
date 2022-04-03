@@ -12,7 +12,7 @@
     <string name="txtTextDont">Don\'t have an account?</string>
     <string name="txtTextRegister"><u>Create an account</u></string>
 
-    <string name="searchMain">Search for Subject, Subject Code or your Tutor\'s Name...</string>
+    <string name="searchMain">Search for the tutor\'s name or email...</string>
 
     <string name="navigation_draw_open">Open Navigation Draw</string>
     <string name="navigation_draw_close">Close Navigation Draw</string>

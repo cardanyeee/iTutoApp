@@ -1,11 +1,9 @@
-package com.ituto.android.Fragments;
+package com.ituto.android.Fragments.SessionFragments;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.InsetDrawable;
-import android.media.Rating;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -31,14 +29,14 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ituto.android.Adapters.AssessmentsAdapter;
 import com.ituto.android.Constant;
+import com.ituto.android.Fragments.AssessmentAnswerFragment;
+import com.ituto.android.Fragments.AssessmentCreateFragment;
 import com.ituto.android.Models.Assessment;
 import com.ituto.android.R;
 import com.muddzdev.styleabletoast.StyleableToast;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,8 +48,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 @SuppressWarnings("ALL")
 public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.OnItemListener {
@@ -123,7 +119,6 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
             btnSessionDone.setVisibility(View.GONE);
         }
 
-
         getSession();
 
         btnSessionDone.setOnClickListener(new View.OnClickListener() {
@@ -149,17 +144,17 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
 
         btnAddAssessment.setOnClickListener(view -> {
             Bundle bundle = new Bundle();
-            CreateAssessmentFragment createAssessmentFragment = new CreateAssessmentFragment();
+            AssessmentCreateFragment assessmentCreateFragment = new AssessmentCreateFragment();
             bundle.putString("sessionID", sessionID);
             bundle.putString("subjectID", subjectID);
             bundle.putString("tuteeID", tuteeID);
-            createAssessmentFragment.setArguments(bundle);
+            assessmentCreateFragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                     R.anim.slide_in,  // enter
                     R.anim.fade_out,  // exit
                     R.anim.fade_in,   // popEnter
                     R.anim.slide_out  // popExit
-            ).replace(R.id.fragment_container, createAssessmentFragment).addToBackStack(null).commit();
+            ).replace(R.id.fragment_container, assessmentCreateFragment).addToBackStack(null).commit();
         });
 
         btnReviewTutor.setOnClickListener(view -> {
@@ -370,17 +365,27 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         return true;
     }
 
+    private Boolean checkAssessments() {
+
+        for (int i = 0; i < assessmentArrayList.size(); i++) {
+//            if (assessmentArrayList.get(i).getScore() ) {
+//            }
+        }
+
+        return true;
+    }
+
     @Override
     public void onItemClick(int position) {
         Bundle bundle = new Bundle();
-        AnswerAssessmentFragment answerAssessmentFragment = new AnswerAssessmentFragment();
+        AssessmentAnswerFragment assessmentAnswerFragment = new AssessmentAnswerFragment();
         bundle.putString("_id", assessmentArrayList.get(position).getAssessmentID());
-        answerAssessmentFragment.setArguments(bundle);
+        assessmentAnswerFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                 R.anim.slide_in,  // enter
                 R.anim.fade_out,  // exit
                 R.anim.fade_in,   // popEnter
                 R.anim.slide_out  // popExit
-        ).replace(R.id.fragment_container, answerAssessmentFragment).addToBackStack(null).commit();
+        ).replace(R.id.fragment_container, assessmentAnswerFragment).addToBackStack(null).commit();
     }
 }

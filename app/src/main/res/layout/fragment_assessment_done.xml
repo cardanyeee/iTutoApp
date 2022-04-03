@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.AssessmentAnswerFragment">
+    tools:context=".Fragments.AssessmentDoneFragment">
 
     <LinearLayout
         android:id="@+id/rl_top"
@@ -122,15 +122,6 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:paddingBottom="40dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSubmitAnswers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/btn_round2"
-            android:text="Submit Answers"
-            android:textSize="14sp" />
 
     </RelativeLayout>
 

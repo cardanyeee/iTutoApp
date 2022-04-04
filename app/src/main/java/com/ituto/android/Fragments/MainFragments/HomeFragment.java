@@ -105,8 +105,10 @@ public class HomeFragment extends Fragment {
         getSessions();
 
         getUser();
-        getCurrentTutor();
 
+        if (loggedInAs.equals("TUTOR")) {
+            getCurrentTutor();
+        }
     }
 
     private void getUser() {

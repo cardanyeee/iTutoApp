@@ -46,8 +46,12 @@ public class QuestionsDoneAdapter extends RecyclerView.Adapter<QuestionsDoneAdap
         holder.txtAnswer.setText(showAnswerLetter(Integer.parseInt(questionArrayList.get(position).getTuteeAnswer())));
         holder.txtAnswer.setEnabled(false);
 
-        if (choices.get(Integer.parseInt(questionArrayList.get(position).getTuteeAnswer())).equals(answer)) {
-            holder.txtAnswer.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryLightTransparent));
+        if (Integer.parseInt(questionArrayList.get(position).getTuteeAnswer()) < 4) {
+            if (choices.get(Integer.parseInt(questionArrayList.get(position).getTuteeAnswer())).equals(answer)) {
+                holder.txtAnswer.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryLightTransparent));
+            } else {
+                holder.txtAnswer.setBackgroundColor(context.getResources().getColor(R.color.colorErrorTransparent));
+            }
         } else {
             holder.txtAnswer.setBackgroundColor(context.getResources().getColor(R.color.colorErrorTransparent));
         }

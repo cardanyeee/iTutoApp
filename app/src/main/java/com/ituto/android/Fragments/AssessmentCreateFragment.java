@@ -39,9 +39,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
 
 @SuppressWarnings("ALL")
 public class AssessmentCreateFragment extends Fragment {
@@ -62,6 +66,8 @@ public class AssessmentCreateFragment extends Fragment {
     private String sessionID, tuteeID, tutorID, subjectID;
     private SharedPreferences sharedPreferences;
 
+    private Socket socket;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_assessment_create, container, false);
@@ -73,6 +79,17 @@ public class AssessmentCreateFragment extends Fragment {
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.GONE);
+
+        try {
+            socket = IO.socket(Constant.URL);
+
+            socket.connect();
+
+            socket.emit("connection", sharedPreferences.getString("_id", ""));
+            socket.emit("join", sharedPreferences.getString("_id", ""));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
         txtAssessmentName = view.findViewById(R.id.txtAssessmentName);
         recyclerQuestions = view.findViewById(R.id.recyclerQuestions);
@@ -150,6 +167,7 @@ public class AssessmentCreateFragment extends Fragment {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
+                    socket.emit("assessment create", object.getJSONObject("assessment"));
                     getActivity().getSupportFragmentManager().popBackStack();
                     StyleableToast.makeText(getContext(), "Assessment successfully created!", R.style.CustomToast).show();
                 }

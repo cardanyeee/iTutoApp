@@ -114,7 +114,7 @@ public class AssessmentDoneFragment extends Fragment {
 
                         question.setQuestion(questionObject.getString("question"));
                         question.setAnswer(questionObject.getString("answer"));
-                        question.setTuteeAnswer(answersArray.getString(q));
+                        question.setTuteeAnswer(answersArray.length() == 0 ? "4" : answersArray.getString(q));
 
                         ArrayList<String> choiceArrayList = new ArrayList<>();
                         for (int c = 0; c < choices.length(); c++) {

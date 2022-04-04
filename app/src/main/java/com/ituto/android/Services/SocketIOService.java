@@ -16,6 +16,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.ituto.android.Constant;
 import com.ituto.android.ConversationActivity;
+import com.ituto.android.HomeActivity;
 import com.ituto.android.MainActivity;
 import com.ituto.android.R;
 import com.ituto.android.Utils.NotificationUtils;
@@ -69,6 +70,22 @@ public class SocketIOService extends Service {
                     resultIntent.putExtra("avatar", avatar.getString("url"));
                     resultIntent.putExtra("name", senderObject.getString("firstname") + " " + senderObject.getString("lastname"));
                     showNotificationMessage(this, "MESSAGES", sender, messageObject.has("attachment") ? "Sent an attachment" : messageObject.getString("content"), "", resultIntent);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            });
+
+            socket.on("assessment notify", args -> {
+
+                JSONObject assessmentObject = (JSONObject) args[0];
+
+                try {
+                    JSONObject subjectObject = assessmentObject.getJSONObject("subject");
+                    JSONObject tutorObject = assessmentObject.getJSONObject("tutor");
+                    Intent resultIntent = new Intent(this, HomeActivity.class);
+                    showNotificationMessage(this, "ASSESSMENTS", subjectObject.getString("name"), tutorObject.getString("firstname") + " added a new assessment", "", resultIntent);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

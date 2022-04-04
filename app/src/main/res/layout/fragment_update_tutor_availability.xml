@@ -434,7 +434,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnSignUpTutor"
+        android:id="@+id/btnUpdateAvailability"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_gravity="bottom"
@@ -442,7 +442,7 @@
         android:background="@drawable/btn_solid"
         android:elevation="4dp"
         android:fontFamily="@font/roboto"
-        android:text="@string/btnTextSignUp"
+        android:text="Update Availability"
         android:textColor="@color/colorWhite"
         android:theme="@style/Button.Primary" />
 

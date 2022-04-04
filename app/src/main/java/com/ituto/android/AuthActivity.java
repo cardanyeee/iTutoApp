@@ -2,6 +2,7 @@ package com.ituto.android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -10,6 +11,7 @@ import android.widget.RadioButton;
 import com.ituto.android.Fragments.AuthFragments.MainAuthFragment;
 import com.ituto.android.Fragments.AuthFragments.SignInFragment;
 import com.ituto.android.Fragments.AuthFragments.SignUpAvailabilityFragment;
+import com.ituto.android.Services.SocketIOService;
 
 public class AuthActivity extends AppCompatActivity {
 
@@ -17,6 +19,7 @@ public class AuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+        stopService(new Intent(getBaseContext(), SocketIOService.class));
         getSupportFragmentManager().beginTransaction().replace(R.id.frameAuthContainer, new MainAuthFragment()).addToBackStack(null).commit();
     }
 

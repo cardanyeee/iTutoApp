@@ -48,5 +48,6 @@ public class Constant {
     public static final String CREATE_TUTOR_ACCOUNT = HOME + "/tutor/signup";
     public static final String TUTOR_PROFILE = HOME + "/tutor";
     public static final String TUTOR_REVIEWS = HOME + "/tutor/reviews";
+    public static final String CURRENT_TUTOR = HOME + "/tutor/me";
 
 }

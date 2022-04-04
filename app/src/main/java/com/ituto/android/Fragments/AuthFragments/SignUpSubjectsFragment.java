@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,8 @@ public class SignUpSubjectsFragment extends Fragment {
     private String courseID;
     private String subjectID;
 
+    private ArrayAdapter<String> arrayAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_sign_up_subjects, container, false);
@@ -82,6 +85,7 @@ public class SignUpSubjectsFragment extends Fragment {
         getCourses();
 
         txtCourse.setOnItemClickListener((parent, view, position, id) -> {
+            txtSubject.setEnabled(false);
             String selected = (String) parent.getItemAtPosition(position);
             courseID = courseArrayList.get(stringCourseArrayList.indexOf(selected)).getId();
             SUBJECT_COURSES = Constant.SUBJECT_COURSES + "/" + courseID;
@@ -194,7 +198,6 @@ public class SignUpSubjectsFragment extends Fragment {
                 JSONObject object = new JSONObject(response);
 
                 if (object.getBoolean("success")) {
-
                     JSONArray subjectsArray = new JSONArray(object.getString("subjects"));
 
                     for (int i = 0; i < subjectsArray.length(); i++) {
@@ -208,17 +211,16 @@ public class SignUpSubjectsFragment extends Fragment {
                             subject.setName(subjectObject.getString("name"));
 
                             stringSubjectArrayList.add(subjectObject.getString("name"));
-                            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                                    getContext(),
-                                    R.layout.item_dropdown,
-                                    R.id.txtDropdownItem,
-                                    stringSubjectArrayList
-                            );
                             subjectArrayList.add(subject);
-                            txtSubject.setAdapter(arrayAdapter);
                         }
-
                     }
+                    arrayAdapter = new ArrayAdapter<>(
+                            getContext(),
+                            R.layout.item_dropdown,
+                            R.id.txtDropdownItem,
+                            stringSubjectArrayList
+                    );
+                    txtSubject.setAdapter(arrayAdapter);
                     txtSubject.setEnabled(true);
                 }
             } catch (JSONException e) {

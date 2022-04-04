@@ -35,6 +35,7 @@ import com.ituto.android.Fragments.UpdateProfileFragment;
 import com.ituto.android.Fragments.UpdateTutorAvailabilityFragment;
 import com.ituto.android.Fragments.UpdateTutorSubjectsFragment;
 import com.ituto.android.R;
+import com.ituto.android.Services.SocketIOService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,6 +59,7 @@ public class AccountFragment extends Fragment {
     private Dialog dialog;
     private CircleImageView imgUserInfo;
     private String loggedInAs;
+    private String userID;
 
     @Nullable
     @Override
@@ -68,6 +70,13 @@ public class AccountFragment extends Fragment {
     }
 
     private void init() {
+
+        dialog = new Dialog(getContext(), R.style.DialogTheme);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
+        dialog.setContentView(R.layout.layout_dialog_progress);
+        RelativeLayout dialogLayout = dialog.findViewById(R.id.rllDialog);
+        dialog.show();
+
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.VISIBLE);
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -137,6 +146,7 @@ public class AccountFragment extends Fragment {
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
                     UpdateTutorSubjectsFragment updateTutorSubjectsFragment = new UpdateTutorSubjectsFragment();
+                    bundle.putString("userID", userID);
                     updateTutorSubjectsFragment.setArguments(bundle);
                     getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                             R.anim.slide_in,  // enter
@@ -152,6 +162,7 @@ public class AccountFragment extends Fragment {
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
                     UpdateTutorAvailabilityFragment updateTutorAvailabilityFragment = new UpdateTutorAvailabilityFragment();
+                    bundle.putString("userID", userID);
                     updateTutorAvailabilityFragment.setArguments(bundle);
                     getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
                             R.anim.slide_in,  // enter
@@ -162,12 +173,6 @@ public class AccountFragment extends Fragment {
                 }
             });
         }
-
-        dialog = new Dialog(getContext(), R.style.DialogTheme);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
-        dialog.setContentView(R.layout.layout_dialog_progress);
-        RelativeLayout dialogLayout = dialog.findViewById(R.id.rllDialog);
-        dialog.show();
 
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
@@ -230,6 +235,7 @@ public class AccountFragment extends Fragment {
                     editor.clear();
                     editor.apply();
                     startActivity(new Intent((getActivity().getApplicationContext()), AuthActivity.class));
+                    getActivity().getApplicationContext().stopService(new Intent(getActivity().getApplicationContext(), SocketIOService.class));
                     getActivity().finish();
                 }
             } catch (JSONException e) {
@@ -252,7 +258,6 @@ public class AccountFragment extends Fragment {
     }
 
     private void getUser() {
-
         StringRequest request = new StringRequest(Request.Method.GET, Constant.USER_PROFILE, response -> {
 
             try {
@@ -262,6 +267,7 @@ public class AccountFragment extends Fragment {
                     JSONObject avatar = user.getJSONObject("avatar");
                     JSONObject course = user.getJSONObject("course");
 
+                    userID = user.getString("_id");
                     txtName.setText(user.getString("firstname") + " " + user.getString("lastname"));
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                     Date date = format.parse(user.getString("birthdate"));
@@ -295,7 +301,6 @@ public class AccountFragment extends Fragment {
             }
         };
 
-        Log.d("TAG", String.valueOf(request.getBodyContentType()));
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
     }

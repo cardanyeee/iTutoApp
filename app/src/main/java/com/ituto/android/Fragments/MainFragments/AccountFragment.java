@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
 import com.ituto.android.Fragments.UpdateProfileFragment;
@@ -36,7 +37,9 @@ import com.ituto.android.Fragments.UpdateTutorAvailabilityFragment;
 import com.ituto.android.Fragments.UpdateTutorSubjectsFragment;
 import com.ituto.android.R;
 import com.ituto.android.Services.SocketIOService;
+import com.muddzdev.styleabletoast.StyleableToast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,11 +51,11 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-@SuppressWarnings("ALL")
 public class AccountFragment extends Fragment {
     private View view;
     private MaterialCardView crdAboutMe, crdUpdateSubjects, crdUpdateAvailability;
-    private TextView txtName, txtBirthdate, txtEmail, txtUsername, txtPhone, txtGender, txtCourse;
+    private TextInputEditText txtAboutMeInput;
+    private TextView txtName, txtBirthdate, txtEmail, txtUsername, txtPhone, txtGender, txtCourse, txtAboutMe;
     private ImageView imgUpdateProfile, imgEditAboutMe;
     private Button btnLogOut;
     private SharedPreferences sharedPreferences;
@@ -60,6 +63,7 @@ public class AccountFragment extends Fragment {
     private CircleImageView imgUserInfo;
     private String loggedInAs;
     private String userID;
+    private Dialog reviewDialog;
 
     @Nullable
     @Override
@@ -85,6 +89,7 @@ public class AccountFragment extends Fragment {
         crdAboutMe = view.findViewById(R.id.crdAboutMe);
         crdUpdateSubjects = view.findViewById(R.id.crdUpdateSubjects);
         crdUpdateAvailability = view.findViewById(R.id.crdUpdateAvailability);
+        txtAboutMe = view.findViewById(R.id.txtAboutMe);
         txtName = view.findViewById(R.id.txtName);
         imgUpdateProfile = view.findViewById(R.id.imgUpdateProfile);
         imgEditAboutMe = view.findViewById(R.id.imgEditAboutMe);
@@ -100,86 +105,73 @@ public class AccountFragment extends Fragment {
             crdAboutMe.setVisibility(View.VISIBLE);
             crdUpdateSubjects.setVisibility(View.VISIBLE);
             crdUpdateAvailability.setVisibility(View.VISIBLE);
+            imgEditAboutMe.setOnClickListener(view -> {
+                reviewDialog = new Dialog(getContext());
 
-            imgEditAboutMe.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Dialog reviewDialog = new Dialog(getContext());
+                reviewDialog.setContentView(R.layout.layout_dialog_aboutme);
+                reviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                reviewDialog.getWindow().getAttributes().windowAnimations = R.style.AddQuestionDialogAnimation;
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                int width = metrics.widthPixels;
+                reviewDialog.getWindow().setLayout((6 * width) / 7, reviewDialog.getWindow().getAttributes().height);
 
-                    reviewDialog.setContentView(R.layout.layout_dialog_aboutme);
-                    reviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                    reviewDialog.getWindow().getAttributes().windowAnimations = R.style.AddQuestionDialogAnimation;
-                    DisplayMetrics metrics = getResources().getDisplayMetrics();
-                    int width = metrics.widthPixels;
-                    reviewDialog.getWindow().setLayout((6 * width) / 7, reviewDialog.getWindow().getAttributes().height);
-
-                    MaterialButton btnSubmit, btnCancel;
+                MaterialButton btnSubmit, btnCancel;
 
 //                    rtbTutorRating = reviewDialog.findViewById(R.id.rtbTutorRating);
 //                    txtComment = reviewDialog.findViewById(R.id.txtComment);
-                    btnCancel = reviewDialog.findViewById(R.id.btnCancel);
-                    btnSubmit = reviewDialog.findViewById(R.id.btnSubmit);
+                txtAboutMeInput = reviewDialog.findViewById(R.id.txtAboutMeInput);
+                btnCancel = reviewDialog.findViewById(R.id.btnCancel);
+                btnSubmit = reviewDialog.findViewById(R.id.btnSubmit);
 
-                    btnSubmit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-//                            if (validateReview()) {
-//                                submitReview();
-//                                reviewDialog.dismiss();
-//                            }
-                        }
-                    });
+                btnSubmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                            if (!(txtAboutMeInput.getText().toString().isEmpty())) {
+                                updateAboutMe();
+                            }
+                    }
+                });
 
-                    btnCancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            reviewDialog.cancel();
-                        }
-                    });
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        reviewDialog.cancel();
+                    }
+                });
 
-                    reviewDialog.show();
-                }
+                reviewDialog.show();
             });
 
-            crdUpdateSubjects.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    UpdateTutorSubjectsFragment updateTutorSubjectsFragment = new UpdateTutorSubjectsFragment();
-                    bundle.putString("userID", userID);
-                    updateTutorSubjectsFragment.setArguments(bundle);
-                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                            R.anim.slide_in,  // enter
-                            R.anim.fade_out,  // exit
-                            R.anim.slide_in,
-                            0// popExit
-                    ).replace(R.id.fragment_container, updateTutorSubjectsFragment).addToBackStack(null).commit();
-                }
+            crdUpdateSubjects.setOnClickListener(view -> {
+                Bundle bundle = new Bundle();
+                UpdateTutorSubjectsFragment updateTutorSubjectsFragment = new UpdateTutorSubjectsFragment();
+                bundle.putString("userID", userID);
+                updateTutorSubjectsFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.slide_in,
+                        0// popExit
+                ).replace(R.id.fragment_container, updateTutorSubjectsFragment).addToBackStack(null).commit();
             });
 
-            crdUpdateAvailability.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    UpdateTutorAvailabilityFragment updateTutorAvailabilityFragment = new UpdateTutorAvailabilityFragment();
-                    bundle.putString("userID", userID);
-                    updateTutorAvailabilityFragment.setArguments(bundle);
-                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                            R.anim.slide_in,  // enter
-                            R.anim.fade_out,  // exit
-                            R.anim.slide_in,
-                            0// popExit
-                    ).replace(R.id.fragment_container, updateTutorAvailabilityFragment).addToBackStack(null).commit();
-                }
+            crdUpdateAvailability.setOnClickListener(view -> {
+                Bundle bundle = new Bundle();
+                UpdateTutorAvailabilityFragment updateTutorAvailabilityFragment = new UpdateTutorAvailabilityFragment();
+                bundle.putString("userID", userID);
+                updateTutorAvailabilityFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.slide_in,
+                        0// popExit
+                ).replace(R.id.fragment_container, updateTutorAvailabilityFragment).addToBackStack(null).commit();
             });
+
+            getCurrentTutor();
         }
 
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
+        dialog.setOnCancelListener(dialogInterface -> getActivity().getSupportFragmentManager().popBackStack());
 
         btnLogOut.setOnClickListener(v -> {
             dialog = new Dialog(getContext());
@@ -191,34 +183,21 @@ public class AccountFragment extends Fragment {
 
             dialog.show();
 
-            btnYes.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    logout();
-                }
-            });
+            btnYes.setOnClickListener(v1 -> logout());
 
-            btnNo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.cancel();
-                }
-            });
+            btnNo.setOnClickListener(v12 -> dialog.cancel());
         });
 
-        imgUpdateProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                UpdateProfileFragment updateProfileFragment = new UpdateProfileFragment();
-                updateProfileFragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                        R.anim.slide_in,  // enter
-                        R.anim.fade_out,  // exit
-                        R.anim.slide_in,
-                        0// popExit
-                ).replace(R.id.fragment_container, updateProfileFragment).addToBackStack(null).commit();
-            }
+        imgUpdateProfile.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            UpdateProfileFragment updateProfileFragment = new UpdateProfileFragment();
+            updateProfileFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.slide_in,
+                    0// popExit
+            ).replace(R.id.fragment_container, updateProfileFragment).addToBackStack(null).commit();
         });
 
         getUser();
@@ -297,6 +276,81 @@ public class AccountFragment extends Fragment {
                 String token = sharedPreferences.getString("token", "");
                 HashMap<String, String> map = new HashMap<>();
                 map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
+    private void getCurrentTutor() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.CURRENT_TUTOR, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONObject tutorObject = object.getJSONObject("tutor");
+
+                    if (!tutorObject.has("aboutMe")) {
+                        txtAboutMe.setText("");
+                    } else {
+                        txtAboutMe.setText(tutorObject.getString("aboutMe"));
+                    }
+                }
+                dialog.dismiss();
+            } catch (JSONException e) {
+                dialog.dismiss();
+                e.printStackTrace();
+            }
+
+
+        }, error -> {
+            dialog.dismiss();
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
+    private void updateAboutMe() {
+        StringRequest request = new StringRequest(Request.Method.PUT, Constant.UPDATE_ABOUTME, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    reviewDialog.dismiss();
+                    getCurrentTutor();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                StyleableToast.makeText(getContext(), "Subjects Updated Unsuccessfully!", R.style.CustomToast).show();
+            }
+
+        }, error -> {
+            StyleableToast.makeText(getContext(), "Subjects Updated Unsuccessfully!", R.style.CustomToast).show();
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("aboutMe",  txtAboutMeInput.getText().toString().trim());
                 return map;
             }
         };

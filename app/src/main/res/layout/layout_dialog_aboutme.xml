@@ -24,7 +24,7 @@
             android:textSize="20sp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtLayoutComment"
+            android:id="@+id/txtLayoutAboutMe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/Button.Primary"
@@ -33,13 +33,13 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtComment"
+                android:id="@+id/txtAboutMeInput"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_margin="20dp"
                 android:background="@drawable/custom_input"
                 android:hint=""
-                android:inputType="textImeMultiLine"
+                android:inputType="textMultiLine"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="5dp"
                 android:textSize="13sp" />

@@ -184,19 +184,17 @@ public class FilterFragment extends Fragment {
                             course.setName(courseObject.getString("name"));
 
                             stringCourseArrayList.add(courseObject.getString("name"));
-                            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                                    getContext(),
-                                    R.layout.item_dropdown,
-                                    R.id.txtDropdownItem,
-                                    stringCourseArrayList
-                            );
-
                             courseArrayList.add(course);
-                            txtCourse.setAdapter(arrayAdapter);
+
                         }
-
                     }
-
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                            getContext(),
+                            R.layout.item_dropdown,
+                            R.id.txtDropdownItem,
+                            stringCourseArrayList
+                    );
+                    txtCourse.setAdapter(arrayAdapter);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

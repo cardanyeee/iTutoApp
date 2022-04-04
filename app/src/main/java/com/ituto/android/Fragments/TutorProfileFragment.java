@@ -165,6 +165,11 @@ public class TutorProfileFragment extends Fragment {
                     txtNumberOfStars.setText(tutorObject.getString("ratings"));
                     txtNumberOfReviews.setText(tutorObject.getString("numOfReviews"));
 
+                    if (!tutorObject.has("aboutMe")) {
+                        llyAboutMe.setVisibility(View.GONE);
+                    } else {
+                        txtAboutMe.setText(tutorObject.getString("aboutMe"));
+                    }
                     tutorProfile = avatarObject.getString("url");
                     tutorName = userObject.getString("firstname") + " " + userObject.getString("lastname");
                     tutorCourse = courseObject.getString("name");

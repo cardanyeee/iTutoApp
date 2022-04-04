@@ -223,6 +223,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_bold"
                                 android:text="Username"
+                                android:textColor="@color/colorPrimary"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -247,6 +248,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_bold"
                                 android:text="Birthdate"
+                                android:textColor="@color/colorPrimary"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -281,6 +283,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_bold"
                                 android:text="Phone"
+                                android:textColor="@color/colorPrimary"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -305,6 +308,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_bold"
                                 android:text="Gender"
+                                android:textColor="@color/colorPrimary"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -332,6 +336,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_bold"
                             android:text="Course"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="14sp" />
 
                         <TextView

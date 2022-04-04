@@ -154,7 +154,6 @@ public class RequestScheduleFragment extends Fragment {
     }
 
     private void setDisableDaysInCalendar(ArrayList<Integer> availableDays) {
-
         Calendar date;
         List<Calendar> disabledDays = new ArrayList<>();
         int weeks = 52;
@@ -170,7 +169,6 @@ public class RequestScheduleFragment extends Fragment {
                     disabledDays.add(date);
                 }
             }
-
         }
         calendarTutorSchedule.setDisabledDays(disabledDays);
     }

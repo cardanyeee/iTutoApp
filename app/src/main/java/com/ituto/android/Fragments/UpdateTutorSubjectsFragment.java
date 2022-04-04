@@ -1,9 +1,11 @@
 package com.ituto.android.Fragments;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
@@ -34,6 +37,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UpdateTutorSubjectsFragment extends Fragment {
 
@@ -61,6 +66,8 @@ public class UpdateTutorSubjectsFragment extends Fragment {
 
     private ArrayAdapter<String> arrayAdapter;
 
+    private Dialog dialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_update_tutor_subjects, container, false);
@@ -72,6 +79,11 @@ public class UpdateTutorSubjectsFragment extends Fragment {
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.GONE);
 
+        dialog = new Dialog(getContext(), R.style.DialogTheme);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
+        dialog.setContentView(R.layout.layout_dialog_progress);
+        dialog.show();
+
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         txtCourse = view.findViewById(R.id.txtCourseSignUp);
         txtSubject = view.findViewById(R.id.txtSubjectSignUp);
@@ -81,6 +93,7 @@ public class UpdateTutorSubjectsFragment extends Fragment {
         tutorSubjectsArrayList = new ArrayList<>();
 
         getCourses();
+        getCurrentTutor();
 
         txtCourse.setOnItemClickListener((parent, view, position, id) -> {
             txtSubject.setEnabled(false);
@@ -129,8 +142,64 @@ public class UpdateTutorSubjectsFragment extends Fragment {
         });
 
         btnUpdateSubjects.setOnClickListener(v -> {
-
+            if (!tutorSubjectsArrayList.isEmpty()) {
+                updateSubjects();
+            } else {
+                StyleableToast.makeText(getContext(), "Please add subjects you will be offering as a Tutor", R.style.CustomToast).show();
+            }
         });
+    }
+
+    private void getCurrentTutor() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.CURRENT_TUTOR, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONObject tutorObject = object.getJSONObject("tutor");
+                    JSONArray subjectsArray = tutorObject.getJSONArray("subjects");
+
+                    for (int s = 0; s < subjectsArray.length(); s++) {
+                        JSONObject subjectObject = subjectsArray.getJSONObject(s);
+                        String ID = subjectObject.getString("_id");
+
+                        tutorSubjectsArrayList.add(ID);
+                        Chip chip = new Chip(getContext());
+                        ChipDrawable drawable = ChipDrawable.createFromAttributes(getContext(), null, 0, R.style.SubjectChip);
+                        chip.setChipDrawable(drawable);
+
+                        chip.setCheckable(false);
+                        chip.setClickable(false);
+                        chip.setText(subjectObject.getString("name"));
+                        chip.setOnCloseIconClickListener(v -> {
+                            chpGrpSubjects.removeView(chip);
+                            tutorSubjectsArrayList.remove(ID);
+                        });
+
+                        chpGrpSubjects.addView(chip);
+                    }
+                }
+                dialog.dismiss();
+            } catch (JSONException e) {
+                dialog.dismiss();
+                e.printStackTrace();
+            }
+
+
+        }, error -> {
+            dialog.dismiss();
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
     }
 
     private void getCourses() {
@@ -228,6 +297,45 @@ public class UpdateTutorSubjectsFragment extends Fragment {
         }) {
 
         };
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
+    private void updateSubjects() {
+        StringRequest request = new StringRequest(Request.Method.PUT, Constant.UPDATE_SUBJECTS, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    StyleableToast.makeText(getContext(), "Subjects Updated Successfully!", R.style.CustomToast).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                StyleableToast.makeText(getContext(), "Subjects Updated Unsuccessfully!", R.style.CustomToast).show();
+            }
+
+        }, error -> {
+            StyleableToast.makeText(getContext(), "Subjects Updated Unsuccessfully!", R.style.CustomToast).show();
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                JSONArray jsArray = new JSONArray(tutorSubjectsArrayList);
+                map.put("subjects",  jsArray.toString());
+                return map;
+            }
+        };
+
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
     }

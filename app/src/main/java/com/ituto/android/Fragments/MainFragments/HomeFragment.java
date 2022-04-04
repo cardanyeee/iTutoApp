@@ -103,6 +103,10 @@ public class HomeFragment extends Fragment {
         txtFirstname.setText(sharedPreferences.getString("firstname", ""));
         txtLoggedInAs.setText(sharedPreferences.getString("loggedInAs", "").substring(0, 1).toUpperCase() + sharedPreferences.getString("loggedInAs", "").substring(1).toLowerCase());
         getSessions();
+
+        getUser();
+        getCurrentTutor();
+
     }
 
     private void getUser() {
@@ -115,17 +119,11 @@ public class HomeFragment extends Fragment {
                     JSONObject user = object.getJSONObject("user");
                     JSONObject avatar = user.getJSONObject("avatar");
                     JSONObject course = user.getJSONObject("course");
-
                 }
-                dialog.dismiss();
             } catch (JSONException e) {
-                dialog.dismiss();
                 e.printStackTrace();
             }
-
-
         }, error -> {
-            dialog.dismiss();
             error.printStackTrace();
         }){
             @Override
@@ -188,5 +186,32 @@ public class HomeFragment extends Fragment {
         queue.add(request);
     }
 
+    private void getCurrentTutor() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.CURRENT_TUTOR, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONObject tutorObject = object.getJSONObject("tutor");
+                    if (!tutorObject.has("aboutMe")) {
 
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
 }

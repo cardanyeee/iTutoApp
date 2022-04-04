@@ -51,6 +51,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jitsi.meet.sdk.JitsiMeetActivity;
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
+import org.jitsi.meet.sdk.JitsiMeetUserInfo;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,7 +62,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -174,19 +177,36 @@ public class ConversationActivity extends AppCompatActivity {
                 callObject.put("caller", sharedPreferences.getString("_id", ""));
                 callObject.put("users", usersArray);
 
-            } catch (JSONException e) {
+                socket.emit("call", callObject);
+
+                JitsiMeetUserInfo jitsiMeetUserInfo = new JitsiMeetUserInfo();
+                jitsiMeetUserInfo.setAvatar(new URL(sharedPreferences.getString("avatar", "")));
+                jitsiMeetUserInfo.setDisplayName(sharedPreferences.getString("firstname", "") + " " + sharedPreferences.getString("lastname", ""));
+
+                JitsiMeetConferenceOptions options
+                        = new JitsiMeetConferenceOptions.Builder()
+                        .setServerURL(new URL("https://meet.jit.si"))
+                        .setRoom(conversationID)
+                        .setFeatureFlag("add-people.enabled", false)
+                        .setFeatureFlag("kick-out.enabled", false)
+                        .setFeatureFlag("meeting-password.enabled", false)
+                        .setFeatureFlag("recording.enabled", false)
+                        .setFeatureFlag("invite.enabled", false)
+                        .setFeatureFlag("chat.enabled", false)
+                        .setFeatureFlag("live-streaming.enabled", false)
+                        .setFeatureFlag("lobby-mode.enabled", false)
+                        .setFeatureFlag("security-options.enabled", false)
+                        .setFeatureFlag("audio-only.enabled", false)
+                        .setFeatureFlag("help.enabled", false)
+                        .setConfigOverride("disableModeratorIndicator", true)
+                        .setUserInfo(jitsiMeetUserInfo)
+                        .build();
+
+                JitsiMeetActivity.launch(getApplicationContext(), options);
+
+            } catch (JSONException | MalformedURLException e) {
                 e.printStackTrace();
             }
-
-            socket.emit("call", callObject);
-            JitsiMeetConferenceOptions options
-                    = new JitsiMeetConferenceOptions.Builder()
-                    .setRoom(conversationID)
-                    .setFeatureFlag("invite.enabled", false)
-                    .setFeatureFlag("chat.enabled", false)
-                    .build();
-
-            JitsiMeetActivity.launch(getApplicationContext(), options);
         });
 
         socket.on("ring", args -> runOnUiThread(() -> {

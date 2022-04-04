@@ -44,9 +44,6 @@ public class SignUpAvailabilityFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private Calendar calendar;
     public static TimePickerDialog.OnTimeSetListener onTimeSetListener;
-    public static int hour;
-    public static int minute;
-    private String availability;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -244,6 +241,11 @@ public class SignUpAvailabilityFragment extends Fragment {
 
         if (!(days.size() > 0)) {
             StyleableToast.makeText(getContext(), "Please select days on when you are available", R.style.CustomToast).show();
+            return false;
+        }
+
+        if (!(chkMorning.isChecked() || chkAfternoon.isChecked() || chkEvening.isChecked())) {
+            StyleableToast.makeText(getContext(), "Please select select and input what time you are available", R.style.CustomToast).show();
             return false;
         }
 

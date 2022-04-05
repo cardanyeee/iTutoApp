@@ -1,7 +1,7 @@
 package com.ituto.android;
 
 public class Constant {
-    private static final String LOCAL_URL = "http://192.168.1.2:8080";
+    private static final String LOCAL_URL = "http://192.168.134.245:8080";
     private static final String PUBLIC_URL = "https://mern-ituto.herokuapp.com";
 //    https://mern-ituto.herokuapp.com
 //    http://192.168.1.2:8080

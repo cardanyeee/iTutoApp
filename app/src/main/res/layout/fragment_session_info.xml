@@ -75,6 +75,8 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_black"
                         android:text="Computer Programming"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:textColor="@color/colorBackground"
                         android:textSize="20sp" />
 

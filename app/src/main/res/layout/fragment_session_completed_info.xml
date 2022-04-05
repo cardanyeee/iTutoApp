@@ -73,7 +73,9 @@
                         android:id="@+id/txtSubjectName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
                         android:fontFamily="@font/roboto_black"
+                        android:maxLines="1"
                         android:text="Computer Programming"
                         android:textColor="@color/colorBackground"
                         android:textSize="20sp" />

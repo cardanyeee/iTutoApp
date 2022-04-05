@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    app:cardBackgroundColor="@color/colorBackground"
     app:cardCornerRadius="10dp"
-    app:cardElevation="20dp"
-    app:cardBackgroundColor="@color/colorBackground">
+    app:cardElevation="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -95,7 +95,9 @@
                 android:id="@+id/txtSubject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:fontFamily="@font/roboto_medium"
+                android:maxLines="1"
                 android:text="Computer Programming 2" />
         </LinearLayout>
 

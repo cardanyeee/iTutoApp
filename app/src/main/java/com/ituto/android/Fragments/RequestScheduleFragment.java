@@ -1,5 +1,7 @@
 package com.ituto.android.Fragments;
 
+import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
+
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,10 +20,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.applandeo.materialcalendarview.CalendarView;
@@ -44,6 +48,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,6 +58,8 @@ import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.socket.client.IO;
+import io.socket.client.Socket;
 
 @SuppressWarnings("ALL")
 public class RequestScheduleFragment extends Fragment {
@@ -80,6 +88,8 @@ public class RequestScheduleFragment extends Fragment {
 
     private Tutor tutor;
 
+    private Socket socket;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_request_schedule, container, false);
@@ -89,6 +99,17 @@ public class RequestScheduleFragment extends Fragment {
 
     private void init() {
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        try {
+            socket = IO.socket(Constant.URL);
+
+            socket.connect();
+
+            socket.emit("connection", sharedPreferences.getString("_id", ""));
+            socket.emit("join", sharedPreferences.getString("_id", ""));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
         imgTutorProfile = view.findViewById(R.id.imgTutorProfile);
         txtName = view.findViewById(R.id.txtName);
@@ -278,12 +299,13 @@ public class RequestScheduleFragment extends Fragment {
 
     private void confirmSchedule() {
         btnConfirmSchedule.setClickable(false);
-        progressDialog.setMessage("Creating Scedule");
+        progressDialog.setMessage("Creating Schedule");
         progressDialog.show();
         StringRequest request = new StringRequest(Request.Method.POST, Constant.REQUEST_SESSION, response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
+                    socket.emit("session request", object.getJSONObject("session"));
                     progressDialog.dismiss();
                     btnConfirmSchedule.setClickable(true);
                     getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
@@ -321,6 +343,21 @@ public class RequestScheduleFragment extends Fragment {
                 map.put("startDate", startDate);
                 map.put("time", checkWhatTime().toString());
                 return map;
+            }
+
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError) {
+                runOnUiThread(() -> {
+                    try {
+                        String body;
+                        body = new String(volleyError.networkResponse.data,"UTF-8");
+                        JSONObject error = new JSONObject(body);
+                        StyleableToast.makeText(getContext(), error.getString("message"), Toast.LENGTH_LONG, R.style.CustomToast).show();
+                    } catch (UnsupportedEncodingException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                });
+                return super.parseNetworkError(volleyError);
             }
         };
 

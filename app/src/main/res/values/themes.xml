@@ -30,7 +30,7 @@
         <item name="stTextColor">@color/colorBackground</item>
         <item name="stFont">@font/roboto_regular</item>
         <item name="stTextSize">12sp</item>
-        <item name="stColorBackground">@color/colorPrimaryLight</item>
+        <item name="stColorBackground">@color/colorPrimary</item>
         <item name="stSolidBackground">true</item>
         <item name="stStrokeWidth">0dp</item>
         <item name="stStrokeColor">#fff</item>

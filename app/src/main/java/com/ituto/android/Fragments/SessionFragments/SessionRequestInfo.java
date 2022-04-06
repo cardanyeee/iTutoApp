@@ -277,6 +277,49 @@ public class SessionRequestInfo extends Fragment {
         queue.add(request);
     }
 
+
+    private void message() {
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.CONVERSATION, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONObject conversationObject = object.getJSONObject("conversation");
+//
+//                    Intent i = new Intent(((HomeActivity)context), ConversationActivity.class);
+//                    i.putExtra("conversationID", conversationObject.getString("_id"));
+//                    i.putExtra("name", tutorArrayList.get(position).getFirstname() + " " + tutorArrayList.get(position).getLastname());
+//                    i.putExtra("avatar", tutorArrayList.get(position).getAvatar());
+//                    i.putExtra("users", conversationObject.getJSONArray("users").toString());
+//                    getContext().startActivity(i);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+            }
+        }, error -> {
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+//                map.put("userId", tutorArrayList.get(position).getUserID());
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
     private void declineSession() {
         StringRequest request = new StringRequest(Request.Method.PUT, Constant.DECLINE_SESSION + "/" + sessionID, response -> {
 

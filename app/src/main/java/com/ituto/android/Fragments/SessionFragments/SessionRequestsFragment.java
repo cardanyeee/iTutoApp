@@ -12,6 +12,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -43,8 +45,10 @@ public class SessionRequestsFragment extends Fragment implements SessionsRequest
     private ArrayList<Session> sessionArrayList;
     private SessionsRequestAdapter sessionsRequestAdapter;
 
+    private TextView txtPlaceholderHeader;
     private SwipeRefreshLayout swipeSession;
     private RecyclerView recyclerSession;
+    private LinearLayout llyPlaceholder;
 
     private FloatingActionButton btnAddSession;
 
@@ -61,6 +65,8 @@ public class SessionRequestsFragment extends Fragment implements SessionsRequest
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         loggedInAs = sharedPreferences.getString("loggedInAs", "");
 
+        llyPlaceholder = view.findViewById(R.id.llyPlaceholder);
+        txtPlaceholderHeader = view.findViewById(R.id.txtPlaceholderHeader);
         swipeSession = view.findViewById(R.id.swipeSession);
         recyclerSession = view.findViewById(R.id.recyclerSession);
         recyclerSession.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -124,6 +130,21 @@ public class SessionRequestsFragment extends Fragment implements SessionsRequest
                         session.setTutee(user);
                         sessionArrayList.add(session);
                     }
+
+                    if (sessionArrayList.isEmpty()) {
+                        recyclerSession.setVisibility(View.GONE);
+                        llyPlaceholder.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerSession.setVisibility(View.VISIBLE);
+                        llyPlaceholder.setVisibility(View.GONE);
+
+                        if (loggedInAs.equals("TUTOR")) {
+                            txtPlaceholderHeader.setText("No Session Requests");
+                        } else {
+                            txtPlaceholderHeader.setText("No Pending Sessions");
+                        }
+                    }
+
                     sessionsRequestAdapter = new SessionsRequestAdapter(getContext(), sessionArrayList, this);
                     recyclerSession.setAdapter(sessionsRequestAdapter);
                 }

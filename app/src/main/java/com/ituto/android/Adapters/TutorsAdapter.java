@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -73,6 +74,9 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
         Glide.with(context).load(tutor.getAvatar()).override(500, 500).placeholder(R.drawable.blank_avatar).into(holder.imgTutor);
         holder.txtName.setText(tutor.getFirstname() + " " + tutor.getLastname());
         holder.btnMessage.setOnClickListener(v -> message(holder, position));
+//        if (sharedPreferences.getString("loggedInAs", "").equals("TUTOR")) {
+//            holder.llyButtons.setVisibility(View.GONE);
+//        }
 
         holder.txtDays.setText("");
         for (int d = 0; d < days.size(); d++) {
@@ -160,6 +164,7 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
 
         private TextView txtName, txtCourse, txtDays, txtTime, txtSubjects;
         private CircleImageView imgTutor;
+        private LinearLayout llyButtons;
         private Button btnProfile, btnMessage;
 
         public TutorHolder(@NonNull View itemView, OnItemListener onItemListener) {
@@ -170,6 +175,7 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
             txtTime = itemView.findViewById(R.id.txtTime);
             txtSubjects = itemView.findViewById(R.id.txtSubjects);
             imgTutor = itemView.findViewById(R.id.imgTutor);
+            llyButtons = itemView.findViewById(R.id.llyButtons);
             btnProfile = itemView.findViewById(R.id.btnProfile);
             btnMessage = itemView.findViewById(R.id.btnMessage);
 

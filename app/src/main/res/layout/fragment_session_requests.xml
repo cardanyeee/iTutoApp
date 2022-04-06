@@ -23,4 +23,43 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <LinearLayout
+        android:id="@+id/llyPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imgPlaceholder"
+            android:layout_width="300dp"
+            android:layout_height="225dp"
+            android:gravity="center"
+            android:src="@drawable/ic_undraw_relaxing_at_home_re_mror" />
+
+        <TextView
+            android:id="@+id/txtPlaceholderHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="No Pending Sessions"
+            android:textColor="@color/colorTextColor"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/txtPlaceholderMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:text="Take a break! Give your mind and body some time to rest."
+            android:textColor="@color/colorHint"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
 </RelativeLayout>

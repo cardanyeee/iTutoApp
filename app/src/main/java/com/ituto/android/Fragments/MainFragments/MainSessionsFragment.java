@@ -61,9 +61,18 @@ public class MainSessionsFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        viewPagerAdapter.addFragment(sessionsFragment, "Sessions");
-        viewPagerAdapter.addFragment(sessionRequestsFragment, loggedInAs.equals("TUTOR") ? "Requests" : "Pending");
-        viewPagerAdapter.addFragment(sessionCompletedFragment, "Completed");
+
+        if (loggedInAs.equals("TUTOR")) {
+            viewPagerAdapter.addFragment(sessionRequestsFragment, "Requests");
+            viewPagerAdapter.addFragment(sessionsFragment, "Sessions");
+            viewPagerAdapter.addFragment(sessionCompletedFragment, "Completed");
+        } else if (loggedInAs.equals("TUTEE")) {
+            viewPagerAdapter.addFragment(sessionsFragment, "Sessions");
+            viewPagerAdapter.addFragment(sessionRequestsFragment, "Pending");
+            viewPagerAdapter.addFragment(sessionCompletedFragment, "Completed");
+        }
+
+
 
         viewPager.setAdapter(viewPagerAdapter);
 

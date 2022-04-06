@@ -57,7 +57,7 @@ public class SocketIOService extends Service {
             socket.on("received", args -> {
 
                 JSONObject messageObject = (JSONObject) args[0];
-
+                Log.d("received", messageObject.toString());
                 try {
                     JSONObject senderObject = messageObject.getJSONObject("sender");
                     JSONObject conversationObject = messageObject.getJSONObject("conversationID");
@@ -77,6 +77,22 @@ public class SocketIOService extends Service {
 
             });
 
+            socket.on("session notify", args -> {
+
+                JSONObject sessionObject = (JSONObject) args[0];
+                Log.d("check", sessionObject.toString());
+                try {
+                    JSONObject subjectObject = sessionObject.getJSONObject("subject");
+                    JSONObject tuteeObject = sessionObject.getJSONObject("tutee");
+                    Intent resultIntent = new Intent(this, HomeActivity.class);
+                    showNotificationMessage(this, "ANSWERED", "New Session Request", "on the subject " + subjectObject.getString("name"), "", resultIntent);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            });
+
             socket.on("assessment notify", args -> {
 
                 JSONObject assessmentObject = (JSONObject) args[0];
@@ -86,6 +102,22 @@ public class SocketIOService extends Service {
                     JSONObject tutorObject = assessmentObject.getJSONObject("tutor");
                     Intent resultIntent = new Intent(this, HomeActivity.class);
                     showNotificationMessage(this, "ASSESSMENTS", subjectObject.getString("name"), tutorObject.getString("firstname") + " added a new assessment", "", resultIntent);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            });
+
+            socket.on("assessment check", args -> {
+
+                JSONObject assessmentObject = (JSONObject) args[0];
+
+                try {
+                    JSONObject subjectObject = assessmentObject.getJSONObject("subject");
+                    JSONObject tuteeObject = assessmentObject.getJSONObject("tutee");
+                    Intent resultIntent = new Intent(this, HomeActivity.class);
+                    showNotificationMessage(this, "ANSWERED", subjectObject.getString("name"), tuteeObject.getString("firstname") + " answered an assessment", "", resultIntent);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

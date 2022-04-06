@@ -2,6 +2,7 @@ package com.ituto.android.Fragments.SessionFragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -31,9 +32,12 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ituto.android.Adapters.AssessmentsAdapter;
+import com.ituto.android.Adapters.TutorsAdapter;
 import com.ituto.android.Constant;
+import com.ituto.android.ConversationActivity;
 import com.ituto.android.Fragments.AssessmentAnswerFragment;
 import com.ituto.android.Fragments.AssessmentCreateFragment;
+import com.ituto.android.HomeActivity;
 import com.ituto.android.Models.Assessment;
 import com.ituto.android.R;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -388,4 +392,6 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                 R.anim.slide_out  // popExit
         ).replace(R.id.fragment_container, assessmentAnswerFragment).addToBackStack(null).commit();
     }
+
+
 }

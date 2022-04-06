@@ -30,6 +30,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.button.MaterialButton;
 import com.ituto.android.Adapters.QuestionsAnswerAdapter;
+import com.ituto.android.Adapters.QuestionsDoneAdapter;
 import com.ituto.android.Constant;
 import com.ituto.android.Models.Question;
 import com.ituto.android.R;
@@ -40,9 +41,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
 
 @SuppressWarnings("ALL")
 public class AssessmentAnswerFragment extends Fragment {
@@ -57,11 +62,14 @@ public class AssessmentAnswerFragment extends Fragment {
 
     private ArrayList<Question> questionArrayList;
     private QuestionsAnswerAdapter questionsAnswerAdapter;
+    private QuestionsDoneAdapter questionsDoneAdapter;
     private SharedPreferences sharedPreferences;
     private String assessmentID;
     private Dialog dialog;
 
     private JSONArray answerArray;
+
+    private Socket socket;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +83,17 @@ public class AssessmentAnswerFragment extends Fragment {
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.GONE);
         assessmentID = getArguments().getString("_id");
+
+        try {
+            socket = IO.socket(Constant.URL);
+
+            socket.connect();
+
+            socket.emit("connection", sharedPreferences.getString("_id", ""));
+            socket.emit("join", sharedPreferences.getString("_id", ""));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
         txtAssessmentName = view.findViewById(R.id.txtAssessmentName);
         txtSubject = view.findViewById(R.id.txtSubject);
@@ -124,6 +143,10 @@ public class AssessmentAnswerFragment extends Fragment {
                     JSONObject tutorObject = assessmentObject.getJSONObject("tutor");
                     JSONObject tuteeObject = assessmentObject.getJSONObject("tutee");
 
+                    if (assessmentObject.has("answerDate")) {
+                        btnSubmitAnswers.setVisibility(View.GONE);
+                    }
+
                     txtAssessmentName.setText(assessmentObject.getString("name"));
                     txtSubject.setText(subjectObject.getString("name"));
 
@@ -134,7 +157,13 @@ public class AssessmentAnswerFragment extends Fragment {
 
                         question.setQuestion(questionObject.getString("question"));
                         question.setAnswer(questionObject.getString("answer"));
-                        question.setTuteeAnswer("");
+
+                        if (assessmentObject.has("answerDate")) {
+                            JSONArray answersArray = assessmentObject.getJSONArray("answers");
+                            question.setTuteeAnswer(answersArray.length() == 0 ? "4" : answersArray.getString(q));
+                        } else {
+                            question.setTuteeAnswer("");
+                        }
 
                         ArrayList<String> choiceArrayList = new ArrayList<>();
                         for (int c = 0; c < choices.length(); c++) {
@@ -146,8 +175,13 @@ public class AssessmentAnswerFragment extends Fragment {
                         questionArrayList.add(question);
                     }
 
-                    questionsAnswerAdapter = new QuestionsAnswerAdapter(getContext(), questionArrayList);
-                    recyclerQuestions.setAdapter(questionsAnswerAdapter);
+                    if (assessmentObject.has("answerDate")) {
+                        questionsDoneAdapter = new QuestionsDoneAdapter(getContext(), questionArrayList);
+                    } else {
+                        questionsAnswerAdapter = new QuestionsAnswerAdapter(getContext(), questionArrayList);
+                    }
+
+                    recyclerQuestions.setAdapter(assessmentObject.has("answerDate") ? questionsDoneAdapter : questionsAnswerAdapter);
                 }
 
                 dialog.dismiss();
@@ -176,7 +210,7 @@ public class AssessmentAnswerFragment extends Fragment {
         answerArray = new JSONArray();
         for (int q = 0; q < questionArrayList.size(); q++) {
             if (questionArrayList.get(q).getTuteeAnswer().isEmpty()) {
-                StyleableToast.makeText(getContext(), "Please answer all items. You don't have an answer on item no. " + String.valueOf(q+1), R.style.CustomToast).show();
+                StyleableToast.makeText(getContext(), "Please answer all items. You don't have an answer on item no. " + String.valueOf(q + 1), R.style.CustomToast).show();
                 return false;
             }
             answerArray.put(questionArrayList.get(q).getTuteeAnswer());
@@ -190,6 +224,7 @@ public class AssessmentAnswerFragment extends Fragment {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
+                    socket.emit("assessment answer", object.getJSONObject("assessment"));
                     Dialog finishDialog = new Dialog(getContext());
                     finishDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                     finishDialog.setContentView(R.layout.layout_dialog_finish);
@@ -251,7 +286,7 @@ public class AssessmentAnswerFragment extends Fragment {
                 runOnUiThread(() -> {
                     try {
                         String body;
-                        body = new String(volleyError.networkResponse.data,"UTF-8");
+                        body = new String(volleyError.networkResponse.data, "UTF-8");
                         JSONObject error = new JSONObject(body);
                         StyleableToast.makeText(getContext(), error.getString("message"), R.style.CustomToast).show();
                     } catch (UnsupportedEncodingException | JSONException e) {

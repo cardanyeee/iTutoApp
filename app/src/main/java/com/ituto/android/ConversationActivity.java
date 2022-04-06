@@ -110,7 +110,6 @@ public class ConversationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        stopService(new Intent(getBaseContext(), SocketIOService.class));
         setContentView(R.layout.activity_conversation);
         init();
     }

@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
-            android:text="No scheduled sessions"
+            android:text="No Scheduled Sessions"
             android:textColor="@color/colorTextColor"
             android:textSize="25sp" />
 

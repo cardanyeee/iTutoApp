@@ -1,5 +1,6 @@
 package com.ituto.android.Fragments.MainFragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,9 +12,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -21,6 +25,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -34,6 +39,8 @@ import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ituto.android.Adapters.RecentSessionsAdapter;
 import com.ituto.android.Adapters.SessionsAdapter;
 import com.ituto.android.Constant;
 import com.ituto.android.HomeActivity;
@@ -62,6 +69,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+@SuppressWarnings("ALL")
 public class HomeFragment extends Fragment {
     private static final String TAG = "MovieFragment";
     private View view;
@@ -70,14 +78,19 @@ public class HomeFragment extends Fragment {
     public static ArrayList<Course> arrayList;
 
     private CircleImageView imgUserProfile;
-    private CalendarView userSchedule;
+//    private CalendarView userSchedule;
     private Toolbar toolbar;
     private SharedPreferences sharedPreferences;
     private static final int GALLERY_ADD_POST = 2;
     private Dialog dialog;
     private TextView txtFirstname, txtLoggedInAs;
     private String loggedInAs;
-    private List<EventDay> events;
+    private RecentSessionsAdapter recentSessionsAdapter;
+    //    private List<EventDay> events;
+    private RecyclerView recyclerSessions;
+    private EditText txtHomeSearch;
+    private BottomNavigationView bottomNavigation;
+    private LinearLayout llyPlaceholder;
 
     @Nullable
     @Override
@@ -87,17 +100,24 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void init() {
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.VISIBLE);
+        bottomNavigation = getActivity().findViewById(R.id.bottomNavigationView);
         sharedPreferences = getContext().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         loggedInAs = sharedPreferences.getString("loggedInAs", "");
         ((HomeActivity)getContext()).setSupportActionBar(toolbar);
 
+        recyclerSessions = view.findViewById(R.id.recyclerSessions);
+        recyclerSessions.setLayoutManager(new LinearLayoutManager(getContext()));
+        llyPlaceholder = view.findViewById(R.id.llyPlaceholder);
+
         txtFirstname = view.findViewById(R.id.txtFirstname);
         txtLoggedInAs = view.findViewById(R.id.txtLoggedInAs);
         imgUserProfile = view.findViewById(R.id.imgUserProfile);
-        userSchedule = view.findViewById(R.id.userSchedule);
+//        userSchedule = view.findViewById(R.id.userSchedule);
+        txtHomeSearch = view.findViewById(R.id.txtHomeSearch);
 
         Glide.with(getContext()).load(sharedPreferences.getString("avatar", "")).into(imgUserProfile);
         txtFirstname.setText(sharedPreferences.getString("firstname", ""));
@@ -105,6 +125,15 @@ public class HomeFragment extends Fragment {
         getSessions();
 
         getUser();
+
+        txtHomeSearch.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                HomeActivity.clicked = true;
+                bottomNavigation.setSelectedItemId(R.id.item_tutors);
+                return true;
+            }
+        });
 
         if (loggedInAs.equals("TUTOR")) {
             getCurrentTutor();
@@ -144,11 +173,9 @@ public class HomeFragment extends Fragment {
 
     private void getSessions() {
         sessionArrayList = new ArrayList<>();
-        events = new ArrayList<>();
+//        events = new ArrayList<>();
 
-        String sessionsLink = loggedInAs.equals("TUTOR") ? Constant.TUTOR_SESSIONS : Constant.TUTEE_SESSIONS;
-
-        StringRequest request = new StringRequest(Request.Method.GET, sessionsLink + "?status=Ongoing", response -> {
+        StringRequest request = new StringRequest(Request.Method.GET, loggedInAs.equals("TUTOR") ? Constant.ALL_TUTOR_SESSIONS : Constant.ALL_TUTEE_SESSIONS, response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
@@ -162,12 +189,72 @@ public class HomeFragment extends Fragment {
                         User user = new User();
                         Subject subject = new Subject();
                         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                        Date date = format.parse(sessionObject.getString("startDate"));
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(date);
-                        events.add(new EventDay(cal, R.drawable.ic_baseline_assignment_24, Color.parseColor("#4FBD95")));
+                        String outputPattern = "dd MMMM, yyyy";
+                        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+                        Date displayDate;
+
+                        session.setStatus(sessionObject.getString("status"));
+
+                        if (session.getStatus().equals("Request")) {
+                            displayDate = format.parse(sessionObject.getString("requestDate"));
+                            session.setDisplayDate(outputFormat.format(displayDate));
+                        }
+
+                        if (session.getStatus().equals("Ongoing") || session.getStatus().equals("Declined") || session.getStatus().equals("Cancelled")) {
+                            displayDate = format.parse(sessionObject.getString("acceptDeclineDate"));
+                            session.setDisplayDate(outputFormat.format(displayDate));
+                        }
+
+                        if (session.getStatus().equals("Done")) {
+                            displayDate = format.parse(sessionObject.getString("endDate"));
+                            session.setDisplayDate(outputFormat.format(displayDate));
+                        }
+
+                        session.setSessionID(sessionObject.getString("_id"));
+                        session.setStartDate(sessionObject.getString("startDate"));
+                        session.setTimeOfDay(timeObject.getString("timeOfDay"));
+                        session.setMinTime(timeObject.getString("min"));
+                        session.setMaxTime(timeObject.getString("max"));
+                        subject.setName(subjectObject.getString("name"));
+
+                        session.setSubject(subject);
+
+                        JSONObject tuteeObject = sessionObject.getJSONObject("tutee");
+                        JSONObject avatarObject = tuteeObject.getJSONObject("avatar");
+
+                        tutor.setUserID(sessionObject.getString("tutor"));
+
+                        user.setUserID(tuteeObject.getString("_id"));
+                        user.setFirstname(tuteeObject.getString("firstname"));
+                        user.setLastname(tuteeObject.getString("lastname"));
+                        user.setAvatar(avatarObject.getString("url"));
+
+
+                        JSONObject tutorObject = sessionObject.getJSONObject("tutor");
+                        JSONObject avatarObjectTutor = tutorObject.getJSONObject("avatar");
+
+                        user.setUserID(sessionObject.getString("tutee"));
+
+                        tutor.setUserID(tutorObject.getString("_id"));
+                        tutor.setFirstname(tutorObject.getString("firstname"));
+                        tutor.setLastname(tutorObject.getString("lastname"));
+                        tutor.setAvatar(avatarObjectTutor.getString("url"));
+
+                        session.setTutor(tutor);
+                        session.setTutee(user);
+                        sessionArrayList.add(session);
                     }
-                    userSchedule.setEvents(events);
+
+                    if (sessionArrayList.isEmpty()) {
+                        recyclerSessions.setVisibility(View.GONE);
+                        llyPlaceholder.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerSessions.setVisibility(View.VISIBLE);
+                        llyPlaceholder.setVisibility(View.GONE);
+                    }
+
+                    recentSessionsAdapter = new RecentSessionsAdapter(getContext(), sessionArrayList);
+                    recyclerSessions.setAdapter(recentSessionsAdapter);
                 }
 
             } catch (JSONException | ParseException e) {

@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ituto.android.Fragments.MainFragments.AccountFragment;
@@ -24,7 +26,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     private FragmentManager fragmentManager;
     private BottomNavigationView bottomNavigation;
     private static final int GALLERY_ADD_POST = 2;
-
+    public static Boolean clicked = false;
     private Boolean fromBack = false;
 
     @Override
@@ -73,11 +75,16 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
 
+//        if (TutorsFragment.searchTutor.isFocused()) {
+//            TutorsFragment.searchTutor.clearFocus();
+//        } else {
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
         } else {
             super.onBackPressed();
         }
+//        }
+
 //        Fragment currentFragment = fm.findFragmentById(R.id.fragment_container);
 //
 //        if (currentFragment instanceof HomeFragment && id != R.id.item_home)

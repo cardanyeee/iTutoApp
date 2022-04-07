@@ -26,6 +26,7 @@
     <color name="colorSecondary">#2F4858</color>
     <color name="colorSecondaryLight">#3C5363</color>
     <color name="colorRating">#FFE27B</color>
+    <color name="colorPending">#F88961</color>
 
 <!--    <color name="colorBackground">#F6F7FC</color>-->
 <!--    <color name="colorError">#d46c4f</color>-->

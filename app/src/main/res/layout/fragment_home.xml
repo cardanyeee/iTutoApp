@@ -75,25 +75,25 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/llyHeader"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:paddingHorizontal="20dp"
         android:paddingTop="20dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/looking_for"
-            android:textFontWeight="900"
-            android:textSize="20sp" />
+        <!--        <TextView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:fontFamily="@font/roboto_bold"-->
+        <!--            android:text="@string/looking_for"-->
+        <!--            android:textFontWeight="900"-->
+        <!--            android:textSize="20sp" />-->
 
         <EditText
+            android:id="@+id/txtHomeSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/input_background"
             android:drawableStart="@drawable/ic_baseline_search_24"
@@ -108,184 +108,67 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:fontFamily="@font/roboto_bold"
             android:paddingTop="10dp"
-            android:text="Your schedule for today's month..."
+            android:text="Recent Sessions"
             android:textFontWeight="900"
             android:textSize="20sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="15dp"
             android:fontFamily="@font/roboto_bold"
             android:paddingTop="1dp"
-            android:text="Look at the sessions that you have on the following days."
+            android:text="Check out the status of your current and past sessions."
             android:textColor="@color/colorHint"
             android:textSize="13sp" />
 
-        <com.applandeo.materialcalendarview.CalendarView
-            android:id="@+id/userSchedule"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerSessions"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="15dp"
-            app:abbreviationsBarColor="@color/colorBackground"
-            app:abbreviationsLabelsColor="@color/black"
-            app:eventsEnabled="true"
-            app:firstDayOfWeek="sunday"
-            app:forwardButtonSrc="@drawable/ic_baseline_arrow_forward_ios_15"
-            app:headerColor="@color/colorBackground"
-            app:headerLabelColor="@color/colorPrimary"
-            app:pagesColor="@color/colorBackground"
-            app:previousButtonSrc="@drawable/ic_baseline_arrow_back_ios_15"
-            app:selectionColor="@color/colorPrimaryLight"
-            app:todayLabelColor="@color/colorPrimary"
-            app:todayTypeface="@font/roboto_black"
-            app:type="one_day_picker"
-            app:typeface="@font/roboto_medium" />
-
-        <!--            <GridLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:columnCount="2"-->
-        <!--                android:minHeight="360dp"-->
-        <!--                android:padding="5dp"-->
-        <!--                android:rowCount="2">-->
-
-        <!--                <androidx.cardview.widget.CardView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:layout_row="0"-->
-        <!--                    android:layout_rowWeight="1"-->
-        <!--                    android:layout_column="0"-->
-        <!--                    android:layout_columnWeight="1"-->
-        <!--                    android:layout_gravity="fill"-->
-        <!--                    android:layout_margin="5dp"-->
-        <!--                    android:elevation="5dp"-->
-        <!--                    app:cardCornerRadius="10dp">-->
-
-        <!--                    <LinearLayout-->
-        <!--                        android:layout_width="wrap_content"-->
-        <!--                        android:layout_height="wrap_content"-->
-        <!--                        android:layout_gravity="center_vertical|center_horizontal"-->
-        <!--                        android:gravity="center"-->
-        <!--                        android:orientation="vertical">-->
-
-        <!--                        <ImageView-->
-        <!--                            android:layout_width="100dp"-->
-        <!--                            android:layout_height="100dp"-->
-        <!--                            android:src="@drawable/undraw_community" />-->
-
-        <!--                        <TextView-->
-        <!--                            android:layout_width="wrap_content"-->
-        <!--                            android:layout_height="wrap_content"-->
-        <!--                            android:text="Science"-->
-        <!--                            android:textAlignment="center" />-->
-        <!--                    </LinearLayout>-->
-
-        <!--                </androidx.cardview.widget.CardView>-->
-
-        <!--                <androidx.cardview.widget.CardView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:layout_row="0"-->
-        <!--                    android:layout_rowWeight="1"-->
-        <!--                    android:layout_column="1"-->
-        <!--                    android:layout_columnWeight="1"-->
-        <!--                    android:layout_gravity="fill"-->
-        <!--                    android:layout_margin="5dp"-->
-        <!--                    android:elevation="5dp"-->
-        <!--                    app:cardCornerRadius="10dp">-->
-
-        <!--                    <LinearLayout-->
-        <!--                        android:layout_width="wrap_content"-->
-        <!--                        android:layout_height="wrap_content"-->
-        <!--                        android:layout_gravity="center_vertical|center_horizontal"-->
-        <!--                        android:gravity="center"-->
-        <!--                        android:orientation="vertical">-->
-
-        <!--                        <ImageView-->
-        <!--                            android:layout_width="100dp"-->
-        <!--                            android:layout_height="100dp"-->
-        <!--                            android:src="@drawable/undraw_community" />-->
-
-        <!--                        <TextView-->
-        <!--                            android:layout_width="wrap_content"-->
-        <!--                            android:layout_height="wrap_content"-->
-        <!--                            android:text="Science"-->
-        <!--                            android:textAlignment="center" />-->
-        <!--                    </LinearLayout>-->
-
-        <!--                </androidx.cardview.widget.CardView>-->
-
-        <!--                <androidx.cardview.widget.CardView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:layout_row="1"-->
-        <!--                    android:layout_rowWeight="1"-->
-        <!--                    android:layout_column="0"-->
-        <!--                    android:layout_columnWeight="1"-->
-        <!--                    android:layout_gravity="fill"-->
-        <!--                    android:layout_margin="5dp"-->
-        <!--                    android:elevation="5dp"-->
-        <!--                    app:cardCornerRadius="10dp">-->
-
-        <!--                    <LinearLayout-->
-        <!--                        android:layout_width="wrap_content"-->
-        <!--                        android:layout_height="wrap_content"-->
-        <!--                        android:layout_gravity="center_vertical|center_horizontal"-->
-        <!--                        android:gravity="center"-->
-        <!--                        android:orientation="vertical">-->
-
-        <!--                        <ImageView-->
-        <!--                            android:layout_width="100dp"-->
-        <!--                            android:layout_height="100dp"-->
-        <!--                            android:src="@drawable/undraw_community" />-->
-
-        <!--                        <TextView-->
-        <!--                            android:layout_width="wrap_content"-->
-        <!--                            android:layout_height="wrap_content"-->
-        <!--                            android:text="Science"-->
-        <!--                            android:textAlignment="center" />-->
-        <!--                    </LinearLayout>-->
-
-        <!--                </androidx.cardview.widget.CardView>-->
-
-        <!--                <androidx.cardview.widget.CardView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:layout_row="1"-->
-        <!--                    android:layout_rowWeight="1"-->
-        <!--                    android:layout_column="1"-->
-        <!--                    android:layout_columnWeight="1"-->
-        <!--                    android:layout_gravity="fill"-->
-        <!--                    android:layout_margin="5dp"-->
-        <!--                    android:elevation="5dp"-->
-        <!--                    app:cardCornerRadius="10dp">-->
-
-        <!--                    <LinearLayout-->
-        <!--                        android:layout_width="wrap_content"-->
-        <!--                        android:layout_height="wrap_content"-->
-        <!--                        android:layout_gravity="center_vertical|center_horizontal"-->
-        <!--                        android:gravity="center"-->
-        <!--                        android:orientation="vertical">-->
-
-        <!--                        <ImageView-->
-        <!--                            android:layout_width="100dp"-->
-        <!--                            android:layout_height="100dp"-->
-        <!--                            android:src="@drawable/undraw_community" />-->
-
-        <!--                        <TextView-->
-        <!--                            android:layout_width="wrap_content"-->
-        <!--                            android:layout_height="wrap_content"-->
-        <!--                            android:text="Science"-->
-        <!--                            android:textAlignment="center" />-->
-        <!--                    </LinearLayout>-->
-
-        <!--                </androidx.cardview.widget.CardView>-->
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp" />
 
 
-        <!--            </GridLayout>-->
+        <LinearLayout
+            android:id="@+id/llyPlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/llySearch"
+            android:layout_marginBottom="125dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imgPlaceholder"
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:gravity="center"
+                android:src="@drawable/ic_undraw_void" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text="No recent sessions found"
+                android:textColor="@color/colorTextColor"
+                android:textSize="25sp" />
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="30dp"-->
+<!--                android:fontFamily="@font/roboto_medium"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Try adjusting your search or filter to find what you're looking for."-->
+<!--                android:textColor="@color/colorHint"-->
+<!--                android:textSize="14sp" />-->
+
+        </LinearLayout>
 
 
     </LinearLayout>

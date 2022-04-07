@@ -354,10 +354,14 @@ public class ConversationActivity extends AppCompatActivity {
 
     private void filePicker(int i) {
         if (i == 0) {
-            Intent intent = new Intent();
-            intent.setType("*/*");
-            intent.setAction(Intent.ACTION_PICK);
-            startActivityForResult(Intent.createChooser(intent, "Choose File to Upload"), ALL_FILE_REQUEST);
+                Intent intent = new Intent();
+                intent.setType("*/*");
+                intent.setAction(Intent.ACTION_PICK);
+                startActivityForResult(Intent.createChooser(intent, "Choose File to Upload"), ALL_FILE_REQUEST);
+//            Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+//            chooseFile.setType("*/*");
+//            chooseFile = Intent.createChooser(chooseFile, "Choose File to Upload");
+//            startActivityForResult(chooseFile, ALL_FILE_REQUEST);
         }
 
         if (i == 1) {
@@ -512,7 +516,7 @@ public class ConversationActivity extends AppCompatActivity {
                     fileSizeInMB = fileSizeInKB / 1024;
 
                     body.addFormDataPart("attachment", file1.getName(), RequestBody.create(MediaType.parse("*/*"), file1));
-                    strings[0] = null;
+                    all_file_path = null;
                 }
 
 

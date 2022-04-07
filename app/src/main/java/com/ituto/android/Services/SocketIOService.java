@@ -38,17 +38,6 @@ public class SocketIOService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
-    }
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
         sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         try {
             socket = IO.socket(Constant.URL);
@@ -127,6 +116,17 @@ public class SocketIOService extends Service {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
         return START_STICKY;
     }
 

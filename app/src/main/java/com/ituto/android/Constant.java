@@ -34,6 +34,8 @@ public class Constant {
 
     public static final String TUTOR_SESSIONS = HOME + "/sessions/tutor";
     public static final String TUTEE_SESSIONS = HOME + "/sessions/tutee";
+    public static final String ALL_TUTOR_SESSIONS = HOME + "/sessions/tutor/all";
+    public static final String ALL_TUTEE_SESSIONS = HOME + "/sessions/tutee/all";
     public static final String SESSIONS = HOME + "/sessions";
     public static final String GET_SESSION = HOME + "/session";
     public static final String REVIEW_TUTOR = HOME + "/session/tutor/review";

@@ -7,8 +7,8 @@ public class Session {
     private User tutee;
     private Tutor tutor;
     private Subject subject;
-    private String sessionID, description, startDate, endDate, timeOfDay, minTime, maxTime;
-    private ArrayList<String> assessments, days;
+    private String sessionID, description, requestDate, acceptDeclineDate, startDate, endDate, timeOfDay, minTime, maxTime, status, displayDate;
+    private ArrayList<String> assessments;
 
     public String getSessionID() {
         return sessionID;
@@ -98,4 +98,35 @@ public class Session {
         this.assessments = assessments;
     }
 
+    public String getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(String requestDate) {
+        this.requestDate = requestDate;
+    }
+
+    public String getAcceptDeclineDate() {
+        return acceptDeclineDate;
+    }
+
+    public void setAcceptDeclineDate(String acceptDeclineDate) {
+        this.acceptDeclineDate = acceptDeclineDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDisplayDate() {
+        return displayDate;
+    }
+
+    public void setDisplayDate(String displayDate) {
+        this.displayDate = displayDate;
+    }
 }

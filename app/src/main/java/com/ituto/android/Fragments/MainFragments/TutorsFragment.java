@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -54,7 +55,7 @@ public class TutorsFragment extends Fragment implements TutorsAdapter.OnItemList
     private String DAY = "";
 
     private LinearLayout llyPlaceholder;
-    private EditText searchTutor;
+    public static EditText searchTutor;
     private ImageView btnFilters;
     public static SwipeRefreshLayout swipeTutor;
     public static RecyclerView recyclerTutor;
@@ -80,6 +81,12 @@ public class TutorsFragment extends Fragment implements TutorsAdapter.OnItemList
         recyclerTutor.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeTutor = view.findViewById(R.id.swipeTutor);
         llyPlaceholder = view.findViewById(R.id.llyPlaceholder);
+
+        if (HomeActivity.clicked) {
+            searchTutor.requestFocus();
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE); imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            HomeActivity.clicked = false;
+        }
 
         getTutors();
 

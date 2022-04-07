@@ -73,6 +73,8 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
         ArrayList<String> subjects = tutor.getSubjects();
         Glide.with(context).load(tutor.getAvatar()).override(500, 500).placeholder(R.drawable.blank_avatar).into(holder.imgTutor);
         holder.txtName.setText(tutor.getFirstname() + " " + tutor.getLastname());
+        holder.txtCourse.setText(tutor.getCourse());
+        holder.txtYearLevel.setText(tutor.getYearLevel() + " Year");
         holder.btnMessage.setOnClickListener(v -> message(holder, position));
 //        if (sharedPreferences.getString("loggedInAs", "").equals("TUTOR")) {
 //            holder.llyButtons.setVisibility(View.GONE);
@@ -162,7 +164,7 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
 
     class TutorHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView txtName, txtCourse, txtDays, txtTime, txtSubjects;
+        private TextView txtName, txtCourse, txtYearLevel, txtDays, txtTime, txtSubjects;
         private CircleImageView imgTutor;
         private LinearLayout llyButtons;
         private Button btnProfile, btnMessage;
@@ -171,6 +173,7 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
             super(itemView);
             txtName = itemView.findViewById(R.id.txtName);
             txtCourse = itemView.findViewById(R.id.txtCourse);
+            txtYearLevel = itemView.findViewById(R.id.txtYearLevel);
             txtDays = itemView.findViewById(R.id.txtDays);
             txtTime = itemView.findViewById(R.id.txtTime);
             txtSubjects = itemView.findViewById(R.id.txtSubjects);

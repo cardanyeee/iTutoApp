@@ -3,6 +3,7 @@ package com.ituto.android.Fragments.SessionFragments;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -26,8 +27,11 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.ituto.android.Constant;
+import com.ituto.android.ConversationActivity;
+import com.ituto.android.HomeActivity;
 import com.ituto.android.R;
 import com.muddzdev.styleabletoast.StyleableToast;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -54,7 +58,7 @@ public class SessionRequestInfo extends Fragment {
 
     private ImageView imgBackButton;
     private CircleImageView imgUser;
-    private TextView txtName, txtCourse, txtStartDate, txtDescription, txtSubject;
+    private TextView txtName, txtCourse, txtYearLevel, txtStartDate, txtDescription, txtSubject;
     private Chip chpMorning, chpAfternoon, chpEvening;
     private Button btnAcceptSchedule, btnDeclineSchedule;
     private MaterialButton btnCancelRequest;
@@ -64,6 +68,8 @@ public class SessionRequestInfo extends Fragment {
     private String loggedInAs;
     private ArrayList<Integer> availableDays;
     private Dialog dialog;
+    private String userID, name, avatar;
+    private MaterialCardView crdMessage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,12 +95,14 @@ public class SessionRequestInfo extends Fragment {
         imgUser = view.findViewById(R.id.imgUser);
         txtName = view.findViewById(R.id.txtName);
         txtCourse = view.findViewById(R.id.txtCourse);
+        txtYearLevel = view.findViewById(R.id.txtYearLevel);
         txtDescription = view.findViewById(R.id.txtDescription);
         txtSubject = view.findViewById(R.id.txtSubject);
         txtStartDate = view.findViewById(R.id.txtStartDate);
         btnDeclineSchedule = view.findViewById(R.id.btnDeclineSchedule);
         btnAcceptSchedule = view.findViewById(R.id.btnAcceptSchedule);
         btnCancelRequest = view.findViewById(R.id.btnCancelRequest);
+        crdMessage = view.findViewById(R.id.crdMessage);
 
         if (loggedInAs.equals("TUTOR")) {
             btnAcceptSchedule.setVisibility(View.VISIBLE);
@@ -166,6 +174,8 @@ public class SessionRequestInfo extends Fragment {
 
         imgBackButton.setOnClickListener(view -> getActivity().getSupportFragmentManager().popBackStack());
 
+        crdMessage.setOnClickListener(view -> message());
+
         getSession();
     }
 
@@ -235,14 +245,24 @@ public class SessionRequestInfo extends Fragment {
                         Glide.with(getContext()).load(avatarObject.getString("url")).override(500, 500).placeholder(R.drawable.blank_avatar).into(imgUser);
                         txtName.setText(tuteeObject.getString("firstname") + " " + tuteeObject.getString("lastname"));
                         txtCourse.setText(courseObject.getString("name"));
+                        txtYearLevel.setText(tuteeObject.getString("yearLevel") + " Year");
+
+                        userID = tuteeObject.getString("_id");
+                        name = tuteeObject.getString("firstname") + " " + tuteeObject.getString("lastname");
+                        avatar = avatarObject.getString("url");
                     } else {
                         Glide.with(getContext()).load(avatarTutorObject.getString("url")).override(500, 500).placeholder(R.drawable.blank_avatar).into(imgUser);
                         txtName.setText(tutorObject.getString("firstname") + " " + tutorObject.getString("lastname"));
                         txtCourse.setText(courseTutorObject.getString("name"));
+                        txtYearLevel.setText(tutorObject.getString("yearLevel") + " Year");
                         txtStartDate.setClickable(false);
                         chpMorning.setClickable(false);
                         chpAfternoon.setClickable(false);
                         chpEvening.setClickable(false);
+
+                        userID = tutorObject.getString("_id");
+                        name = tutorObject.getString("firstname") + " " + tutorObject.getString("lastname");
+                        avatar = avatarTutorObject.getString("url");
                     }
 
                     txtStartDate.setText(outputFormat.format(date));
@@ -284,13 +304,13 @@ public class SessionRequestInfo extends Fragment {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
                     JSONObject conversationObject = object.getJSONObject("conversation");
-//
-//                    Intent i = new Intent(((HomeActivity)context), ConversationActivity.class);
-//                    i.putExtra("conversationID", conversationObject.getString("_id"));
-//                    i.putExtra("name", tutorArrayList.get(position).getFirstname() + " " + tutorArrayList.get(position).getLastname());
-//                    i.putExtra("avatar", tutorArrayList.get(position).getAvatar());
-//                    i.putExtra("users", conversationObject.getJSONArray("users").toString());
-//                    getContext().startActivity(i);
+
+                    Intent i = new Intent((HomeActivity)getContext(), ConversationActivity.class);
+                    i.putExtra("conversationID", conversationObject.getString("_id"));
+                    i.putExtra("name", name);
+                    i.putExtra("avatar", avatar);
+                    i.putExtra("users", conversationObject.getJSONArray("users").toString());
+                    getContext().startActivity(i);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -311,7 +331,7 @@ public class SessionRequestInfo extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
-//                map.put("userId", tutorArrayList.get(position).getUserID());
+                map.put("userId", userID);
                 return map;
             }
         };

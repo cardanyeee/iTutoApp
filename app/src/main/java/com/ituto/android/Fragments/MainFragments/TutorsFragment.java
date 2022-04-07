@@ -85,9 +85,9 @@ public class TutorsFragment extends Fragment implements TutorsAdapter.OnItemList
         if (HomeActivity.clicked) {
             searchTutor.requestFocus();
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE); imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            HomeActivity.clicked = false;
         }
 
+        HomeActivity.clicked = false;
         getTutors();
 
         swipeTutor.setOnRefreshListener(() -> getTutors());
@@ -136,6 +136,7 @@ public class TutorsFragment extends Fragment implements TutorsAdapter.OnItemList
                     for (int i = 0; i < resultArray.length(); i++) {
                         JSONObject tutorObject = resultArray.getJSONObject(i);
                         JSONObject userObject = tutorObject.getJSONObject("userID");
+                        JSONObject courseObject = userObject.getJSONObject("course");
                         JSONObject avatar = userObject.getJSONObject("avatar");
                         JSONObject availabilityObject = tutorObject.getJSONObject("availability");
                         JSONArray days = availabilityObject.getJSONArray("days");
@@ -147,6 +148,8 @@ public class TutorsFragment extends Fragment implements TutorsAdapter.OnItemList
                         tutor.setUserID(userObject.getString("_id"));
                         tutor.setFirstname(userObject.getString("firstname"));
                         tutor.setLastname(userObject.getString("lastname"));
+                        tutor.setYearLevel(userObject.getString("yearLevel"));
+                        tutor.setCourse(courseObject.getString("name"));
                         tutor.setAvatar(avatar.getString("url"));
 
                         ArrayList<String> daysArray = new ArrayList<>();

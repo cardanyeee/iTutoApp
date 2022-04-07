@@ -2,7 +2,7 @@ package com.ituto.android.Models;
 
 public class User {
 
-    private String userID, firstname, lastname, birthdate, gender, course, email, avatar;
+    private String userID, firstname, lastname, birthdate, gender, course, email, avatar, yearLevel;
     private boolean isTutor;
 
     public String getUserID() {
@@ -53,6 +53,22 @@ public class User {
         this.course = course;
     }
 
+    public String getYearLevel() {
+        return yearLevel;
+    }
+
+    public void setYearLevel(String yearLevel) {
+        this.yearLevel = yearLevel;
+    }
+
+    public boolean isTutor() {
+        return isTutor;
+    }
+
+    public void setTutor(boolean tutor) {
+        isTutor = tutor;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -68,4 +84,5 @@ public class User {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
 }

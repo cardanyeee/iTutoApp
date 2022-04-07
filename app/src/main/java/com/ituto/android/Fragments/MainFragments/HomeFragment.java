@@ -196,6 +196,7 @@ public class HomeFragment extends Fragment {
                         session.setStatus(sessionObject.getString("status"));
 
                         if (session.getStatus().equals("Request")) {
+                            session.setStatus(loggedInAs.equals("TUTOR") ? sessionObject.getString("status") : "Pending");
                             displayDate = format.parse(sessionObject.getString("requestDate"));
                             session.setDisplayDate(outputFormat.format(displayDate));
                         }

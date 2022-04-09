@@ -1,6 +1,7 @@
 package com.ituto.android.Fragments;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -57,6 +58,7 @@ public class AssessmentCreateFragment extends Fragment {
 
     private QuestionsAdapter questionsAdapter;
     private Dialog addQuestionDialog;
+    private ProgressDialog progressDialog;
 
     private TextInputEditText txtAssessmentName, txtQuestion, txtChoiceA, txtChoiceB, txtChoiceC, txtChoiceD;
     private RadioGroup rdgChoices;
@@ -104,6 +106,9 @@ public class AssessmentCreateFragment extends Fragment {
         sessionID = getArguments().getString("sessionID");
         tuteeID = getArguments().getString("tuteeID");
         subjectID = getArguments().getString("subjectID");
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setCancelable(false);
 
         addQuestionDialog = new Dialog(getContext());
 
@@ -162,11 +167,14 @@ public class AssessmentCreateFragment extends Fragment {
     }
 
     private void addAssessment() {
+        progressDialog.setMessage("Creating Assessment");
+        progressDialog.show();
         StringRequest request = new StringRequest(Request.Method.POST, Constant.CREATE_ASSESSMENT, response -> {
 
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
+                    progressDialog.dismiss();
                     socket.emit("assessment create", object.getJSONObject("assessment"));
                     getActivity().getSupportFragmentManager().popBackStack();
                     StyleableToast.makeText(getContext(), "Assessment successfully created!", R.style.CustomToast).show();
@@ -176,6 +184,7 @@ public class AssessmentCreateFragment extends Fragment {
             }
 
         }, error -> {
+            progressDialog.dismiss();
             StyleableToast.makeText(getContext(), "Unable to create assessment", R.style.CustomToast).show();
             error.printStackTrace();
         }) {

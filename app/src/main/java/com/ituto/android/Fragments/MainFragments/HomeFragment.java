@@ -87,6 +87,7 @@ public class HomeFragment extends Fragment {
     private String loggedInAs;
     private RecentSessionsAdapter recentSessionsAdapter;
     //    private List<EventDay> events;
+    private SwipeRefreshLayout swipeRecentSessions;
     private RecyclerView recyclerSessions;
     private EditText txtHomeSearch;
     private BottomNavigationView bottomNavigation;
@@ -109,6 +110,7 @@ public class HomeFragment extends Fragment {
         loggedInAs = sharedPreferences.getString("loggedInAs", "");
         ((HomeActivity)getContext()).setSupportActionBar(toolbar);
 
+        swipeRecentSessions = view.findViewById(R.id.swipeRecentSessions);
         recyclerSessions = view.findViewById(R.id.recyclerSessions);
         recyclerSessions.setLayoutManager(new LinearLayoutManager(getContext()));
         llyPlaceholder = view.findViewById(R.id.llyPlaceholder);
@@ -125,6 +127,8 @@ public class HomeFragment extends Fragment {
         getSessions();
 
         getUser();
+
+        swipeRecentSessions.setOnRefreshListener(() -> getSessions());
 
         txtHomeSearch.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -173,6 +177,7 @@ public class HomeFragment extends Fragment {
 
     private void getSessions() {
         sessionArrayList = new ArrayList<>();
+        swipeRecentSessions.setRefreshing(true);
 //        events = new ArrayList<>();
 
         StringRequest request = new StringRequest(Request.Method.GET, loggedInAs.equals("TUTOR") ? Constant.ALL_TUTOR_SESSIONS : Constant.ALL_TUTEE_SESSIONS, response -> {
@@ -257,11 +262,12 @@ public class HomeFragment extends Fragment {
                     recentSessionsAdapter = new RecentSessionsAdapter(getContext(), sessionArrayList);
                     recyclerSessions.setAdapter(recentSessionsAdapter);
                 }
-
+                swipeRecentSessions.setRefreshing(false);
             } catch (JSONException | ParseException e) {
                 e.printStackTrace();
             }
         }, error -> {
+            swipeRecentSessions.setRefreshing(false);
             error.printStackTrace();
         }) {
             @Override

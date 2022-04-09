@@ -74,7 +74,7 @@ public class SessionCompletedFragment extends Fragment implements SessionsAdapte
 
     private void getCompletedSessions() {
         sessionArrayList = new ArrayList<>();
-
+        swipeSession.setRefreshing(true);
         String sessionsLink = loggedInAs.equals("TUTOR") ? Constant.TUTOR_SESSIONS : Constant.TUTEE_SESSIONS;
 
         StringRequest request = new StringRequest(Request.Method.GET, sessionsLink + "?status=Done", response -> {

@@ -73,7 +73,7 @@ public class SessionsFragment extends Fragment implements SessionsAdapter.OnItem
 
     private void getSessions() {
         sessionArrayList = new ArrayList<>();
-
+        swipeSession.setRefreshing(true);
         String sessionsLink = loggedInAs.equals("TUTOR") ? Constant.TUTOR_SESSIONS : Constant.TUTEE_SESSIONS;
 
         StringRequest request = new StringRequest(Request.Method.GET, sessionsLink + "?status=Ongoing", response -> {

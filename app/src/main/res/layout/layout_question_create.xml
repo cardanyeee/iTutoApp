@@ -15,15 +15,22 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:translationZ="100dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="-20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_circle_24"/>
+
+        <ImageView
             android:id="@+id/btnEditQuestion"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:background="@color/colorBackground"
+            android:background="@color/colorPrimaryLight"
             android:gravity="center"
             android:padding="35dp"
             android:src="@drawable/ic_baseline_edit_24"
-            android:textColor="@color/colorWhite"
-            app:tint="@color/colorPrimaryLight" />
+            app:tint="@color/colorPrimary" />
 
         <ImageView
             android:id="@+id/btnDeleteQuestion"
@@ -32,16 +39,17 @@
             android:background="@color/colorError"
             android:gravity="center"
             android:padding="35dp"
-            android:src="@drawable/ic_baseline_close_24"
-            android:textColor="@color/colorWhite" />
+            android:src="@drawable/ic_baseline_close_24" />
 
     </LinearLayout>
 
     <!--Main Layout-->
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/crdMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true">
+        android:clickable="true"
+        android:longClickable="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,6 +90,7 @@
                     android:id="@+id/txtQuestion"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_weight="8.3"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/textview"

@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ituto.android.Models.Question;
 import com.ituto.android.R;
@@ -27,7 +30,7 @@ import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.ArrayList;
 
-public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.QuestionHolder>{
+public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.QuestionHolder> {
 
     private Context context;
     private ArrayList<Question> questionArrayList;
@@ -47,6 +50,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         return new QuestionHolder(view);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull QuestionHolder holder, @SuppressLint("RecyclerView") int position) {
         Question question = questionArrayList.get(position);
@@ -65,6 +69,25 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         viewBinderHelper.bind(holder.swipeQuestionLayout, String.valueOf(position));
         viewBinderHelper.closeLayout(String.valueOf(position));
 
+        final Handler handle = new Handler();
+        final Runnable run = () -> viewBinderHelper.openLayout(String.valueOf(position));
+        holder.crdMain.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        handle.postDelayed(run, 5000/* OR the amount of time you want */);
+                        break;
+
+                    default:
+                        handle.removeCallbacks(run);
+                        break;
+
+                }
+                return true;
+            }
+        });
+
         Dialog editQuestionDialog;
         editQuestionDialog = new Dialog(context);
 
@@ -72,11 +95,11 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         editQuestionDialog.getWindow().getAttributes().windowAnimations = R.style.AddQuestionDialogAnimation;
         editQuestionDialog.setContentView(R.layout.layout_dialog_add_question);
 
-        TextInputEditText  txtQuestionEdit = editQuestionDialog.findViewById(R.id.txtQuestion);
-        TextInputEditText  txtChoiceA = editQuestionDialog.findViewById(R.id.txtChoiceA);
-        TextInputEditText  txtChoiceB = editQuestionDialog.findViewById(R.id.txtChoiceB);
-        TextInputEditText  txtChoiceC = editQuestionDialog.findViewById(R.id.txtChoiceC);
-        TextInputEditText  txtChoiceD = editQuestionDialog.findViewById(R.id.txtChoiceD);
+        TextInputEditText txtQuestionEdit = editQuestionDialog.findViewById(R.id.txtQuestion);
+        TextInputEditText txtChoiceA = editQuestionDialog.findViewById(R.id.txtChoiceA);
+        TextInputEditText txtChoiceB = editQuestionDialog.findViewById(R.id.txtChoiceB);
+        TextInputEditText txtChoiceC = editQuestionDialog.findViewById(R.id.txtChoiceC);
+        TextInputEditText txtChoiceD = editQuestionDialog.findViewById(R.id.txtChoiceD);
         RadioGroup rdgChoices = editQuestionDialog.findViewById(R.id.rdgChoices);
         RadioButton rdbA = editQuestionDialog.findViewById(R.id.rdbA);
         RadioButton rdbB = editQuestionDialog.findViewById(R.id.rdbB);
@@ -143,6 +166,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     class QuestionHolder extends RecyclerView.ViewHolder {
 
         private SwipeRevealLayout swipeQuestionLayout;
+        private MaterialCardView crdMain;
         private EditText txtAnswer;
         private TextView txtItemNum, txtQuestion, txtChoiceA, txtChoiceB, txtChoiceC, txtChoiceD;
         private ImageView btnDeleteQuestion, btnEditQuestion;
@@ -150,6 +174,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         public QuestionHolder(@NonNull View itemView) {
             super(itemView);
             swipeQuestionLayout = itemView.findViewById(R.id.swipeQuestionLayout);
+            crdMain = itemView.findViewById(R.id.crdMain);
             txtAnswer = itemView.findViewById(R.id.txtAnswer);
             txtItemNum = itemView.findViewById(R.id.txtItemNum);
             txtQuestion = itemView.findViewById(R.id.txtQuestion);
@@ -192,32 +217,32 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 
     private boolean validateDialog(Dialog editQuestionDialog) {
 
-        if (((TextInputEditText)editQuestionDialog.findViewById(R.id.txtQuestion)).getText().toString().isEmpty()) {
+        if (((TextInputEditText) editQuestionDialog.findViewById(R.id.txtQuestion)).getText().toString().isEmpty()) {
             StyleableToast.makeText(context, "Please input a question", R.style.CustomToast).show();
             return false;
         }
 
-        if (((TextInputEditText)editQuestionDialog.findViewById(R.id.txtChoiceA)).getText().toString().isEmpty()) {
+        if (((TextInputEditText) editQuestionDialog.findViewById(R.id.txtChoiceA)).getText().toString().isEmpty()) {
             StyleableToast.makeText(context, "Please input choice A", R.style.CustomToast).show();
             return false;
         }
 
-        if (((TextInputEditText)editQuestionDialog.findViewById(R.id.txtChoiceB)).toString().isEmpty()) {
+        if (((TextInputEditText) editQuestionDialog.findViewById(R.id.txtChoiceB)).toString().isEmpty()) {
             StyleableToast.makeText(context, "Please input choice B", R.style.CustomToast).show();
             return false;
         }
 
-        if (((TextInputEditText)editQuestionDialog.findViewById(R.id.txtChoiceC)).toString().isEmpty()) {
+        if (((TextInputEditText) editQuestionDialog.findViewById(R.id.txtChoiceC)).toString().isEmpty()) {
             StyleableToast.makeText(context, "Please input choice C", R.style.CustomToast).show();
             return false;
         }
 
-        if (((TextInputEditText)editQuestionDialog.findViewById(R.id.txtChoiceD)).getText().toString().isEmpty()) {
+        if (((TextInputEditText) editQuestionDialog.findViewById(R.id.txtChoiceD)).getText().toString().isEmpty()) {
             StyleableToast.makeText(context, "Please input choice D", R.style.CustomToast).show();
             return false;
         }
 
-        if (((RadioGroup)editQuestionDialog.findViewById(R.id.rdgChoices)).getCheckedRadioButtonId() == -1) {
+        if (((RadioGroup) editQuestionDialog.findViewById(R.id.rdgChoices)).getCheckedRadioButtonId() == -1) {
             StyleableToast.makeText(context, "Please select an answer", R.style.CustomToast).show();
             return false;
         }
@@ -228,20 +253,20 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     private String getAnswer(Dialog editQuestionDialog) {
         String answer = "";
 
-        if (((RadioButton)editQuestionDialog.findViewById(R.id.rdbA)).isChecked()) {
-            answer = ((TextInputEditText)editQuestionDialog.findViewById(R.id.txtChoiceA)).getText().toString().trim();
+        if (((RadioButton) editQuestionDialog.findViewById(R.id.rdbA)).isChecked()) {
+            answer = ((TextInputEditText) editQuestionDialog.findViewById(R.id.txtChoiceA)).getText().toString().trim();
         }
 
-        if (((RadioButton)editQuestionDialog.findViewById(R.id.rdbB)).isChecked()) {
-            answer = ((TextInputEditText)editQuestionDialog.findViewById(R.id.txtChoiceB)).getText().toString().trim();
+        if (((RadioButton) editQuestionDialog.findViewById(R.id.rdbB)).isChecked()) {
+            answer = ((TextInputEditText) editQuestionDialog.findViewById(R.id.txtChoiceB)).getText().toString().trim();
         }
 
-        if (((RadioButton)editQuestionDialog.findViewById(R.id.rdbC)).isChecked()) {
-            answer = ((TextInputEditText)editQuestionDialog.findViewById(R.id.txtChoiceC)).getText().toString().trim();
+        if (((RadioButton) editQuestionDialog.findViewById(R.id.rdbC)).isChecked()) {
+            answer = ((TextInputEditText) editQuestionDialog.findViewById(R.id.txtChoiceC)).getText().toString().trim();
         }
 
-        if (((RadioButton)editQuestionDialog.findViewById(R.id.rdbD)).isChecked()) {
-            answer = ((TextInputEditText)editQuestionDialog.findViewById(R.id.txtChoiceD)).getText().toString().trim();
+        if (((RadioButton) editQuestionDialog.findViewById(R.id.rdbD)).isChecked()) {
+            answer = ((TextInputEditText) editQuestionDialog.findViewById(R.id.txtChoiceD)).getText().toString().trim();
         }
 
         return answer;

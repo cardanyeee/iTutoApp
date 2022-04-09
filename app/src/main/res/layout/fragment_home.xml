@@ -128,13 +128,20 @@
             android:textColor="@color/colorHint"
             android:textSize="13sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerSessions"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRecentSessions"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="20dp"
             android:clipToPadding="false"
-            android:paddingBottom="70dp" />
+            android:paddingBottom="70dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerSessions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
         <LinearLayout
@@ -173,8 +180,5 @@
             <!--                android:textSize="14sp" />-->
 
         </LinearLayout>
-
-
     </LinearLayout>
-
 </RelativeLayout>

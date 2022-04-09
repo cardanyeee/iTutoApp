@@ -27,6 +27,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -58,8 +59,8 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
 
     private View view;
     private ImageView imgBackButton;
-    private MaterialCardView crdTutee, crdDescription;
-    private TextView txtSubjectName, txtTime, txtName, txtCourse, txtYearLevel, txtDescription, txtTutor, txtTutee;
+    private MaterialCardView crdTutee, crdDescription, crdMessage;
+    private TextView txtSubjectName, txtTime, txtName, txtCourse, txtYearLevel, txtDescription;
     private RecyclerView recyclerAssessments;
     private ImageButton btnAddAssessment;
     private MaterialButton btnReviewTutor, btnSessionDone;
@@ -75,7 +76,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
     private MaterialButton btnCancel;
     private MaterialButton btnSubmit;
 
-    private String sessionID, tuteeID, tutorID, subjectID;
+    private String sessionID, tuteeID, tutorID, subjectID, userID, name, avatar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,14 +94,15 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         txtSubjectName = view.findViewById(R.id.txtSubjectName);
         txtTime = view.findViewById(R.id.txtTime);
         txtDescription = view.findViewById(R.id.txtDescription);
-        txtTutor = view.findViewById(R.id.txtTutor);
-        txtTutee = view.findViewById(R.id.txtTutee);
+//        txtTutor = view.findViewById(R.id.txtTutor);
+//        txtTutee = view.findViewById(R.id.txtTutee);
         recyclerAssessments = view.findViewById(R.id.recyclerAssessments);
         recyclerAssessments.setLayoutManager(new LinearLayoutManager(getContext()));
         btnAddAssessment = view.findViewById(R.id.btnAddAssessment);
         imgBackButton = view.findViewById(R.id.imgBackButton);
         btnSessionDone = view.findViewById(R.id.btnSessionDone);
         btnReviewTutor = view.findViewById(R.id.btnReviewTutor);
+        crdMessage = view.findViewById(R.id.crdMessage);
 
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
@@ -124,6 +126,8 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         }
 
         getSession();
+
+        crdMessage.setOnClickListener(view -> message());
 
         btnSessionDone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,6 +214,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                     JSONObject tuteeObject = sessionObject.getJSONObject("tutee");
                     JSONObject courseObject = tuteeObject.getJSONObject("course");
                     JSONObject avatarObject = tuteeObject.getJSONObject("avatar");
+                    JSONObject avatarTutorObject = tutorObject.getJSONObject("avatar");
                     JSONObject subjectObject = sessionObject.getJSONObject("subject");
                     JSONObject timeObject = sessionObject.getJSONObject("time");
                     JSONArray assessments = sessionObject.getJSONArray("assessments");
@@ -237,8 +242,8 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                     txtSubjectName.setText(subjectObject.getString("name"));
                     txtTime.setText(timeObject.getString("min") + " - " + timeObject.getString("max"));
                     txtDescription.setText(sessionObject.getString("description"));
-                    txtTutor.setText(tutorObject.getString("firstname") + " " + tutorObject.getString("lastname"));
-                    txtTutee.setText(tuteeObject.getString("firstname") + " " + tuteeObject.getString("lastname"));
+//                    txtTutor.setText(tutorObject.getString("firstname") + " " + tutorObject.getString("lastname"));
+//                    txtTutee.setText(tuteeObject.getString("firstname") + " " + tuteeObject.getString("lastname"));
 
                     for (int i = 0; i < assessments.length(); i++) {
                         JSONObject assessmentObject = assessments.getJSONObject(i);
@@ -250,6 +255,16 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                         assessment.setTotalItems(assessmentObject.getJSONArray("questions").length());
 
                         assessmentArrayList.add(assessment);
+                    }
+
+                    if (loggedInAs.equals("TUTOR")) {
+                        userID = tuteeObject.getString("_id");
+                        name = tuteeObject.getString("firstname") + " " + tuteeObject.getString("lastname");
+                        avatar = avatarObject.getString("url");
+                    } else {
+                        userID = tutorObject.getString("_id");
+                        name = tutorObject.getString("firstname") + " " + tutorObject.getString("lastname");
+                        avatar = avatarTutorObject.getString("url");
                     }
 
                     assessmentsAdapter = new AssessmentsAdapter(getContext(), assessmentArrayList, this);
@@ -391,6 +406,48 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                 R.anim.fade_in,   // popEnter
                 R.anim.slide_out  // popExit
         ).replace(R.id.fragment_container, assessmentAnswerFragment).addToBackStack(null).commit();
+    }
+
+    private void message() {
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.CONVERSATION, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONObject conversationObject = object.getJSONObject("conversation");
+
+                    Intent i = new Intent((HomeActivity) getContext(), ConversationActivity.class);
+                    i.putExtra("conversationID", conversationObject.getString("_id"));
+                    i.putExtra("name", name);
+                    i.putExtra("avatar", avatar);
+                    i.putExtra("users", conversationObject.getJSONArray("users").toString());
+                    getContext().startActivity(i);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+            }
+        }, error -> {
+            error.printStackTrace();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedPreferences.getString("token", "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
+                return map;
+            }
+
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("userId", userID);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
     }
 
 

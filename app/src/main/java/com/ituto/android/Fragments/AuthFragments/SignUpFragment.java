@@ -191,6 +191,12 @@ public class SignUpFragment extends Fragment {
             return false;
         }
 
+        if (!txtEmail.getText().toString().trim().endsWith("@tup.edu.ph")) {
+            layoutEmail.setErrorEnabled(true);
+            layoutEmail.setError("Please use university email");
+            return false;
+        }
+
         if (txtPassword.getText().toString().length() < 8) {
             layoutPassword.setErrorEnabled(true);
             layoutPassword.setError("Required at least 8 characters");

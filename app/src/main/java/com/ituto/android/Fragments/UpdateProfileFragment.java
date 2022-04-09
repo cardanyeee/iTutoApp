@@ -1,5 +1,7 @@
 package com.ituto.android.Fragments;
 
+import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -29,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -41,7 +44,10 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ituto.android.Constant;
+import com.ituto.android.Models.Conversation;
 import com.ituto.android.Models.Course;
+import com.ituto.android.Models.Message;
+import com.ituto.android.Models.User;
 import com.ituto.android.R;
 import com.ituto.android.Utils.FilePath;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -77,13 +83,14 @@ public class UpdateProfileFragment extends Fragment {
     private TextInputEditText txtFirstname, txtLastname, txtUsername, txtBirthdate, txtPhone;
     private AutoCompleteTextView txtGender, txtCourse, txtYearLevel;
     private static final String[] GENDERS = new String[]{
-            "Male", "Female", "Prefer not to say"
+            "Male", "Female"
     };
     private static final String[] YEAR = new String[]{
             "First", "Second", "Third", "Fourth"
     };
     private Button btnUpdateProfile;
 
+    private ImageView imgBackButton;
     private String courseID;
     private String gallery_file_path;
 
@@ -103,6 +110,7 @@ public class UpdateProfileFragment extends Fragment {
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.GONE);
         sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        imgBackButton = view.findViewById(R.id.imgBackButton);
         imgUserInfo = view.findViewById(R.id.imgUserInfo);
         fabUpload = view.findViewById(R.id.fabUpload);
         txtFirstname = view.findViewById(R.id.txtFirstname);
@@ -118,20 +126,19 @@ public class UpdateProfileFragment extends Fragment {
         getUser();
         getCourses();
 
-        fabUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        imgBackButton.setOnClickListener(view -> getActivity().getSupportFragmentManager().popBackStack());
+
+        fabUpload.setOnClickListener(view -> {
 
 //                if (Build.VERSION.SDK_INT >= 23) {
-                    if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                        filePicker(2);
-                    } else {
-                        requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-                    }
+            if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                filePicker(2);
+            } else {
+                requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
 //                } else {
 //                    filePicker(2);
 //                }
-            }
         });
 
         txtBirthdate.setOnClickListener(v -> {
@@ -315,18 +322,19 @@ public class UpdateProfileFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            dialog.setMessage("Updating Account");
             dialog.show();
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (s != null) {
-                getActivity().getSupportFragmentManager().popBackStack();
-                StyleableToast.makeText(getContext(), "Account Updated", R.style.CustomToast).show();
-            } else {
-                StyleableToast.makeText(getContext(), "There was a problem updating your account", R.style.CustomToast).show();
-            }
+//            if (s != null) {
+//                getActivity().getSupportFragmentManager().popBackStack();
+//                StyleableToast.makeText(getContext(), "Account Updated", R.style.CustomToast).show();
+//            } else {
+//                StyleableToast.makeText(getContext(), "There was a problem updating your account", R.style.CustomToast).show();
+//            }
             dialog.dismiss();
         }
 
@@ -363,9 +371,29 @@ public class UpdateProfileFragment extends Fragment {
 
                 Response response = okHttpClient.newCall(request).execute();
                 if (response != null && response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    runOnUiThread(() -> {
+                        try {
+                            JSONObject object = new JSONObject(responseData);
+                            if (object.getBoolean("success")) {
+                                StyleableToast.makeText(getContext(), "Account Updated", R.style.CustomToast).show();
+                                JSONObject user = object.getJSONObject("user");
+                                JSONObject avatar = user.getJSONObject("avatar");
+
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("avatar", avatar.getString("url"));
+                                editor.putString("firstname", user.getString("firstname"));
+                                editor.putString("lastname", user.getString("lastname"));
+                                editor.apply();
+                                getActivity().getSupportFragmentManager().popBackStack();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    });
                     dialog.dismiss();
-                    return response.body().string();
                 } else {
+                    runOnUiThread(() -> StyleableToast.makeText(getContext(), "There was a problem updating your account", R.style.CustomToast).show());
                     dialog.dismiss();
                     return null;
                 }

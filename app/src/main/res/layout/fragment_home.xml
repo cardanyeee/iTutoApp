@@ -20,7 +20,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="8.5"
+            android:layout_weight="8.3"
             android:orientation="vertical">
 
             <TextView
@@ -66,9 +66,9 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgUserProfile"
             android:layout_width="0dp"
-            android:layout_height="55dp"
+            android:layout_height="60dp"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1.5"
+            android:layout_weight="1.70"
             android:src="@drawable/blank_avatar" />
 
     </LinearLayout>
@@ -128,57 +128,64 @@
             android:textColor="@color/colorHint"
             android:textSize="13sp" />
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRecentSessions"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:clipToPadding="false"
             android:paddingBottom="70dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerSessions"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRecentSessions"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content">
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerSessions"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
+                </androidx.recyclerview.widget.RecyclerView>
 
-        <LinearLayout
-            android:id="@+id/llyPlaceholder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/llySearch"
-            android:layout_marginBottom="125dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-            <ImageView
-                android:id="@+id/imgPlaceholder"
-                android:layout_width="200dp"
-                android:layout_height="300dp"
+            <LinearLayout
+                android:id="@+id/llyPlaceholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="125dp"
                 android:gravity="center"
-                android:src="@drawable/ic_undraw_void" />
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:text="No recent sessions found"
-                android:textColor="@color/colorTextColor"
-                android:textSize="25sp" />
+                <ImageView
+                    android:id="@+id/imgPlaceholder"
+                    android:layout_width="200dp"
+                    android:layout_height="300dp"
+                    android:gravity="center"
+                    android:src="@drawable/ic_undraw_void" />
 
-            <!--            <TextView-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginHorizontal="30dp"-->
-            <!--                android:fontFamily="@font/roboto_medium"-->
-            <!--                android:gravity="center"-->
-            <!--                android:text="Try adjusting your search or filter to find what you're looking for."-->
-            <!--                android:textColor="@color/colorHint"-->
-            <!--                android:textSize="14sp" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="No recent sessions found"
+                    android:textColor="@color/colorTextColor"
+                    android:textSize="25sp" />
 
-        </LinearLayout>
+                <!--            <TextView-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginHorizontal="30dp"-->
+                <!--                android:fontFamily="@font/roboto_medium"-->
+                <!--                android:gravity="center"-->
+                <!--                android:text="Try adjusting your search or filter to find what you're looking for."-->
+                <!--                android:textColor="@color/colorHint"-->
+                <!--                android:textSize="14sp" />-->
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
     </LinearLayout>
 </RelativeLayout>

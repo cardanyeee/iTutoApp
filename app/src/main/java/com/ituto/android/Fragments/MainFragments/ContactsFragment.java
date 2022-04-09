@@ -32,9 +32,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
 
 public class ContactsFragment extends Fragment implements ContactsAdapter.OnItemListener {
     private View view;
@@ -45,9 +49,12 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
     public static ArrayList<Message> messageArrayList;
     private User signedUser, contactUser;
     private String KEYWORD = "";
+    private Boolean fromSocket = false;
 
     private SharedPreferences sharedPreferences;
     private ContactsAdapter contactsAdapter;
+
+    private Socket socket;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,9 +70,25 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
         recyclerContacts.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeContacts = view.findViewById(R.id.swipeContacts);
 
+        try {
+            socket = IO.socket(Constant.URL);
+
+            socket.connect();
+
+            socket.emit("connection", sharedPreferences.getString("_id", ""));
+            socket.emit("join", sharedPreferences.getString("_id", ""));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
         getSignedUser();
 
         getContacts();
+
+        socket.on("received", args -> {
+            fromSocket = true;
+            getContacts();
+        });
 
         swipeContacts.setOnRefreshListener(() -> getContacts());
 
@@ -80,7 +103,9 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
 
     private void getContacts() {
         messageArrayList = new ArrayList<>();
-        swipeContacts.setRefreshing(true);
+        if (!fromSocket) {
+            swipeContacts.setRefreshing(true);
+        }
         StringRequest request = new StringRequest(Request.Method.GET, Constant.CONVERSATIONS + "?keyword=" + KEYWORD, response -> {
             try {
                 JSONObject object = new JSONObject(response);
@@ -110,7 +135,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
                         }
 
                         User user = new User();
-                        for ( int a = 0; a < userArray.length(); a++) {
+                        for (int a = 0; a < userArray.length(); a++) {
                             JSONObject userObjectInConversation = userArray.getJSONObject(a);
                             if (sharedPreferences.getString("_id", "").equals(userObjectInConversation.getString("_id"))) {
 
@@ -126,7 +151,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
 
                         Conversation conversation = new Conversation();
                         ArrayList<String> userIDArrayList = new ArrayList<String>();
-                        for ( int a = 0; a < userArray.length(); a++) {
+                        for (int a = 0; a < userArray.length(); a++) {
                             JSONObject userObject = userArray.getJSONObject(a);
                             String userID = userObject.getString("_id");
                             userIDArrayList.add(userID);
@@ -141,6 +166,9 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
 
                     contactsAdapter = new ContactsAdapter(getContext(), messageArrayList, this);
                     recyclerContacts.setAdapter(contactsAdapter);
+                    if (fromSocket) {
+                        recyclerContacts.getAdapter().notifyDataSetChanged();
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -11,9 +11,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+
         android:orientation="horizontal"
         android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/imgBackButton"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_baseline_arrow_back_24" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,7 +45,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/txtSettings"
@@ -60,8 +68,8 @@
                 android:padding="20dp">
 
                 <RelativeLayout
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
                     android:layout_gravity="center"
                     android:clipToPadding="false"
                     android:padding="10dp">

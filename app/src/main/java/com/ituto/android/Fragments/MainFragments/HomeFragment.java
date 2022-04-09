@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
     public static ArrayList<Course> arrayList;
 
     private CircleImageView imgUserProfile;
-//    private CalendarView userSchedule;
+    //    private CalendarView userSchedule;
     private Toolbar toolbar;
     private SharedPreferences sharedPreferences;
     private static final int GALLERY_ADD_POST = 2;
@@ -108,7 +108,7 @@ public class HomeFragment extends Fragment {
         bottomNavigation = getActivity().findViewById(R.id.bottomNavigationView);
         sharedPreferences = getContext().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         loggedInAs = sharedPreferences.getString("loggedInAs", "");
-        ((HomeActivity)getContext()).setSupportActionBar(toolbar);
+        ((HomeActivity) getContext()).setSupportActionBar(toolbar);
 
         swipeRecentSessions = view.findViewById(R.id.swipeRecentSessions);
         recyclerSessions = view.findViewById(R.id.recyclerSessions);
@@ -150,22 +150,23 @@ public class HomeFragment extends Fragment {
 
             try {
                 JSONObject object = new JSONObject(response);
-                if(object.getBoolean("success")){
+                if (object.getBoolean("success")) {
                     JSONObject user = object.getJSONObject("user");
                     JSONObject avatar = user.getJSONObject("avatar");
                     JSONObject course = user.getJSONObject("course");
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }, error -> {
             error.printStackTrace();
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 String token = sharedPreferences.getString("token", "");
-                HashMap<String,String> map = new HashMap<>();
-                map.put("Authorization", "Bearer "+token);
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Authorization", "Bearer " + token);
                 return map;
             }
         };

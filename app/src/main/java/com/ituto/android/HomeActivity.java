@@ -23,9 +23,7 @@ import io.socket.client.Socket;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private FragmentManager fragmentManager;
     private BottomNavigationView bottomNavigation;
-    private static final int GALLERY_ADD_POST = 2;
     public static Boolean clicked = false;
     private Boolean fromBack = false;
 
@@ -33,11 +31,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        startService(new Intent(getBaseContext(), SocketIOService.class));
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-
-//        setSupportActionBar(toolbar);
-
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
         }
@@ -45,7 +38,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void init() {
-
+        startService(new Intent(getBaseContext(), SocketIOService.class));
         bottomNavigation = findViewById(R.id.bottomNavigationView);
         bottomNavigation.setOnNavigationItemSelectedListener(this);
 

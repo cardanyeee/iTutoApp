@@ -115,6 +115,7 @@ public class ConversationActivity extends AppCompatActivity {
     }
 
     private void init() {
+        startService(new Intent(getBaseContext(), SocketIOService.class));
         sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         imgYouHeader = findViewById(R.id.imgConversationAvatar);
         txtConversationName = findViewById(R.id.txtConversationName);
@@ -209,7 +210,7 @@ public class ConversationActivity extends AppCompatActivity {
         });
 
         socket.on("ring", args -> runOnUiThread(() -> {
-            StyleableToast.makeText(getApplicationContext(), "Someone is calling you....", R.style.CustomToast).show();
+//            StyleableToast.makeText(getApplicationContext(), "Someone is calling you....", R.style.CustomToast).show();
         }));
 
         socket.on("received", args -> {

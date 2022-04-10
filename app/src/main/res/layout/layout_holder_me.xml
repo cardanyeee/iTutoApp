@@ -39,7 +39,9 @@
                 android:padding="10dp"
                 android:text="@string/sample_message_me"
                 android:textColor="@android:color/white"
+                android:textIsSelectable="true"
                 android:textSize="@dimen/h3" />
+
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView

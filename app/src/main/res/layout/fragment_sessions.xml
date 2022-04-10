@@ -6,7 +6,8 @@
     android:layout_gravity="center"
     android:background="@color/colorBackground"
     android:clipToPadding="false"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:paddingBottom="60dp">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeSession"

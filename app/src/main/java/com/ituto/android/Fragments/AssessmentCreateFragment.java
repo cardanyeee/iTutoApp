@@ -12,9 +12,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -57,7 +59,7 @@ public class AssessmentCreateFragment extends Fragment {
     private ArrayList<Question> questionArrayList;
 
     private QuestionsAdapter questionsAdapter;
-    private Dialog addQuestionDialog;
+    private Dialog addQuestionDialog, confirmDialog;
     private ProgressDialog progressDialog;
 
     private TextInputEditText txtAssessmentName, txtQuestion, txtChoiceA, txtChoiceB, txtChoiceC, txtChoiceD;
@@ -160,7 +162,36 @@ public class AssessmentCreateFragment extends Fragment {
         btnConfirmAssessment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addAssessment();
+
+                confirmDialog = new Dialog(getContext());
+
+                confirmDialog.setContentView(R.layout.layout_dialog_confirm_assessment);
+                confirmDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                confirmDialog.getWindow().getAttributes().windowAnimations = R.style.AddQuestionDialogAnimation;
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                int width = metrics.widthPixels;
+                confirmDialog.getWindow().setLayout((6 * width) / 7, confirmDialog.getWindow().getAttributes().height);
+
+                Button btnYes, btnNo;
+
+                btnNo = confirmDialog.findViewById(R.id.btnNo);
+                btnYes = confirmDialog.findViewById(R.id.btnYes);
+
+                btnYes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addAssessment();
+                        confirmDialog.dismiss();
+                    }
+                });
+
+                btnNo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        confirmDialog.cancel();
+                    }
+                });
+                confirmDialog.show();
             }
         });
 

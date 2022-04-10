@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -50,6 +51,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
     private User signedUser, contactUser;
     private String KEYWORD = "";
     private Boolean fromSocket = false;
+    private LinearLayout llyPlaceholder;
 
     private SharedPreferences sharedPreferences;
     private ContactsAdapter contactsAdapter;
@@ -68,6 +70,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
         searchContacts = view.findViewById(R.id.searchContacts);
         recyclerContacts = view.findViewById(R.id.recyclerContacts);
         recyclerContacts.setLayoutManager(new LinearLayoutManager(getContext()));
+        llyPlaceholder = view.findViewById(R.id.llyPlaceholder);
         swipeContacts = view.findViewById(R.id.swipeContacts);
 
         try {
@@ -162,6 +165,14 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.OnItem
                         message.setConversation(conversation);
 
                         messageArrayList.add(message);
+                    }
+
+                    if (messageArrayList.isEmpty()) {
+                        recyclerContacts.setVisibility(View.GONE);
+                        llyPlaceholder.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerContacts.setVisibility(View.VISIBLE);
+                        llyPlaceholder.setVisibility(View.GONE);
                     }
 
                     contactsAdapter = new ContactsAdapter(getContext(), messageArrayList, this);

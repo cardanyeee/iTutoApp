@@ -37,4 +37,41 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <LinearLayout
+        android:id="@+id/llyPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchContacts"
+        android:layout_marginBottom="125dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imgPlaceholder"
+            android:layout_width="175dp"
+            android:layout_height="200dp"
+            android:gravity="center"
+            android:src="@drawable/ic_undraw_no_data" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="No messages found"
+            android:textColor="@color/colorTextColor"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:text="When you message someone, you'll see them here."
+            android:textColor="@color/colorHint"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
 </RelativeLayout>

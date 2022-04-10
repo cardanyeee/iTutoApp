@@ -98,6 +98,7 @@ public class ConversationActivity extends AppCompatActivity {
     private CircleImageView imgYouHeader;
     private TextView txtConversationName;
     private ImageButton btnCamera, btnImage, btnAttachment, btnCall;
+    private ImageView imgBackButton;
     private ProgressBar progressBar;
 
     private ArrayList<Message> messageArrayList;
@@ -130,6 +131,7 @@ public class ConversationActivity extends AppCompatActivity {
         recyclerConversation.setLayoutManager(linearLayoutManager);
         progressBar = findViewById(R.id.progressbar);
         btnCall = findViewById(R.id.btnCall);
+        imgBackButton = findViewById(R.id.imgBackButton);
 
         conversationID = getIntent().getStringExtra("conversationID");
 
@@ -150,6 +152,8 @@ public class ConversationActivity extends AppCompatActivity {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+
+        imgBackButton.setOnClickListener(view -> onBackPressed());
 
         btnAttachment.setOnClickListener(v -> {
             method = 0;

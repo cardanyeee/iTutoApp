@@ -81,11 +81,6 @@ public class MainAuthFragment extends Fragment {
         });
     }
 
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-    }
-
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);

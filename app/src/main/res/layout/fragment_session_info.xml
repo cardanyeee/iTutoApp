@@ -139,88 +139,34 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/crdMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/crdDescription"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="15dp"
+                android:backgroundTint="@color/colorBackground"
+                android:clickable="true"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="20dp">
 
-            <!--            <com.google.android.material.card.MaterialCardView-->
-            <!--                android:id="@+id/crdTutee"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginHorizontal="10dp"-->
-            <!--                android:layout_marginBottom="15dp"-->
-            <!--                app:cardCornerRadius="10dp"-->
-            <!--                app:cardElevation="20dp">-->
-            <!--                &lt;!&ndash;                android:layout_marginBottom="15dp"&ndash;&gt;-->
-            <!--                <LinearLayout-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:background="@color/colorBackground"-->
-            <!--                    android:orientation="horizontal"-->
-            <!--                    android:padding="10dp"-->
-            <!--                    android:weightSum="10">-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Chat/Video Chat"
+                    android:textColor="@color/colorSecondary" />
 
-
-            <!--                    <LinearLayout-->
-            <!--                        android:layout_width="0dp"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:layout_weight="5"-->
-            <!--                        android:orientation="vertical">-->
-
-            <!--                        <TextView-->
-            <!--                            android:layout_width="match_parent"-->
-            <!--                            android:layout_height="wrap_content"-->
-            <!--                            android:fontFamily="@font/roboto_black"-->
-            <!--                            android:gravity="center"-->
-            <!--                            android:text="Tutor"-->
-            <!--                            android:textColor="@color/colorPrimary" />-->
-
-            <!--                        <TextView-->
-            <!--                            android:id="@+id/txtTutor"-->
-            <!--                            android:layout_width="match_parent"-->
-            <!--                            android:layout_height="wrap_content"-->
-            <!--                            android:fontFamily="@font/roboto_regular"-->
-            <!--                            android:gravity="center"-->
-            <!--                            android:text="Tony Stark" />-->
-
-            <!--                    </LinearLayout>-->
-
-            <!--                    <View-->
-            <!--                        android:layout_width="1dp"-->
-            <!--                        android:layout_height="match_parent"-->
-            <!--                        android:background="@color/colorHint" />-->
-
-            <!--                    <LinearLayout-->
-            <!--                        android:layout_width="0dp"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:layout_weight="5"-->
-            <!--                        android:orientation="vertical">-->
-
-            <!--                        <TextView-->
-            <!--                            android:layout_width="match_parent"-->
-            <!--                            android:layout_height="wrap_content"-->
-            <!--                            android:fontFamily="@font/roboto_black"-->
-            <!--                            android:gravity="center"-->
-            <!--                            android:text="Tutee"-->
-            <!--                            android:textColor="@color/colorPrimary" />-->
-
-            <!--                        <TextView-->
-            <!--                            android:id="@+id/txtTutee"-->
-            <!--                            android:layout_width="match_parent"-->
-            <!--                            android:layout_height="wrap_content"-->
-            <!--                            android:fontFamily="@font/roboto_regular"-->
-            <!--                            android:gravity="center"-->
-            <!--                            android:text="Tony Stark" />-->
-
-            <!--                    </LinearLayout>-->
-
-            <!--                </LinearLayout>-->
-
-
-            <!--            </com.google.android.material.card.MaterialCardView>-->
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/crdAssessments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/crdDescription"
+                android:layout_below="@+id/crdMessage"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginBottom="15dp"
                 app:cardBackgroundColor="@color/colorBackground"
@@ -251,13 +197,14 @@
                         android:theme="@style/Button.Primary"
                         app:tint="@color/colorPrimaryLight" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/llyAssessments"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/txtAssessments"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -267,12 +214,56 @@
                             android:textColor="@color/colorPrimary"
                             android:textSize="15sp" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerAssessments"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                            android:id="@+id/swipeAssessments"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtAssessments">
 
-                    </LinearLayout>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerAssessments"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llyPlaceholder"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/txtAssessments"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:id="@+id/imgPlaceholder"
+                                android:layout_width="175dp"
+                                android:layout_height="200dp"
+                                android:gravity="center"
+                                android:src="@drawable/ic_undraw_assessments" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="No assessments found"
+                                android:textColor="@color/colorTextColor"
+                                android:textSize="23sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="50dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:gravity="center"
+                                android:text="You will see assessments for this session here."
+                                android:textColor="@color/colorHint"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
 
 
                 </RelativeLayout>
@@ -280,32 +271,9 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/crdMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/crdAssessments"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginBottom="15dp"
-                android:backgroundTint="@color/colorBackground"
-                android:clickable="true"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="15dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Send Message"
-                    android:textColor="@color/colorPrimary" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/crdMessage"
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginBottom="20dp"

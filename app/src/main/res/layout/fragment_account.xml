@@ -53,107 +53,76 @@
                 android:textSize="30sp" />
 
             <!--          ~~~~~~~~~~~~~~~~~~~~~~~~-->
-            <RelativeLayout
-                android:id="@+id/rlyBody"
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/txtSettings"
-                android:clipToPadding="false"
-                android:orientation="vertical"
-                android:paddingHorizontal="20dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="10dp">
+                android:layout_below="@+id/txtSettings">
 
-                <!--         Header ~~~~~~~~~~~~~~~~~~~~~~~~-->
-                <LinearLayout
-                    android:id="@+id/llyHeader"
+                <RelativeLayout
+                    android:id="@+id/rlyBody"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/bg_round2"
-                    android:elevation="20dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingVertical="25dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="15dp"
-                    android:weightSum="10">
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="100dp">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/imgUserInfo"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/blank_avatar" />
-
+                    <!--         Header ~~~~~~~~~~~~~~~~~~~~~~~~-->
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="10"
-                        android:orientation="vertical"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="5dp">
-
-                        <TextView
-                            android:id="@+id/txtName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_black"
-                            android:text="Juan Dela Cruz"
-                            android:textFontWeight="900"
-                            android:textSize="14sp" />
-
-
-                        <TextView
-                            android:id="@+id/txtEmail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:fontFamily="@font/roboto"
-                            android:maxLines="1"
-                            android:scrollHorizontally="true"
-                            android:text="juandelacruz@gmail.com"
-                            android:textSize="14sp" />
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/imgUpdateProfile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_baseline_edit_24"
-                        app:tint="@color/colorPrimaryLight" />
-
-                </LinearLayout>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/crdAboutMe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/llyHeader"
-                    android:layout_marginBottom="10dp"
-                    android:visibility="gone"
-                    app:cardBackgroundColor="@color/colorBackground"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="20dp">
-
-                    <RelativeLayout
+                        android:id="@+id/llyHeader"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingVertical="20dp"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="15dp">
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/bg_round2"
+                        android:elevation="20dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="25dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="15dp"
+                        android:weightSum="10">
 
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imgUserInfo"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/blank_avatar" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="10"
+                            android:orientation="vertical"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="5dp">
+
+                            <TextView
+                                android:id="@+id/txtName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_black"
+                                android:text="Juan Dela Cruz"
+                                android:textFontWeight="900"
+                                android:textSize="14sp" />
+
+
+                            <TextView
+                                android:id="@+id/txtEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/roboto"
+                                android:maxLines="1"
+                                android:scrollHorizontally="true"
+                                android:text="juandelacruz@gmail.com"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
 
                         <ImageView
-                            android:id="@+id/imgEditAboutMe"
+                            android:id="@+id/imgUpdateProfile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
                             android:layout_gravity="center_vertical"
                             android:clickable="true"
                             android:focusable="true"
@@ -161,265 +130,301 @@
                             android:src="@drawable/ic_baseline_edit_24"
                             app:tint="@color/colorPrimaryLight" />
 
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/crdAboutMe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/llyHeader"
+                        android:layout_marginBottom="10dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="@color/colorBackground"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="20dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="20dp"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="15dp">
+
+
+                            <ImageView
+                                android:id="@+id/imgEditAboutMe"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center_vertical"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="10dp"
+                                android:src="@drawable/ic_baseline_edit_24"
+                                app:tint="@color/colorPrimaryLight" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_bold"
+                                    android:text="About me"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/txtAboutMe"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:justificationMode="inter_word"
+                                    android:maxLines="3"
+                                    android:paddingEnd="50dp"
+                                    android:text="@string/aboutMe"
+                                    android:textColor="@color/colorSecondary"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!--         Main Body ~~~~~~~~~~~~~~~~~~~~~~~~-->
+                    <LinearLayout
+                        android:id="@+id/llyBody"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/crdAboutMe"
+                        android:background="@drawable/bg_round2"
+                        android:elevation="20dp"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:layout_marginBottom="10dp"
+                            android:orientation="horizontal"
+                            android:weightSum="10">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_bold"
-                                android:text="About me"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="14sp" />
+                                android:layout_weight="6"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/txtAboutMe"
-                                android:layout_width="wrap_content"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_bold"
+                                    android:text="Username"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/txtUsername"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="juan.dela"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:fontFamily="@font/roboto_regular"
-                                android:justificationMode="inter_word"
-                                android:maxLines="3"
-                                android:paddingEnd="50dp"
-                                android:text="@string/aboutMe"
-                                android:textColor="@color/colorSecondary"
-                                android:textSize="14sp" />
+                                android:layout_weight="4"
+                                android:orientation="vertical">
 
-                        </LinearLayout>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_bold"
+                                    android:text="Birthdate"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="14sp" />
 
-                    </RelativeLayout>
+                                <TextView
+                                    android:id="@+id/txtBirthdate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="March 2, 2000"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp" />
 
+                            </LinearLayout>
 
-                </com.google.android.material.card.MaterialCardView>
-
-                <!--         Main Body ~~~~~~~~~~~~~~~~~~~~~~~~-->
-                <LinearLayout
-                    android:id="@+id/llyBody"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/crdAboutMe"
-                    android:background="@drawable/bg_round2"
-                    android:elevation="20dp"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal"
-                        android:weightSum="10">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="6"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_bold"
-                                android:text="Username"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/txtUsername"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="juan.dela"
-                                android:textColor="#000000"
-                                android:textSize="14sp" />
 
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="4"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="horizontal"
+                            android:weightSum="10">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_bold"
+                                    android:text="Phone"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/txtPhone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text=" "
+                                    android:textColor="#000000"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_bold"
+                                    android:text="Gender"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/txtGender"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Male"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_bold"
-                                android:text="Birthdate"
+                                android:text="Course"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="14sp" />
 
                             <TextView
-                                android:id="@+id/txtBirthdate"
+                                android:id="@+id/txtCourse"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="March 2, 2000"
+                                android:text="Bachelor of Science in Information Technology"
                                 android:textColor="#000000"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
-
 
                     </LinearLayout>
 
-                    <LinearLayout
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/crdUpdateSubjects"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal"
-                        android:weightSum="10">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="6"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_bold"
-                                android:text="Phone"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/txtPhone"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text=" "
-                                android:textColor="#000000"
-                                android:textSize="14sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="4"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_bold"
-                                android:text="Gender"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/txtGender"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="Male"
-                                android:textColor="#000000"
-                                android:textSize="14sp" />
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="vertical">
+                        android:layout_below="@+id/llyBody"
+                        android:layout_marginTop="15dp"
+                        android:backgroundTint="@color/colorBackground"
+                        android:clickable="true"
+                        android:visibility="gone"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="20dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="15dp"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="Course"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="14sp" />
+                            android:text="Update Subjects"
+                            android:textColor="@color/colorPrimary" />
 
-                        <TextView
-                            android:id="@+id/txtCourse"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="Bachelor of Science in Information Technology"
-                            android:textColor="#000000"
-                            android:textSize="14sp" />
+                    </com.google.android.material.card.MaterialCardView>
 
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/crdUpdateSubjects"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/llyBody"
-                    android:layout_marginTop="15dp"
-                    android:backgroundTint="@color/colorBackground"
-                    android:clickable="true"
-                    android:visibility="gone"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="15dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Update Subjects"
-                        android:textColor="@color/colorPrimary" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/crdUpdateAvailability"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/crdUpdateSubjects"
-                    android:layout_marginTop="15dp"
-                    android:backgroundTint="@color/colorBackground"
-                    android:clickable="true"
-                    android:visibility="gone"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="15dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Update Availability"
-                        android:textColor="@color/colorPrimary" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="70dp"
-                    app:cardBackgroundColor="@color/colorTransparent"
-                    app:cardElevation="20dp">
-
-                    <Button
-                        android:id="@+id/btnLogOut"
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/crdUpdateAvailability"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/btn_solid"
-                        android:elevation="4dp"
-                        android:text="@string/logout"
-                        android:textAllCaps="true"
-                        android:textSize="15sp"
-                        android:theme="@style/Button.Primary" />
+                        android:layout_below="@+id/crdUpdateSubjects"
+                        android:layout_marginTop="15dp"
+                        android:backgroundTint="@color/colorBackground"
+                        android:clickable="true"
+                        android:visibility="gone"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="20dp">
 
-                </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="15dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="Update Availability"
+                            android:textColor="@color/colorPrimary" />
 
-            </RelativeLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </RelativeLayout>
+            </ScrollView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="80dp"
+                app:cardBackgroundColor="@color/colorTransparent"
+                app:cardElevation="20dp">
+
+                <Button
+                    android:id="@+id/btnLogOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_solid"
+                    android:elevation="4dp"
+                    android:text="@string/logout"
+                    android:textAllCaps="true"
+                    android:textSize="15sp"
+                    android:theme="@style/Button.Primary" />
+
+            </com.google.android.material.card.MaterialCardView>
 
         </RelativeLayout>
 

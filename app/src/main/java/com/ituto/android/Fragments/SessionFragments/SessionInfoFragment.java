@@ -1,6 +1,7 @@
 package com.ituto.android.Fragments.SessionFragments;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -54,7 +56,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@SuppressWarnings("ALL")
 public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.OnItemListener {
 
     private View view;
@@ -64,7 +65,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
     private RecyclerView recyclerAssessments;
     private ImageButton btnAddAssessment;
     private MaterialButton btnReviewTutor, btnSessionDone;
-    private Dialog dialog;
+    private Dialog dialog, loaderDialog, reviewDialog;
 
     private AssessmentsAdapter assessmentsAdapter;
     private ArrayList<Assessment> assessmentArrayList;
@@ -90,6 +91,10 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.GONE);
         sessionID = getArguments().getString("_id");
+
+        loaderDialog = new Dialog(getContext(), R.style.DialogTheme);
+        loaderDialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
+        loaderDialog.setContentView(R.layout.layout_dialog_progress);
 
         txtSubjectName = view.findViewById(R.id.txtSubjectName);
         txtTime = view.findViewById(R.id.txtTime);
@@ -127,27 +132,27 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
 
         getSession();
 
-        crdMessage.setOnClickListener(view -> message());
+        crdMessage.setOnClickListener(view -> {
+            loaderDialog.show();
+            message();
+        });
 
-        btnSessionDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Dialog doneDialog = new Dialog(getContext());
-                doneDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                doneDialog.setContentView(R.layout.layout_dialog_done);
+        btnSessionDone.setOnClickListener(view -> {
+            Dialog doneDialog = new Dialog(getContext());
+            doneDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            doneDialog.setContentView(R.layout.layout_dialog_done);
 
-                Button btnYes = doneDialog.findViewById(R.id.btnYes);
-                Button btnNo = doneDialog.findViewById(R.id.btnNo);
+            Button btnYes = doneDialog.findViewById(R.id.btnYes);
+            Button btnNo = doneDialog.findViewById(R.id.btnNo);
 
-                doneDialog.show();
+            doneDialog.show();
 
-                btnYes.setOnClickListener(v -> {
-                    doneDialog.dismiss();
-                    doneSession();
-                });
+            btnYes.setOnClickListener(v -> {
+                doneDialog.dismiss();
+                doneSession();
+            });
 
-                btnNo.setOnClickListener(v -> doneDialog.cancel());
-            }
+            btnNo.setOnClickListener(v -> doneDialog.cancel());
         });
 
         btnAddAssessment.setOnClickListener(view -> {
@@ -166,7 +171,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         });
 
         btnReviewTutor.setOnClickListener(view -> {
-            Dialog reviewDialog = new Dialog(getContext());
+            reviewDialog = new Dialog(getContext());
 
             reviewDialog.setContentView(R.layout.layout_dialog_review);
             reviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -300,7 +305,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
-                    getActivity().getSupportFragmentManager().popBackStack();
+                    reviewDialog.dismiss();
                     StyleableToast.makeText(getContext(), "Review submitted!", R.style.CustomToast).show();
                 }
             } catch (JSONException e) {
@@ -421,12 +426,14 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                     i.putExtra("avatar", avatar);
                     i.putExtra("users", conversationObject.getJSONArray("users").toString());
                     getContext().startActivity(i);
+                    loaderDialog.dismiss();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
 
             }
         }, error -> {
+            loaderDialog.dismiss();
             error.printStackTrace();
         }) {
             @Override

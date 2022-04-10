@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,30 +12,41 @@
         android:background="@color/colorBackground"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorBackground"
             android:fitsSystemWindows="true"
-            android:padding="15dp"
+            android:paddingHorizontal="15dp"
             app:title="  ">
 
             <ImageView
+                android:id="@+id/imgBackButton"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_marginVertical="15dp"
                 android:src="@drawable/ic_baseline_arrow_back_24" />
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/roboto_bold"
+                android:text="FILTERS"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20dp" />
 
-        <LinearLayout
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp">
 
             <TextView
+                android:id="@+id/txtViewCourse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_bold"
@@ -47,7 +59,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
+                android:layout_below="@+id/txtViewCourse"
+                android:layout_marginBottom="15dp"
                 android:theme="@style/Button.Primary"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
@@ -58,7 +71,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/custom_input"
-                    android:hint="Select Course"
+                    android:hint="Select course to filter subjects"
                     android:maxHeight="300dp"
                     android:padding="5dp"
                     android:textSize="13sp" />
@@ -66,8 +79,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                android:id="@+id/txtViewSubject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/txtLayoutCourse"
                 android:fontFamily="@font/roboto_bold"
                 android:padding="5dp"
                 android:text="Subject"
@@ -78,7 +93,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
+                android:layout_below="@+id/txtViewSubject"
+                android:layout_marginBottom="15dp"
                 android:theme="@style/Button.Primary"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
@@ -97,8 +113,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                android:id="@+id/txtViewAvailability"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/txtLayoutSubject"
                 android:fontFamily="@font/roboto_bold"
                 android:padding="5dp"
                 android:text="Availability"
@@ -108,6 +126,7 @@
                 android:id="@+id/txtLayoutAvailability"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/txtViewAvailability"
                 android:layout_marginBottom="15dp"
                 android:theme="@style/Button.Primary"
                 app:boxStrokeWidth="0dp"
@@ -127,20 +146,69 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/btnApplyFilters"
+            <TextView
+                android:id="@+id/txtViewTime"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/btn_solid"
-                android:elevation="4dp"
-                android:fontFamily="@font/roboto"
-                android:text="Apply Filters"
-                android:theme="@style/Button.Primary" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtLayoutAvailability"
+                android:fontFamily="@font/roboto_bold"
+                android:padding="5dp"
+                android:text="Time"
+                android:textSize="14sp" />
 
-        </LinearLayout>
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chpGroupTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtViewTime"
+                android:layout_gravity="start"
+                android:layout_marginBottom="30dp"
+                android:orientation="horizontal"
+                app:chipSpacingHorizontal="10dp"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chpMorning"
+                    style="@style/TimeChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Morning" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chpAfternoon"
+                    style="@style/TimeChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Afternoon" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chpEvening"
+                    style="@style/TimeChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Evening" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </RelativeLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnApplyFilters"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/btn_solid"
+        android:elevation="4dp"
+        android:fontFamily="@font/roboto"
+        android:text="Apply Filters"
+        android:theme="@style/Button.Primary" />
 
 
 </RelativeLayout>

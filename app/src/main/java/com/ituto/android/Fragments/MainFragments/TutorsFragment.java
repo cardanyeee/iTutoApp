@@ -49,10 +49,12 @@ public class TutorsFragment extends Fragment implements TutorsAdapter.OnItemList
     private String TUTORS;
     private String KEYWORD_LINK = "?keyword=";
     private String SUBJECTS_LINK = "&subjects=";
+    private String TIME_LINK = "&time=";
     private String DAY_LINK = "&day=";
     private String KEYWORD = "";
     private String SUBJECTS = "";
     private String DAY = "";
+    private String TIME = "";
 
     private LinearLayout llyPlaceholder;
     public static EditText searchTutor;
@@ -122,10 +124,11 @@ public class TutorsFragment extends Fragment implements TutorsAdapter.OnItemList
             if (getArguments().getBoolean("filter")) {
                 SUBJECTS = getArguments().getString("subjects");
                 DAY = getArguments().getString("day");
+                TIME = getArguments().getString("time");
             }
         }
 
-        TUTORS = Constant.TUTORS + KEYWORD_LINK + KEYWORD + SUBJECTS_LINK + SUBJECTS + DAY_LINK + DAY;
+        TUTORS = Constant.TUTORS + KEYWORD_LINK + KEYWORD + SUBJECTS_LINK + SUBJECTS + DAY_LINK + DAY + TIME_LINK + TIME;
         StringRequest request = new StringRequest(Request.Method.GET, TUTORS, response -> {
             try {
                 JSONObject object = new JSONObject(response);

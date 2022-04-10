@@ -45,6 +45,13 @@
         <item name="android:textAppearance">@style/ChipTextAppearance.Base</item>
     </style>
 
+    <style name="TimeChip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="closeIconTint">@color/colorError</item>
+        <item name="typeface">@font/roboto_bold</item>
+        <item name="titleTextColor">@color/colorBackground</item>
+        <item name="android:textAppearance">@style/ChipTextAppearance.Base</item>
+    </style>
+
     <style name="ChipTextAppearance.Base" parent="TextAppearance.MaterialComponents.Chip">
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:fontFamily">@font/roboto_regular</item>

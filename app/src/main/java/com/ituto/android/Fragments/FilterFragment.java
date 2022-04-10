@@ -5,18 +5,21 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ituto.android.Constant;
@@ -36,15 +39,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-@SuppressWarnings("ALL")
 public class FilterFragment extends Fragment {
 
     private View view;
     private Button btnApplyFilters;
+    private ImageView imgBackButton;
 
     private TextInputLayout txtLayoutCourse, txtLayoutSubject, txtLayoutAvailability;
     private TextInputEditText txtAvailability;
     private AutoCompleteTextView txtCourse, txtSubject;
+    private Chip chpMorning, chpAfternoon, chpEvening;
 
     private ArrayList<Course> courseArrayList;
     private ArrayList<Subject> subjectArrayList;
@@ -68,12 +72,18 @@ public class FilterFragment extends Fragment {
     private void init() {
         btnApplyFilters = view.findViewById(R.id.btnApplyFilters);
 
+        imgBackButton = view.findViewById(R.id.imgBackButton);
         txtCourse = view.findViewById(R.id.txtCourse);
         txtSubject = view.findViewById(R.id.txtSubject);
         txtAvailability = view.findViewById(R.id.txtAvailability);
+        chpMorning = view.findViewById(R.id.chpMorning);
+        chpAfternoon = view.findViewById(R.id.chpAfternoon);
+        chpEvening = view.findViewById(R.id.chpEvening);
 
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.GONE);
+
+        imgBackButton.setOnClickListener(view -> getActivity().getSupportFragmentManager().popBackStack());
 
         txtAvailability.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
@@ -149,6 +159,7 @@ public class FilterFragment extends Fragment {
             bundle.putBoolean("filter", true);
             bundle.putString("subjects", subjectID == null ? "" : subjectID);
             bundle.putString("day", dayOfWeek == null ? "" : dayOfWeek);
+            bundle.putString("time", checkWhatTime());
             // R.id.container - the id of a view that will hold your fragment; usually a FrameLayout
             tutorsFragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
@@ -257,6 +268,24 @@ public class FilterFragment extends Fragment {
         };
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+    }
+
+    private String checkWhatTime() {
+        String time = "";
+
+        if (chpMorning.isChecked()) {
+            time = "Morning";
+        }
+
+        if (chpAfternoon.isChecked()) {
+            time = "Afternoon";
+        }
+
+        if (chpEvening.isChecked()) {
+            time = "Evening";
+        }
+
+        return time;
     }
 
 }

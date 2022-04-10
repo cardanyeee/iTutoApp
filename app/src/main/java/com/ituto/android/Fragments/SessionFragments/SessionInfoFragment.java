@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -62,6 +63,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
     private ImageView imgBackButton;
     private MaterialCardView crdTutee, crdDescription, crdMessage;
     private TextView txtSubjectName, txtTime, txtName, txtCourse, txtYearLevel, txtDescription;
+    private SwipeRefreshLayout swipeAssessments;
     private RecyclerView recyclerAssessments;
     private ImageButton btnAddAssessment;
     private MaterialButton btnReviewTutor, btnSessionDone;
@@ -101,6 +103,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         txtDescription = view.findViewById(R.id.txtDescription);
 //        txtTutor = view.findViewById(R.id.txtTutor);
 //        txtTutee = view.findViewById(R.id.txtTutee);
+        swipeAssessments = view.findViewById(R.id.swipeAssessments);
         recyclerAssessments = view.findViewById(R.id.recyclerAssessments);
         recyclerAssessments.setLayoutManager(new LinearLayoutManager(getContext()));
         btnAddAssessment = view.findViewById(R.id.btnAddAssessment);
@@ -131,6 +134,8 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
         }
 
         getSession();
+
+        swipeAssessments.setOnRefreshListener(() -> getSession());
 
         crdMessage.setOnClickListener(view -> {
             loaderDialog.show();
@@ -209,6 +214,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
 
     private void getSession() {
         assessmentArrayList = new ArrayList<>();
+        swipeAssessments.setRefreshing(true);
         StringRequest request = new StringRequest(Request.Method.GET, Constant.GET_SESSION + "/" + sessionID, response -> {
             try {
                 JSONObject object = new JSONObject(response);
@@ -274,17 +280,20 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
 
                     assessmentsAdapter = new AssessmentsAdapter(getContext(), assessmentArrayList, this);
                     recyclerAssessments.setAdapter(assessmentsAdapter);
+                    swipeAssessments.setRefreshing(false);
                 }
 
                 dialog.dismiss();
             } catch (JSONException | ParseException e) {
                 e.printStackTrace();
+                swipeAssessments.setRefreshing(false);
 //                btnConfirmSchedule.setEnabled(false);
                 dialog.dismiss();
             }
 
         }, error -> {
             dialog.dismiss();
+            swipeAssessments.setRefreshing(false);
 //            btnConfirmSchedule.setEnabled(false);
             error.printStackTrace();
         }) {

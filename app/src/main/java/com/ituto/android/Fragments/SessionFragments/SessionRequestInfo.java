@@ -40,6 +40,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,6 +51,8 @@ import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.socket.client.IO;
+import io.socket.client.Socket;
 
 public class SessionRequestInfo extends Fragment {
 
@@ -71,6 +74,8 @@ public class SessionRequestInfo extends Fragment {
     private String userID, name, avatar;
     private MaterialCardView crdMessage;
 
+    private Socket socket;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_session_request_info, container, false);
@@ -79,13 +84,25 @@ public class SessionRequestInfo extends Fragment {
     }
 
     private void init() {
+        sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
         dialog.setContentView(R.layout.layout_dialog_progress);
         dialog.setCancelable(false);
         dialog.show();
 
-        sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        try {
+            socket = IO.socket(Constant.URL);
+
+            socket.connect();
+
+            socket.emit("connection", sharedPreferences.getString("_id", ""));
+            socket.emit("join", sharedPreferences.getString("_id", ""));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setVisibility(View.GONE);
         sessionID = getArguments().getString("_id");
@@ -297,7 +314,6 @@ public class SessionRequestInfo extends Fragment {
         queue.add(request);
     }
 
-
     private void message() {
         StringRequest request = new StringRequest(Request.Method.POST, Constant.CONVERSATION, response -> {
             try {
@@ -305,7 +321,7 @@ public class SessionRequestInfo extends Fragment {
                 if (object.getBoolean("success")) {
                     JSONObject conversationObject = object.getJSONObject("conversation");
 
-                    Intent i = new Intent((HomeActivity)getContext(), ConversationActivity.class);
+                    Intent i = new Intent((HomeActivity) getContext(), ConversationActivity.class);
                     i.putExtra("conversationID", conversationObject.getString("_id"));
                     i.putExtra("name", name);
                     i.putExtra("avatar", avatar);
@@ -375,11 +391,10 @@ public class SessionRequestInfo extends Fragment {
 
     private void acceptSession() {
         StringRequest request = new StringRequest(Request.Method.PUT, Constant.ACCEPT_SESSION + "/" + sessionID, response -> {
-
             try {
                 JSONObject object = new JSONObject(response);
-
                 if (object.getBoolean("success")) {
+                    socket.emit("session accept", object.getJSONObject("session"));
                     getActivity().getSupportFragmentManager().popBackStack();
                     StyleableToast.makeText(getContext(), "Session Accepted", R.style.CustomToast).show();
                 }

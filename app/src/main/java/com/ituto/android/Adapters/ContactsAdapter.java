@@ -63,7 +63,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         holder.txtLastMessage.setText(message.getContent());
 
         if (message.getTimestamp() == null) {
-            message.setTimestamp(" ");
+            holder.txtTime.setText(" ");
         } else {
             try {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
@@ -71,13 +71,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                 Date date = format.parse(message.getTimestamp());
                 SimpleDateFormat outputFormat = new SimpleDateFormat("hh:mm a");
                 outputFormat.setTimeZone(TimeZone.getDefault());
-                message.setTimestamp(outputFormat.format(date));
+                holder.txtTime.setText(outputFormat.format(date));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
-
-        holder.txtTime.setText(message.getTimestamp());
     }
 
     @Override

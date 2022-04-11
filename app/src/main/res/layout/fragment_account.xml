@@ -56,7 +56,10 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/txtSettings">
+                android:layout_below="@+id/txtSettings"
+                android:fadingEdge="none"
+                android:requiresFadingEdge="vertical"
+                android:scrollbars="none">
 
                 <RelativeLayout
                     android:id="@+id/rlyBody"
@@ -65,7 +68,7 @@
                     android:clipToPadding="false"
                     android:paddingHorizontal="20dp"
                     android:paddingTop="20dp"
-                    android:paddingBottom="100dp">
+                    android:paddingBottom="150dp">
 
                     <!--         Header ~~~~~~~~~~~~~~~~~~~~~~~~-->
                     <LinearLayout

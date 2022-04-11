@@ -74,7 +74,23 @@ public class SocketIOService extends Service {
                     JSONObject subjectObject = sessionObject.getJSONObject("subject");
                     JSONObject tuteeObject = sessionObject.getJSONObject("tutee");
                     Intent resultIntent = new Intent(this, HomeActivity.class);
-                    showNotificationMessage(this, "ANSWERED", "New Session Request", "on the subject " + subjectObject.getString("name"), "", resultIntent);
+                    showNotificationMessage(this, "REQUEST", "New Session Request", "on the subject " + subjectObject.getString("name"), "", resultIntent);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            });
+
+            socket.on("session accepted", args -> {
+
+                JSONObject sessionObject = (JSONObject) args[0];
+                Log.d("check", sessionObject.toString());
+                try {
+                    JSONObject subjectObject = sessionObject.getJSONObject("subject");
+                    JSONObject tutorObject = sessionObject.getJSONObject("tutor");
+                    Intent resultIntent = new Intent(this, HomeActivity.class);
+                    showNotificationMessage(this, "SESSION_ACCEPT", subjectObject.getString("name"), tutorObject.getString("firstname") + " accepted you tutor request.", "", resultIntent);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

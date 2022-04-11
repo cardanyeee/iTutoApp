@@ -13,18 +13,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="70dp"
         android:layout_centerInParent="true"
-        android:gravity="center_vertical">
+        android:layout_marginTop="70dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-<!--        <ImageView-->
-<!--            android:layout_width="30dp"-->
-<!--            android:layout_height="30dp"-->
-<!--            android:layout_centerInParent="true"-->
-<!--            android:gravity="center_horizontal"-->
-<!--            android:src="@drawable/applogo"-->
-<!--            android:layout_marginEnd="5dp"/>-->
+        <!--        <ImageView-->
+        <!--            android:layout_width="30dp"-->
+        <!--            android:layout_height="30dp"-->
+        <!--            android:layout_centerInParent="true"-->
+        <!--            android:gravity="center_horizontal"-->
+        <!--            android:src="@drawable/applogo"-->
+        <!--            android:layout_marginEnd="5dp"/>-->
 
         <TextView
             android:layout_width="match_parent"
@@ -64,7 +64,6 @@
             android:button="@color/colorTransparent"
             android:fontFamily="@font/roboto_medium"
             android:gravity="center"
-            android:onClick="onRadioButtonClicked"
             android:text="Tutor"
             android:textColor="@drawable/checkbox_text" />
 
@@ -77,7 +76,6 @@
             android:button="@color/colorTransparent"
             android:fontFamily="@font/roboto_medium"
             android:gravity="center"
-            android:onClick="onRadioButtonClicked"
             android:text="Tutee"
             android:textColor="@drawable/checkbox_text" />
 
@@ -107,7 +105,7 @@
         android:id="@+id/txtLayoutPasswordSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="15dp"
         android:theme="@style/Button.Primary"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
@@ -124,10 +122,50 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/chkRememberMe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember me" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/txtForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/roboto"
+            android:text="@string/forgotPassword"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
     <Button
         android:id="@+id/btnSignIn"
         android:layout_width="match_parent"
         android:layout_height="42dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="40dp"
         android:background="@drawable/btn_solid"
         android:elevation="4dp"
@@ -192,7 +230,7 @@
             android:layout_marginEnd="6dp"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/txtTextDont"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/txtSignUp"
@@ -201,7 +239,7 @@
             android:fontFamily="@font/roboto_bold"
             android:text="@string/txtTextRegister"
             android:textColor="@color/colorPrimary"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
 
     </LinearLayout>
 

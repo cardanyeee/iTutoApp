@@ -61,4 +61,6 @@
 
     <string name="textview">Which of these requires the use of file handling features of Easy retrieve used?</string>
     <string name="hello">hello</string>
+
+    <string name="forgotPassword"><a href="https://mern-ituto.herokuapp.com/forgot/password">Forgot Password?</a></string>
 </resources>

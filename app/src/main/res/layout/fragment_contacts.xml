@@ -9,6 +9,7 @@
         android:id="@+id/searchContacts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/input_background"
@@ -18,14 +19,13 @@
         android:fontFamily="@font/roboto_regular"
         android:hint="@string/search"
         android:inputType="text"
-        android:padding="10dp"
-        android:layout_marginHorizontal="20dp" />
+        android:padding="10dp" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContacts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="80dp">
+        android:layout_below="@+id/searchContacts">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerContacts"

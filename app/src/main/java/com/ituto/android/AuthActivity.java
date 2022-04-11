@@ -31,23 +31,6 @@ public class AuthActivity extends AppCompatActivity {
             super.onBackPressed();
     }
 
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-
-        // Check which radio button was clicked
-        switch (view.getId()) {
-            case R.id.rdbTutor:
-                if (checked)
-                    SignInFragment.loggedInAs = "TUTOR";
-                break;
-            case R.id.rdbTutee:
-                if (checked)
-                    SignInFragment.loggedInAs = "TUTEE";
-                break;
-        }
-    }
-
     public void onDayCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
 

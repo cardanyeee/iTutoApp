@@ -1,5 +1,6 @@
 package com.ituto.android.Fragments.AuthFragments;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
 import android.app.ProgressDialog;
@@ -9,11 +10,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 //import android.widget.Toast;
@@ -34,6 +37,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
 import com.ituto.android.Fragments.AuthFragments.MainAuthFragment;
@@ -50,7 +54,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-@SuppressWarnings("ALL")
 public class SignInFragment extends Fragment {
     private View view;
     private TextInputLayout layoutEmail, layoutPassword;
@@ -59,7 +62,12 @@ public class SignInFragment extends Fragment {
     private Button btnSignIn, btnSignInWithGoogle;
     private ProgressDialog dialog;
     private GoogleSignInClient googleSignInClient;
-    public static String loggedInAs;
+    private MaterialCheckBox chkRememberMe;
+    private TextView txtForgotPassword;
+    private SharedPreferences loginPreferences;
+    private SharedPreferences.Editor loginPrefsEditor;
+    private Boolean saveLogin;
+    private RadioButton rdbTutor, rdbTutee;
 
     private static int RC_SIGN_IN = 100;
 
@@ -72,7 +80,9 @@ public class SignInFragment extends Fragment {
     }
 
     private void init() {
-        loggedInAs = null;
+        loginPreferences = getContext().getApplicationContext().getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
@@ -91,6 +101,10 @@ public class SignInFragment extends Fragment {
 //            }
 //        });
 
+        chkRememberMe = view.findViewById(R.id.chkRememberMe);
+        txtForgotPassword = view.findViewById(R.id.txtForgotPassword);
+        rdbTutor = view.findViewById(R.id.rdbTutor);
+        rdbTutee = view.findViewById(R.id.rdbTutee);
         layoutPassword = view.findViewById(R.id.txtLayoutPasswordSignIn);
         layoutEmail = view.findViewById(R.id.txtLayoutEmailSignIn);
         txtPassword = view.findViewById(R.id.txtPasswordSignIn);
@@ -99,6 +113,20 @@ public class SignInFragment extends Fragment {
         btnSignIn = view.findViewById(R.id.btnSignIn);
         dialog = new ProgressDialog(getContext());
         dialog.setCancelable(false);
+
+        saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        if (saveLogin == true) {
+            txtEmail.setText(loginPreferences.getString("email", ""));
+            txtPassword.setText(loginPreferences.getString("password", ""));
+            chkRememberMe.setChecked(true);
+            if (loginPreferences.getString("loggedInAs", "").equals("TUTOR")) {
+                rdbTutor.setChecked(true);
+            } else {
+                rdbTutee.setChecked(true);
+            }
+        }
+
+        txtForgotPassword.setMovementMethod(LinkMovementMethod.getInstance());
 
         txtSignUp.setOnClickListener(v -> {
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
@@ -156,7 +184,7 @@ public class SignInFragment extends Fragment {
 
     private boolean validate() {
 
-        if (loggedInAs == null) {
+        if (!(rdbTutor.isChecked() || rdbTutee.isChecked())) {
             StyleableToast.makeText(getContext(), "Please select what kind account you would like to login", R.style.CustomToast).show();
             return false;
         }
@@ -194,8 +222,19 @@ public class SignInFragment extends Fragment {
                     editor.putString("firstname", user.getString("firstname"));
                     editor.putString("lastname", user.getString("lastname"));
                     editor.putString("isTutor", user.getString("isTutor"));
-                    editor.putString("loggedInAs", loggedInAs);
+                    editor.putString("loggedInAs", checkAccountType());
                     editor.putBoolean("isLoggedIn", true);
+                    if (chkRememberMe.isChecked()) {
+                        loginPrefsEditor.putBoolean("saveLogin", true);
+                        loginPrefsEditor.putString("email", txtEmail.getText().toString().trim());
+                        loginPrefsEditor.putString("password", txtPassword.getText().toString());
+                        loginPrefsEditor.putString("loggedInAs", checkAccountType());
+                        loginPrefsEditor.commit();
+                    } else {
+                        loginPrefsEditor.clear();
+                        loginPrefsEditor.commit();
+                    }
+
                     editor.apply();
                     startActivity(new Intent(((AuthActivity) getContext()), HomeActivity.class));
                     ((AuthActivity) getContext()).finish();
@@ -217,7 +256,7 @@ public class SignInFragment extends Fragment {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("email", txtEmail.getText().toString().trim());
                 map.put("password", txtPassword.getText().toString());
-                map.put("loggedInAs", loggedInAs);
+                map.put("loggedInAs", checkAccountType());
                 return map;
             }
 
@@ -226,7 +265,7 @@ public class SignInFragment extends Fragment {
                 runOnUiThread(() -> {
                     try {
                         String body;
-                        body = new String(volleyError.networkResponse.data,"UTF-8");
+                        body = new String(volleyError.networkResponse.data, "UTF-8");
                         JSONObject error = new JSONObject(body);
                         StyleableToast.makeText(getContext(), error.getString("message"), R.style.CustomToast).show();
                     } catch (UnsupportedEncodingException | JSONException e) {
@@ -302,7 +341,7 @@ public class SignInFragment extends Fragment {
                     editor.putString("firstname", user.getString("firstname"));
                     editor.putString("lastname", user.getString("lastname"));
                     editor.putString("isTutor", user.getString("isTutor"));
-                    editor.putString("loggedInAs", loggedInAs);
+                    editor.putString("loggedInAs", checkAccountType());
                     editor.putBoolean("isLoggedIn", true);
                     editor.apply();
                     startActivity(new Intent(((AuthActivity) getContext()), HomeActivity.class));
@@ -331,6 +370,18 @@ public class SignInFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+    }
+
+    private String checkAccountType() {
+        String accountType = "";
+
+        if (rdbTutor.isChecked()) {
+            accountType = "TUTOR";
+        } else if (rdbTutee.isChecked()) {
+            accountType = "TUTEE";
+        }
+
+        return accountType;
     }
 
 }

@@ -14,8 +14,6 @@
 
         <EditText
             android:id="@+id/searchTutor"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -26,6 +24,8 @@
             android:drawableStart="@drawable/ic_baseline_search_24"
             android:drawablePadding="5dp"
             android:elevation="5dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:fontFamily="@font/roboto_regular"
             android:hint="@string/search"
             android:imeOptions="actionSearch"
@@ -48,7 +48,7 @@
         android:id="@+id/swipeTutor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="80dp">
+        android:layout_below="@+id/llySearch">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerTutor"

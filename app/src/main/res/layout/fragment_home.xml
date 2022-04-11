@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    android:paddingBottom="70dp">
 
     <LinearLayout
         android:id="@+id/llyHeader"
@@ -132,8 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:clipToPadding="false"
-            android:paddingBottom="70dp">
+            android:clipToPadding="false">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipeRecentSessions"
@@ -153,15 +152,14 @@
                 android:id="@+id/llyPlaceholder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="125dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/imgPlaceholder"
-                    android:layout_width="200dp"
-                    android:layout_height="300dp"
+                    android:layout_width="175dp"
+                    android:layout_height="200dp"
                     android:gravity="center"
                     android:src="@drawable/ic_undraw_void" />
 
@@ -171,7 +169,7 @@
                     android:fontFamily="@font/roboto_bold"
                     android:text="No recent sessions found"
                     android:textColor="@color/colorTextColor"
-                    android:textSize="25sp" />
+                    android:textSize="20sp" />
 
                 <!--            <TextView-->
                 <!--                android:layout_width="wrap_content"-->

@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -65,6 +66,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
     private TextView txtSubjectName, txtTime, txtName, txtCourse, txtYearLevel, txtDescription;
     private SwipeRefreshLayout swipeAssessments;
     private RecyclerView recyclerAssessments;
+    private LinearLayout llyPlaceholder;
     private ImageButton btnAddAssessment;
     private MaterialButton btnReviewTutor, btnSessionDone;
     private Dialog dialog, loaderDialog, reviewDialog;
@@ -104,6 +106,7 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
 //        txtTutor = view.findViewById(R.id.txtTutor);
 //        txtTutee = view.findViewById(R.id.txtTutee);
         swipeAssessments = view.findViewById(R.id.swipeAssessments);
+        llyPlaceholder = view.findViewById(R.id.llyPlaceholder);
         recyclerAssessments = view.findViewById(R.id.recyclerAssessments);
         recyclerAssessments.setLayoutManager(new LinearLayoutManager(getContext()));
         btnAddAssessment = view.findViewById(R.id.btnAddAssessment);
@@ -276,6 +279,14 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
                         userID = tutorObject.getString("_id");
                         name = tutorObject.getString("firstname") + " " + tutorObject.getString("lastname");
                         avatar = avatarTutorObject.getString("url");
+                    }
+
+                    if (assessmentArrayList.isEmpty()) {
+                        recyclerAssessments.setVisibility(View.GONE);
+                        llyPlaceholder.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerAssessments.setVisibility(View.VISIBLE);
+                        llyPlaceholder.setVisibility(View.GONE);
                     }
 
                     assessmentsAdapter = new AssessmentsAdapter(getContext(), assessmentArrayList, this);

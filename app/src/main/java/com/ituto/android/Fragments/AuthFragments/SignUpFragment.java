@@ -213,6 +213,8 @@ public class SignUpFragment extends Fragment {
     }
 
     private void checkEmail() {
+        dialog.setMessage("Checking Email");
+        dialog.show();
         StringRequest request = new StringRequest(Request.Method.POST, Constant.CHECK_EMAIL, response -> {
             try {
                 JSONObject object = new JSONObject(response);

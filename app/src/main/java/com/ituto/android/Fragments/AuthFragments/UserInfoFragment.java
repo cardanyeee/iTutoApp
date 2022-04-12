@@ -119,7 +119,6 @@ public class UserInfoFragment extends Fragment {
         txtFirstName.setText(getArguments().getString("firstname"));
         txtLastName.setText(getArguments().getString("lastname"));
 
-
         txtBirthdate.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -199,6 +198,82 @@ public class UserInfoFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (txtLastName.getText().toString().isEmpty()) {
                     layoutLastName.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        txtBirthdate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (txtBirthdate.getText().toString().isEmpty()) {
+                    layoutBirthdate.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        txtGender.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (txtGender.getText().toString().isEmpty()) {
+                    layoutGender.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        txtCourse.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (txtCourse.getText().toString().isEmpty()) {
+                    layoutCourse.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        txtYearLevel.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (txtYearLevel.getText().toString().isEmpty()) {
+                    layoutYearLevel.setErrorEnabled(false);
                 }
             }
 
@@ -376,13 +451,37 @@ public class UserInfoFragment extends Fragment {
 
         if (txtFirstName.getText().toString().isEmpty()) {
             layoutFirstName.setErrorEnabled(true);
-            layoutFirstName.setError("Enter a valid firstname");
+            layoutFirstName.setError("Enter your firstname");
             return false;
         }
 
         if (txtLastName.getText().toString().isEmpty()) {
             layoutLastName.setErrorEnabled(true);
-            layoutLastName.setError("Enter a valid lastname");
+            layoutLastName.setError("Enter your lastname");
+            return false;
+        }
+
+        if (txtGender.getText().toString().isEmpty()) {
+            layoutGender.setErrorEnabled(true);
+            layoutGender.setError("Enter your gender");
+            return false;
+        }
+
+        if (txtBirthdate.getText().toString().isEmpty()) {
+            layoutBirthdate.setErrorEnabled(true);
+            layoutBirthdate.setError("Enter your birthdate");
+            return false;
+        }
+
+        if (txtCourse.getText().toString().isEmpty()) {
+            layoutCourse.setErrorEnabled(true);
+            layoutCourse.setError("Enter your course");
+            return false;
+        }
+
+        if (txtYearLevel.getText().toString().isEmpty()) {
+            layoutYearLevel.setErrorEnabled(true);
+            layoutYearLevel.setError("Enter your year level");
             return false;
         }
 

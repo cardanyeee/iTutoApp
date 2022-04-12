@@ -32,9 +32,11 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ituto.android.AuthActivity;
 import com.ituto.android.Constant;
+import com.ituto.android.Fragments.TutorProfileFragment;
 import com.ituto.android.Fragments.UpdateProfileFragment;
 import com.ituto.android.Fragments.UpdateTutorAvailabilityFragment;
 import com.ituto.android.Fragments.UpdateTutorSubjectsFragment;
+import com.ituto.android.Models.Tutor;
 import com.ituto.android.R;
 import com.ituto.android.Services.SocketIOService;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -53,7 +55,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountFragment extends Fragment {
     private View view;
-    private MaterialCardView crdAboutMe, crdUpdateSubjects, crdUpdateAvailability;
+    private MaterialCardView crdAboutMe, crdUpdateSubjects, crdUpdateAvailability, crdTutorProfile;
     private TextInputEditText txtAboutMeInput;
     private TextView txtName, txtBirthdate, txtEmail, txtUsername, txtPhone, txtGender, txtCourse, txtAboutMe;
     private ImageView imgUpdateProfile, imgEditAboutMe;
@@ -62,7 +64,7 @@ public class AccountFragment extends Fragment {
     private Dialog dialog;
     private CircleImageView imgUserInfo;
     private String loggedInAs;
-    private String userID;
+    private String userID, tutorID;
     private Dialog reviewDialog;
 
     @Nullable
@@ -89,6 +91,7 @@ public class AccountFragment extends Fragment {
         crdAboutMe = view.findViewById(R.id.crdAboutMe);
         crdUpdateSubjects = view.findViewById(R.id.crdUpdateSubjects);
         crdUpdateAvailability = view.findViewById(R.id.crdUpdateAvailability);
+        crdTutorProfile = view.findViewById(R.id.crdTutorProfile);
         txtAboutMe = view.findViewById(R.id.txtAboutMe);
         txtName = view.findViewById(R.id.txtName);
         imgUpdateProfile = view.findViewById(R.id.imgUpdateProfile);
@@ -105,6 +108,7 @@ public class AccountFragment extends Fragment {
             crdAboutMe.setVisibility(View.VISIBLE);
             crdUpdateSubjects.setVisibility(View.VISIBLE);
             crdUpdateAvailability.setVisibility(View.VISIBLE);
+            crdTutorProfile.setVisibility(View.VISIBLE);
             imgEditAboutMe.setOnClickListener(view -> {
                 reviewDialog = new Dialog(getContext());
 
@@ -126,9 +130,9 @@ public class AccountFragment extends Fragment {
                 btnSubmit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                            if (!(txtAboutMeInput.getText().toString().isEmpty())) {
-                                updateAboutMe();
-                            }
+                        if (!(txtAboutMeInput.getText().toString().isEmpty())) {
+                            updateAboutMe();
+                        }
                     }
                 });
 
@@ -166,6 +170,19 @@ public class AccountFragment extends Fragment {
                         R.anim.slide_in,
                         0// popExit
                 ).replace(R.id.fragment_container, updateTutorAvailabilityFragment).addToBackStack(null).commit();
+            });
+
+            crdTutorProfile.setOnClickListener(view -> {
+                Bundle bundle = new Bundle();
+                TutorProfileFragment tutorProfileFragment = new TutorProfileFragment();
+                bundle.putString("_id", tutorID);
+                tutorProfileFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,  // enter
+                        R.anim.fade_out,  // exit
+                        R.anim.fade_in,   // popEnter
+                        R.anim.slide_out  // popExit
+                ).replace(R.id.fragment_container, tutorProfileFragment).addToBackStack(null).commit();
             });
 
             getCurrentTutor();
@@ -290,7 +307,7 @@ public class AccountFragment extends Fragment {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
                     JSONObject tutorObject = object.getJSONObject("tutor");
-
+                    tutorID = tutorObject.getString("_id");
                     if (!tutorObject.has("aboutMe")) {
                         txtAboutMe.setText("");
                     } else {
@@ -350,7 +367,7 @@ public class AccountFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("aboutMe",  txtAboutMeInput.getText().toString().trim());
+                map.put("aboutMe", txtAboutMeInput.getText().toString().trim());
                 return map;
             }
         };

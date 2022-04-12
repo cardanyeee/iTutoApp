@@ -68,7 +68,7 @@
                     android:clipToPadding="false"
                     android:paddingHorizontal="20dp"
                     android:paddingTop="20dp"
-                    android:paddingBottom="150dp">
+                    android:paddingBottom="80dp">
 
                     <!--         Header ~~~~~~~~~~~~~~~~~~~~~~~~-->
                     <LinearLayout
@@ -404,30 +404,52 @@
 
                     </com.google.android.material.card.MaterialCardView>
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/crdTutorProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/crdUpdateAvailability"
+                        android:layout_marginTop="15dp"
+                        android:backgroundTint="@color/colorBackground"
+                        android:clickable="true"
+                        android:visibility="gone"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="15dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="Tutor Profile"
+                            android:textColor="@color/colorPrimary" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/crdTutorProfile"
+                        android:layout_marginTop="15dp"
+                        app:cardBackgroundColor="@color/colorTransparent"
+                        app:cardElevation="20dp">
+
+                        <Button
+                            android:id="@+id/btnLogOut"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/btn_solid"
+                            android:elevation="4dp"
+                            android:text="@string/logout"
+                            android:textAllCaps="true"
+                            android:textSize="15sp"
+                            android:theme="@style/Button.Primary" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
                 </RelativeLayout>
             </ScrollView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="80dp"
-                app:cardBackgroundColor="@color/colorTransparent"
-                app:cardElevation="20dp">
-
-                <Button
-                    android:id="@+id/btnLogOut"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_solid"
-                    android:elevation="4dp"
-                    android:text="@string/logout"
-                    android:textAllCaps="true"
-                    android:textSize="15sp"
-                    android:theme="@style/Button.Primary" />
-
-            </com.google.android.material.card.MaterialCardView>
 
         </RelativeLayout>
 

@@ -109,6 +109,7 @@ public class AccountFragment extends Fragment {
             crdUpdateSubjects.setVisibility(View.VISIBLE);
             crdUpdateAvailability.setVisibility(View.VISIBLE);
             crdTutorProfile.setVisibility(View.VISIBLE);
+
             imgEditAboutMe.setOnClickListener(view -> {
                 reviewDialog = new Dialog(getContext());
 
@@ -127,21 +128,15 @@ public class AccountFragment extends Fragment {
                 btnCancel = reviewDialog.findViewById(R.id.btnCancel);
                 btnSubmit = reviewDialog.findViewById(R.id.btnSubmit);
 
-                btnSubmit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!(txtAboutMeInput.getText().toString().isEmpty())) {
-                            updateAboutMe();
-                        }
+                txtAboutMeInput.setText(txtAboutMe.getText().toString().trim());
+
+                btnSubmit.setOnClickListener(v -> {
+                    if (!(txtAboutMeInput.getText().toString().isEmpty())) {
+                        updateAboutMe();
                     }
                 });
 
-                btnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        reviewDialog.cancel();
-                    }
-                });
+                btnCancel.setOnClickListener(v -> reviewDialog.cancel());
 
                 reviewDialog.show();
             });

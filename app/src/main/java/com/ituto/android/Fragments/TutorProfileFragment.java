@@ -2,6 +2,7 @@ package com.ituto.android.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -21,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.card.MaterialCardView;
 import com.ituto.android.Constant;
@@ -96,7 +98,7 @@ public class TutorProfileFragment extends Fragment {
         dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SplashScreenDialogAnimation;
         dialog.setContentView(R.layout.layout_dialog_progress);
-        dialog.setCancelable(false);
+//        dialog.setCancelable(false);
         dialog.show();
 
         Log.d("TAG", String.valueOf(dialog.getWindow().getAttributes().height));
@@ -113,20 +115,19 @@ public class TutorProfileFragment extends Fragment {
             getActivity().getSupportFragmentManager().popBackStack();
         });
 
-        btnRequestSchedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                RequestScheduleFragment requestScheduleFragment = new RequestScheduleFragment();
-                requestScheduleFragment.setArguments(bundle);
-                bundle.putString("_id", tutorID);
-                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                        R.anim.slide_in,  // enter
-                        R.anim.fade_out,  // exit
-                        R.anim.slide_in,
-                        0// popExit
-                ).replace(R.id.fragment_container, requestScheduleFragment).addToBackStack(null).commit();
-            }
+        dialog.setOnCancelListener(dialogInterface -> getActivity().getSupportFragmentManager().popBackStack());
+
+        btnRequestSchedule.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            RequestScheduleFragment requestScheduleFragment = new RequestScheduleFragment();
+            requestScheduleFragment.setArguments(bundle);
+            bundle.putString("_id", tutorID);
+            getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.slide_in,
+                    0// popExit
+            ).replace(R.id.fragment_container, requestScheduleFragment).addToBackStack(null).commit();
         });
 
         crdSeeReviews.setOnClickListener(view -> {
@@ -160,7 +161,6 @@ public class TutorProfileFragment extends Fragment {
                     JSONObject availabilityObject = tutorObject.getJSONObject("availability");
                     JSONArray daysJSONArray = availabilityObject.getJSONArray("days");
                     JSONArray timeJSONArray = availabilityObject.getJSONArray("time");
-                    JSONArray reviewsJSONArray = tutorObject.getJSONArray("reviews");
 
                     txtNumberOfStars.setText(tutorObject.getString("ratings"));
                     txtNumberOfReviews.setText(tutorObject.getString("numOfReviews"));
@@ -174,17 +174,8 @@ public class TutorProfileFragment extends Fragment {
                     tutorName = userObject.getString("firstname") + " " + userObject.getString("lastname");
                     tutorCourse = courseObject.getString("name");
 
-                    Picasso.get().load(avatarObject.getString("url")).placeholder(R.drawable.blank_avatar).into(imgUserProfile, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            dialog.dismiss();
-                        }
+                    Glide.with(getContext()).load(avatarObject.getString("url")).override(500, 500).placeholder(R.drawable.blank_avatar).into(imgUserProfile);
 
-                        @Override
-                        public void onError(Exception e) {
-                            dialog.dismiss();
-                        }
-                    });
                     txtTutorName.setText(userObject.getString("firstname") + " " + userObject.getString("lastname"));
                     txtCourse.setText(courseObject.getString("name"));
 
@@ -233,7 +224,7 @@ public class TutorProfileFragment extends Fragment {
 
                     txtEmail.setText(userObject.getString("email"));
                     txtPhone.setText(userObject.has("phone") ? userObject.getString("phone") : " ");
-
+                    dialog.dismiss();
                 }
 
             } catch (JSONException e) {

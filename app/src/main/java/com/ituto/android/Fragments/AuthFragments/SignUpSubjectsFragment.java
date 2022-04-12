@@ -133,7 +133,11 @@ public class SignUpSubjectsFragment extends Fragment {
         });
 
         btnSignUpTutor.setOnClickListener(v -> {
-            addTutorSubjects();
+            if (!tutorSubjectsArrayList.isEmpty()) {
+                addTutorSubjects();
+            } else {
+                StyleableToast.makeText(getContext(), "Please add subjects you will be offering as a Tutor", R.style.CustomToast).show();
+            }
         });
     }
 

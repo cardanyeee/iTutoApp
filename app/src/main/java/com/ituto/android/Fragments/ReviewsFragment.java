@@ -8,11 +8,13 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -40,15 +42,16 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-@SuppressWarnings("ALL")
 public class ReviewsFragment extends Fragment {
 
     private View view;
 
+    private SwipeRefreshLayout swipeReviews;
     private RecyclerView recyclerReviews;
     private ImageView imgBackButton;
 
     private ArrayList<Review> reviewArrayList;
+    private LinearLayout llyPlaceholder;
     private ReviewsAdapter reviewsAdapter;
     private SharedPreferences sharedPreferences;
     private CircleImageView imgTutorProfile;
@@ -84,10 +87,14 @@ public class ReviewsFragment extends Fragment {
         txtCourse.setText(getArguments().getString("tutorCourse"));
 
         imgBackButton = view.findViewById(R.id.imgBackButton);
+        swipeReviews = view.findViewById(R.id.swipeReviews);
+        llyPlaceholder = view.findViewById(R.id.llyPlaceholder);
         recyclerReviews = view.findViewById(R.id.recyclerReviews);
         recyclerReviews.setLayoutManager(new LinearLayoutManager(getContext()));
 
         getReviews();
+
+        swipeReviews.setOnRefreshListener(() -> getReviews());
 
         imgBackButton.setOnClickListener(view -> {
             getActivity().getSupportFragmentManager().popBackStack();
@@ -96,6 +103,7 @@ public class ReviewsFragment extends Fragment {
 
     private void getReviews() {
         reviewArrayList = new ArrayList<>();
+        swipeReviews.setRefreshing(true);
         StringRequest request = new StringRequest(Request.Method.GET, Constant.TUTOR_REVIEWS + "/" + tutorID, response -> {
             try {
                 JSONObject object = new JSONObject(response);
@@ -123,10 +131,18 @@ public class ReviewsFragment extends Fragment {
                         reviewArrayList.add(review);
                     }
 
+                    if (reviewArrayList.isEmpty()) {
+                        recyclerReviews.setVisibility(View.GONE);
+                        llyPlaceholder.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerReviews.setVisibility(View.VISIBLE);
+                        llyPlaceholder.setVisibility(View.GONE);
+                    }
+
                     reviewsAdapter = new ReviewsAdapter(getContext(), reviewArrayList);
                     recyclerReviews.setAdapter(reviewsAdapter);
                 }
-
+                swipeReviews.setRefreshing(false);
                 dialog.dismiss();
             } catch (JSONException | ParseException e) {
                 e.printStackTrace();
@@ -134,6 +150,7 @@ public class ReviewsFragment extends Fragment {
             }
 
         }, error -> {
+            swipeReviews.setRefreshing(false);
             dialog.dismiss();
             error.printStackTrace();
         }) {

@@ -1,6 +1,7 @@
 package com.ituto.android.Adapters;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -49,6 +50,7 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
     private OnItemListener onItemListener;
     private SharedPreferences sharedPreferences;
     private Tutor tutor;
+    private ProgressDialog progressDialog;
 
     public TutorsAdapter(Context context, ArrayList<Tutor> tutorArrayList, OnItemListener onItemListener) {
         this.context = context;
@@ -75,7 +77,12 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
         holder.txtName.setText(tutor.getFirstname() + " " + tutor.getLastname());
         holder.txtCourse.setText(tutor.getCourse());
         holder.txtYearLevel.setText(tutor.getYearLevel() + " Year");
-        holder.btnMessage.setOnClickListener(v -> message(holder, position));
+        holder.btnMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                message(holder, position);
+            }
+        });
 //        if (sharedPreferences.getString("loggedInAs", "").equals("TUTOR")) {
 //            holder.llyButtons.setVisibility(View.GONE);
 //        }
@@ -121,13 +128,17 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
     }
 
     private void message(TutorHolder holder, int position) {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Accessing Messages");
+        progressDialog.show();
         StringRequest request = new StringRequest(Request.Method.POST, Constant.CONVERSATION, response -> {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
                     JSONObject conversationObject = object.getJSONObject("conversation");
-
-                    Intent i = new Intent(((HomeActivity)context), ConversationActivity.class);
+                    progressDialog.dismiss();
+                    Intent i = new Intent(((HomeActivity) context), ConversationActivity.class);
                     i.putExtra("conversationID", conversationObject.getString("_id"));
                     i.putExtra("name", tutorArrayList.get(position).getFirstname() + " " + tutorArrayList.get(position).getLastname());
                     i.putExtra("avatar", tutorArrayList.get(position).getAvatar());
@@ -136,9 +147,10 @@ public class TutorsAdapter extends RecyclerView.Adapter<TutorsAdapter.TutorHolde
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-
+                progressDialog.dismiss();
             }
         }, error -> {
+            progressDialog.dismiss();
             error.printStackTrace();
         }) {
             @Override

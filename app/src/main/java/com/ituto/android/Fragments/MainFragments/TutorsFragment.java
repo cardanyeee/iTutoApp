@@ -86,7 +86,8 @@ public class TutorsFragment extends Fragment implements TutorsAdapter.OnItemList
 
         if (HomeActivity.clicked) {
             searchTutor.requestFocus();
-            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE); imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         }
 
         HomeActivity.clicked = false;
@@ -222,16 +223,20 @@ public class TutorsFragment extends Fragment implements TutorsAdapter.OnItemList
 
     @Override
     public void onItemClick(int position) {
-        Bundle bundle = new Bundle();
-        TutorProfileFragment tutorProfileFragment = new TutorProfileFragment();
-        Tutor tutor = tutorArrayList.get(position);
-        bundle.putString("_id", tutor.getTutorID());
-        tutorProfileFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                R.anim.slide_in,  // enter
-                R.anim.fade_out,  // exit
-                R.anim.fade_in,   // popEnter
-                R.anim.slide_out  // popExit
-        ).replace(R.id.fragment_container, tutorProfileFragment).addToBackStack(null).commit();
+        try {
+            Bundle bundle = new Bundle();
+            TutorProfileFragment tutorProfileFragment = new TutorProfileFragment();
+            Tutor tutor = tutorArrayList.get(position);
+            bundle.putString("_id", tutor.getTutorID());
+            tutorProfileFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            ).replace(R.id.fragment_container, tutorProfileFragment).addToBackStack(null).commit();
+        } catch (IndexOutOfBoundsException e) {
+            StyleableToast.makeText(getContext(), "Tutors are still loading. Please wait and try again.", R.style.CustomToast).show();
+        }
     }
 }

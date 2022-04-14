@@ -421,16 +421,20 @@ public class SessionInfoFragment extends Fragment implements AssessmentsAdapter.
 
     @Override
     public void onItemClick(int position) {
-        Bundle bundle = new Bundle();
-        AssessmentAnswerFragment assessmentAnswerFragment = new AssessmentAnswerFragment();
-        bundle.putString("_id", assessmentArrayList.get(position).getAssessmentID());
-        assessmentAnswerFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                R.anim.slide_in,  // enter
-                R.anim.fade_out,  // exit
-                R.anim.fade_in,   // popEnter
-                R.anim.slide_out  // popExit
-        ).replace(R.id.fragment_container, assessmentAnswerFragment).addToBackStack(null).commit();
+        try {
+            Bundle bundle = new Bundle();
+            AssessmentAnswerFragment assessmentAnswerFragment = new AssessmentAnswerFragment();
+            bundle.putString("_id", assessmentArrayList.get(position).getAssessmentID());
+            assessmentAnswerFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            ).replace(R.id.fragment_container, assessmentAnswerFragment).addToBackStack(null).commit();
+        } catch (IndexOutOfBoundsException e) {
+            StyleableToast.makeText(getContext(), "Your assessments are still loading. Please wait and try again.", R.style.CustomToast).show();
+        }
     }
 
     private void message() {

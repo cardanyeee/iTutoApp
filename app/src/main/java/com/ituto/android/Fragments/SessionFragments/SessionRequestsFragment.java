@@ -29,6 +29,7 @@ import com.ituto.android.Models.Subject;
 import com.ituto.android.Models.Tutor;
 import com.ituto.android.Models.User;
 import com.ituto.android.R;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -172,16 +173,20 @@ public class SessionRequestsFragment extends Fragment implements SessionsRequest
 
     @Override
     public void onItemClick(int position) {
-        Bundle bundle = new Bundle();
-        SessionRequestInfo sessionRequestInfo = new SessionRequestInfo();
-        Session session = sessionArrayList.get(position);
-        bundle.putString("_id", session.getSessionID());
-        sessionRequestInfo.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                R.anim.slide_in,  // enter
-                R.anim.fade_out,  // exit
-                R.anim.fade_in,   // popEnter
-                R.anim.slide_out  // popExit
-        ).replace(R.id.fragment_container, sessionRequestInfo).addToBackStack(null).commit();
+        try {
+            Bundle bundle = new Bundle();
+            SessionRequestInfo sessionRequestInfo = new SessionRequestInfo();
+            Session session = sessionArrayList.get(position);
+            bundle.putString("_id", session.getSessionID());
+            sessionRequestInfo.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            ).replace(R.id.fragment_container, sessionRequestInfo).addToBackStack(null).commit();
+        } catch (IndexOutOfBoundsException e) {
+            StyleableToast.makeText(getContext(), "Your sessions are still loading. Please wait and try again.", R.style.CustomToast).show();
+        }
     }
 }
